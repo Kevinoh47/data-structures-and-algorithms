@@ -39,6 +39,11 @@ The challenge is to avoid using built in array methods, and to search in a binar
 - [x] Write actual code
 - [x] Photograph image of whiteboard
 - [x] Fill out README.md
+- [x] npm init -y
+- [x] npm install faker, eslint
+- [x] package.json scripts added
+- [x] Add test framework and tests.
+- [x] All tests passing.
 - [x] Create pull request
 - [ ] Submit URL of PR to submit the task to Canvas
 
