@@ -40,10 +40,11 @@ The challenge is to avoid using built in array methods, and to search in a binar
 - [x] Photograph image of whiteboard
 - [x] Fill out README.md
 - [x] npm init -y
-- [x] npm install faker, eslint
+- [x] npm install jest, faker, eslint
 - [x] package.json scripts added
 - [x] Add test framework and tests.
-- [x] All tests passing.
+- [x] All tests passing including lint
+- [x] Passes Travis CI build
 - [x] Create pull request
 - [ ] Submit URL of PR to submit the task to Canvas
 
