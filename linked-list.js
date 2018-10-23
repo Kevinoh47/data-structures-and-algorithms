@@ -8,6 +8,33 @@ class LinkedList {
     this.length = 0;
   }
 
+  // return the value of the nodethat is k from the END of the linked list
+  ll_kth_from_end(k) {
+    if (Number.isInteger(k) && k > -1) {
+      let current = this.head;
+      let valueArr = [];
+      let index = -1;
+
+      // find the last node, which will have a next value of null
+      while (current.next) {
+
+        valueArr.push(current.value);
+        current = current.next;
+        index++;
+      }
+      if (current.next === null) {
+        valueArr.push(current.value);
+        index++;
+      }
+
+      let finalIndex = (index - k);
+      if (Number.isInteger(finalIndex) && finalIndex > -1) {
+        return valueArr[finalIndex];
+      }
+      return false;
+    }
+  }
+
   // Append adds a new node to the end of the linked list
   // Big O for time: O(n) -- linear
   // Big O for space O(1)
@@ -42,7 +69,7 @@ class LinkedList {
 
     while(current.next) {
       if (current.value === value){
-        // head
+        // head 
         if (current === this.head) {
           newNode.next = current;
           this.head = newNode;
@@ -94,33 +121,6 @@ class LinkedList {
       }
     }
     return null;
-  }
-
-  // return the value of the nodethat is k from the END of the linked list
-  ll_kth_from_end(k) {
-    if (Number.isInteger(k) && k > -1) {
-      let current = this.head;
-      let valueArr = [];
-      let index = -1;
-
-      // find the last node, which will have a next value of null
-      while (current.next) {
-
-        valueArr.push(current.value);
-        current = current.next;
-        index++;
-      }
-      if (current.next === null) {
-        valueArr.push(current.value);
-        index++;
-      }
-
-      let finalIndex = (index - k);
-      if (Number.isInteger(finalIndex) && finalIndex > -1) {
-        return valueArr[finalIndex];
-      }
-      return false;
-    }
   }
 }
 
