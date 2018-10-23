@@ -39,3 +39,30 @@ describe ('The linked list append method', () => {
   });
 });
 
+describe ('The linked list insertBefore method', () => {
+  it('can insert an element at the beginning of the linked list', () => {
+    myLL.insertBefore('The', '>>>>');
+    let result = myLL.ll_kth_from_end(9);
+    expect(result).toEqual('>>>>');
+  });
+
+  it('can insert an element before the last element of the linked list', () => {
+    myLL.insertBefore('dog', '...');
+    let result = myLL.ll_kth_from_end(1);
+    expect(result).toEqual('...');
+  });
+});
+
+describe ('The linked list insertAfter method', () => {
+  it('can insert an element after the beginning of the linked list', () => {
+    myLL.insertAfter('>>>>', '!!!');
+    let result = myLL.ll_kth_from_end(10);
+    expect(result).toEqual('!!!');
+  });
+
+  it('can insert a new last element into the linked list', () => {
+    myLL.insertAfter('dog', '!!!!!!!');
+    let result = myLL.ll_kth_from_end(0);
+    expect(result).toEqual('!!!!!!!');
+  });
+});
