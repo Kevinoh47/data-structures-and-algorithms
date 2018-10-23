@@ -48,4 +48,28 @@ The challenge is to avoid using built in array methods, and to search in a binar
 - [x] Create pull request
 - [ ] Submit URL of PR to submit the task to Canvas
 
+# Linked List k from the end -- Code Challenge 7
+<!-- Short summary or background information -->
+Write a method on your linked list class that takes a number k as a paremeter, and returns the value of the node k from then end of the linked list.
+
+## Solution
+<!-- Embedded whiteboard image -->
+![Whiteboard](./assets/ll_kth_from_end.jpg) 
+
+### Task List
+- [x] Create GitHub repo
+- [x] Build out file structure
+- [x] Whiteboard 
+- [x] Write actual code
+- [x] Photograph image of whiteboard
+- [x] Fill out README.md
+- [x] npm init -y
+- [x] npm install jest, faker, eslint
+- [x] package.json scripts added
+- [x] Add test framework and tests.
+- [x] All tests passing including lint
+- [x] Passes Travis CI build
+- [x] Create pull request
+- [ ] Submit URL of PR to submit the task to Canvas
+
 
