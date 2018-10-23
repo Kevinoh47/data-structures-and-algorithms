@@ -48,6 +48,32 @@ The challenge is to avoid using built in array methods, and to search in a binar
 - [x] Create pull request
 - [ ] Submit URL of PR to submit the task to Canvas
 
+# Linked List insert methods -- Code Challenge 6
+<!-- Short summary or background information -->
+Write three on your linked list class: append, insertBefore, and insertAfter.
+
+## Solution
+<!-- Embedded whiteboard image -->
+![Whiteboard](./assets/ll_insertions_1.jpg) 
+![Whiteboard](./assets/ll_insertions_2.jpg) 
+![Whiteboard](./assets/ll_insertions_3.jpg) 
+
+### Task List
+- [x] Create GitHub repo
+- [x] Build out file structure
+- [x] Whiteboard 
+- [x] Write actual code
+- [x] Photograph image of whiteboard
+- [x] Fill out README.md
+- [x] npm init -y
+- [x] npm install jest, faker, eslint
+- [x] package.json scripts added
+- [x] Add test framework and tests.
+- [x] All tests passing including lint
+- [x] Passes Travis CI build
+- [x] Create pull request
+- [ ] Submit URL of PR to submit the task to Canvas
+
 # Linked List k from the end -- Code Challenge 7
 <!-- Short summary or background information -->
 Write a method on your linked list class that takes a number k as a paremeter, and returns the value of the node k from then end of the linked list.
