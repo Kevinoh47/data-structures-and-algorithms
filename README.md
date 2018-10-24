@@ -78,6 +78,9 @@ Write three methods on your linked list class: append, insertBefore, and insertA
 - [ ] Submit URL of PR to submit the task to Canvas
 
 # Linked List k from the end -- Code Challenge 7
+This branch is passing tests on Travis:
+[![Build Status](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms.svg?branch=ll_kth_from_end)](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms)
+
 <!-- Short summary or background information -->
 Write a method on your linked list class that takes a number k as a paremeter, and returns the value of the node k from then end of the linked list.
 
