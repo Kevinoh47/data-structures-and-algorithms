@@ -49,8 +49,11 @@ The challenge is to avoid using built in array methods, and to search in a binar
 - [ ] Submit URL of PR to submit the task to Canvas
 
 # Linked List insert methods -- Code Challenge 6
+This branch is passing tests on Travis:
+[![Build Status](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms.svg?branch=ll_insertions)](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms)
+
 <!-- Short summary or background information -->
-Write three on your linked list class: append, insertBefore, and insertAfter.
+Write three methods on your linked list class: append, insertBefore, and insertAfter.
 
 ## Solution
 <!-- Embedded whiteboard image -->
