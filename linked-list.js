@@ -5,6 +5,7 @@ const Node = require('./node.js');
 class LinkedList {
   constructor() {
     this.head = null;
+    this.tail = null;
     this.length = 0;
   }
 
@@ -17,7 +18,6 @@ class LinkedList {
 
       // find the last node, which will have a next value of null
       while (current.next) {
-
         valueArr.push(current.value);
         current = current.next;
         index++;
@@ -42,9 +42,10 @@ class LinkedList {
     let node = new Node(value);
 
     // first node for the linked list (e.g. empty ll)
-    if (! this.head) {
+    if (!this.head) {
       this.head = node;
-      this.length ++;
+      this.tail = node;
+      this.length++;
       return this;
     }
     // appending subsequent nodes to the end of the linked list
@@ -55,10 +56,48 @@ class LinkedList {
       current = current.next;
     }
 
-    // break out of the loop, and the current node's next is null. Set next to the new node
+    // break out of the loop, and the current node's next is null.
     current.next = node;
+    this.tail = node;
     this.length++;
     return this;
+  }
+
+  peek() {
+    let current = (this.head) ? this.head : null;
+    if (!current) {return null;}
+
+    while (current.next) {
+      current.next;
+    }
+    if (!current.next) {
+      return current;
+    }
+  }
+
+  delete() {
+    let current = (this.head) ? this.head : null;
+    let previous;
+    if (!current) {
+      this.length = 0;
+      return null;
+    }
+
+    while (current.next) {
+      previous = current;
+      current = current.next;
+    }
+    if(previous && !current.next) {
+      previous.next = null; 
+      this.tail = previous;
+      this.length--;
+    }
+    else if (!previous && current) {
+      this.head = null;
+      this.tail = null;
+      this.length--;
+    }
+    return current;
   }
 
   // insert newValue immediately before the node containing value
@@ -116,6 +155,7 @@ class LinkedList {
       if (current.value === value){
         newNode.next = null;
         current.next = newNode;
+        this.tail = newNode;
         this.length++;
         return this;
       }

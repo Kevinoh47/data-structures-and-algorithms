@@ -1,5 +1,6 @@
 'use strict';
 
+const Node = require('../node.js');
 const linkedList = require('../linked-list.js');
 
 class Stack {
@@ -8,43 +9,20 @@ class Stack {
     this.linkedList = new linkedList();
   }
 
-  push(node) {
-    let current = (this.linkedList.head) ? this.linkedList.head : null;
-
-    if (!current) {
-      this.linkedList.head = node;
-      this.top = node;
-      return this;
-    }
-
-    while(current.next) {
-      current = current.next;
-    }
-    if (!current.next) {
-      current.next = node;
-      this.top = node;
-      return this;
-    }
+  push(value) {
+    this.linkedList.append(value);
+    this.top = new Node(value);
+    return this;
   }
 
   pop() {
-    let current = (this.linkedList.head) ? this.linkedList.head : null;
-    let previous;
-    if (!current) {return null;}
+    let popped = this.linkedList.delete();
+    this.top = this.linkedList.tail;
+    return popped;
+  }
 
-    while (current.next) {
-      previous = current;
-      current = current.next;
-    }
-    if(previous && !current.next) {
-      previous.next = null; 
-      this.top = previous;
-    }
-    else if (!previous && current) {
-      this.top = null;
-      this.linkedList.head = null;
-    }
-    return current;
+  peek2() {
+    return this.linkedList.peek();
   }
 
 }
