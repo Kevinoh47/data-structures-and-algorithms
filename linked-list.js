@@ -79,6 +79,17 @@ class LinkedList {
     }
     return current;
   }
+
+  peek() {
+    let current = (this.head) ? this.head : null;
+    if (!current) {return null;}
+
+    while (current.next) {
+      current = current.next;
+    }
+    return current;
+  }
+
   prepend(value) {
     let node = new Node(value);
 
@@ -95,18 +106,6 @@ class LinkedList {
     node.next = newSecondNode;
     this.length++;
     return this;
-  }
-
-  peek() {
-    let current = (this.head) ? this.head : null;
-    if (!current) {return null;}
-
-    while (current.next) {
-      current.next;
-    }
-    if (!current.next) {
-      return current;
-    }
   }
 
   delete() {
