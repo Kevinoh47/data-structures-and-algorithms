@@ -46,7 +46,7 @@ class Stack {
   }
 
   peek() {
-    return this.linkedList.peek();
+    return this.linkedList.tail;
   }
 
 }

@@ -13,27 +13,29 @@ const StackAndQueue = require('./StacksAndQueues/stacks-and-queues.js');
 let myStack = new StackAndQueue.Stack();
 
 myStack.push(100);
-console.log(myStack);
+//console.log(myStack);
 myStack.push(200);
-console.log(myStack);
+//console.log(myStack);
 myStack.push(300);
-console.log(myStack);
+//console.log(myStack);
 myStack.push(400);
-console.log(myStack);
+//console.log(myStack);
 myStack.push(500);
-console.log(myStack);
+//console.log(myStack);
 myStack.pop();
-console.log(myStack);
-myStack.pop();
-console.log(myStack);
-myStack.pop();
-console.log(myStack);
-myStack.pop();
-console.log(myStack);
-myStack.pop();
-console.log(myStack);
-myStack.pop();
-console.log(myStack);
+//console.log(myStack);
+console.log(myStack.peek());
+// myStack.pop();
+// console.log(myStack);
+// myStack.pop();
+// console.log(myStack);
+// myStack.pop();
+// console.log(myStack);
+// myStack.pop();
+// console.log(myStack);
+// myStack.pop();
+// console.log(myStack);
+
 
 
 
