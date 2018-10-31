@@ -104,4 +104,29 @@ Write a method on your linked list class that takes a number k as a paremeter, a
 - [x] Create pull request
 - [ ] Submit URL of PR to submit the task to Canvas
 
+## Stacks and Queues
+Passing CI tests on Travis CI:
+[![Build Status](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms.svg?branch=master)](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms)
+
+No white board required for this challenge.
+
+Built out Stack and Queue classes, which wrap our linked-list data structure.
+
+### Task List
+- [x] Create GitHub repo
+- [x] Build out file structure
+- ~~[] Whiteboard~~ 
+- [x] Write actual code
+- ~~[] Photograph image of whiteboard~~
+- [x] Fill out README.md
+- [x] npm init -y
+- [x] npm install jest, faker, eslint
+- [x] package.json scripts added
+- [x] Add test framework and tests.
+- [x] All tests passing including lint
+- [x] Passes Travis CI build
+- [x] Create pull request
+- [x] Submit URL of PR to submit the task to Canvas
+
+
 
