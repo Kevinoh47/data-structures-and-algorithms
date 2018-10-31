@@ -63,6 +63,40 @@ class LinkedList {
     return this;
   }
 
+  shift() {
+    if (!this.head) {return null;}
+
+    let current = this.head;
+    let second = current.next;
+
+    if (current && second) {
+      this.head = second;
+      current.next = null;
+      this.length--;
+    } else if (current && !second) {
+      this.head = null;
+      this.length = 0;  
+    }
+    return current;
+  }
+  prepend(value) {
+    let node = new Node(value);
+
+    //first node for the linked list (e.g. empty ll)
+    if (!this.head) {
+      this.head = node;
+      this.length++;
+      return this;
+    }
+
+    // prepend node to the head
+    let newSecondNode = this.head;
+    this.head = node;
+    node.next = newSecondNode;
+    this.length++;
+    return this;
+  }
+
   peek() {
     let current = (this.head) ? this.head : null;
     if (!current) {return null;}

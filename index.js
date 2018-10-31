@@ -3,14 +3,14 @@
 const binarySearch = require('./array_binary_search.js');
 
 const Node = require('./node.js');
-const Stack = require('./StacksAndQueues/stacks-and-queues.js');
+const StackAndQueue = require('./StacksAndQueues/stacks-and-queues.js');
 
 // let myOrderedArr = [47, 49, 55, 56, 60, 70];
 // let mySearchKey = 56;
 
 // console.log(binarySearch(myOrderedArr, mySearchKey));
 
-let myStack = new Stack();
+let myStack = new StackAndQueue.Stack();
 
 myStack.push(100);
 console.log(myStack);

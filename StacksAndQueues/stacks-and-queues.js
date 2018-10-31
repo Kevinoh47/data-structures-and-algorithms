@@ -3,6 +3,30 @@
 const Node = require('../node.js');
 const linkedList = require('../linked-list.js');
 
+class Queue {
+  constructor () {
+    this.front = null;
+    this.linkedList = new linkedList();
+  }
+  
+  enqueue(value) {
+    if(this.linkedList.length === 0) {
+      this.front = new Node(value);
+    }
+    this.linkedList.append(value);
+  }
+
+  dequeue() {
+    let dequeued = this.linkedList.shift();
+    this.front = this.linkedList.head;
+    return dequeued;
+  }
+
+  peek() {
+    return this.linkedList.head;
+  }
+}
+
 class Stack {
   constructor () {
     this.top = null;
@@ -21,10 +45,10 @@ class Stack {
     return popped;
   }
 
-  peek2() {
+  peek() {
     return this.linkedList.peek();
   }
 
 }
 
-module.exports = Stack;
+module.exports = {Stack, Queue};
