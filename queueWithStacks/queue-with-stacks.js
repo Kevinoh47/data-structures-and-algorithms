@@ -1,8 +1,8 @@
 'use strict';
 
-const Node = require('../node.js');
+const StacksAndQueues = require('../StacksAndQueues/stacks-and-queues.js');
 
-const Stack = require('../StacksAndQueues.js');
+const Stack = new StacksAndQueues.Stack();
 
 class PseudoQueue {
   constructor () {
@@ -49,3 +49,4 @@ class PseudoQueue {
   
 }
 
+module.exports = {PseudoQueue};

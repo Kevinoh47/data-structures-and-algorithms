@@ -115,9 +115,9 @@ Built out Stack and Queue classes, which wrap our linked-list data structure.
 ### Task List
 - [x] Create GitHub repo
 - [x] Build out file structure
-- ~~[] Whiteboard~~ 
+- [x] Whiteboard
 - [x] Write actual code
-- ~~[] Photograph image of whiteboard~~
+- [x] Photograph image of whiteboard
 - [x] Fill out README.md
 - [x] npm init -y
 - [x] npm install jest, faker, eslint
@@ -127,6 +127,29 @@ Built out Stack and Queue classes, which wrap our linked-list data structure.
 - [x] Passes Travis CI build
 - [x] Create pull request
 - [x] Submit URL of PR to submit the task to Canvas
+
+## Queues With Stacks
+
+<!-- Embedded whiteboard image -->
+![Whiteboard](./assets/queuesWithStacks01.jpg) 
+![Whiteboard](./assets/queuesWithStacks02.jpg) 
+
+### Task List
+- [x] Create GitHub repo
+- [x] Build out file structure
+- [x] Whiteboard
+- [x] Write actual code
+- [x] Photograph image of whiteboard
+- [x] Fill out README.md
+- [x] npm init -y
+- [x] npm install jest, faker, eslint
+- [x] package.json scripts added
+- [x] Add test framework and tests.
+- [] All tests passing including lint
+- [] Passes Travis CI build
+- [x] Create pull request
+- [x] Submit URL of PR to submit the task to Canvas
+
 
 
 
