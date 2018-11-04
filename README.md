@@ -108,9 +108,16 @@ Write a method on your linked list class that takes a number k as a paremeter, a
 Passing CI tests on Travis CI:
 [![Build Status](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms.svg?branch=master)](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms)
 
-No white board required for this challenge.
-
+<!-- Short summary or background information -->
 Built out Stack and Queue classes, which wrap our linked-list data structure.
+
+## Challenge
+<!-- Description of the challenge -->
+Build Stacks and Queues, using Linked Lists as the underlying data structure.
+
+## Solution
+<!-- Embedded whiteboard image -->
+No white board required for this challenge.
 
 ### Task List
 - [x] Create GitHub repo
@@ -130,6 +137,11 @@ Built out Stack and Queue classes, which wrap our linked-list data structure.
 
 ## Queues With Stacks
 
+## Challenge
+<!-- Description of the challenge -->
+Build a Queue using Stacks as its underlying data structure.
+
+## Solution
 <!-- Embedded whiteboard image -->
 ![Whiteboard](./assets/queuesWithStacks01.jpg) 
 ![Whiteboard](./assets/queuesWithStacks02.jpg) 
@@ -145,6 +157,35 @@ Built out Stack and Queue classes, which wrap our linked-list data structure.
 - [x] npm install jest, faker, eslint
 - [x] package.json scripts added
 - [x] Add test framework and tests.
+- [] All tests passing including lint
+- [] Passes Travis CI build
+- [x] Create pull request
+- [x] Submit URL of PR to submit the task to Canvas
+
+## FIFO Animal Shelter
+<!-- Short summary or background information -->
+An animal shelter takes in animals. And gives them out to new pet owners. A pet owner can prefer a dog or a cat, have no preference, or prefere a different animal such as a bird. If the pet owner would like a dog or a cat, find the dog or cat, if any, that has been in the shelter the longest. Otherwise, give them the animal that has been in the shelter the longest.
+
+## Challenge
+<!-- Description of the challenge -->
+Using FIFO queues, return the desired animal. You can't necessarily just return the animal at the front of the queue though.
+
+## Solution
+<!-- Embedded whiteboard image -->
+![Whiteboard](./assets/FIFOAnimalShelter.jpg) 
+
+### Task List
+- [x] Create GitHub repo
+- [x] Build out file structure
+- [x] Whiteboard
+- [x] Write actual code
+- [x] Photograph image of whiteboard
+- [x] Fill out README.md
+- [x] npm init -y
+- [x] npm install jest, faker, eslint
+- [x] package.json scripts added
+- [x] Add test framework.
+- [] Add tests.
 - [] All tests passing including lint
 - [] Passes Travis CI build
 - [x] Create pull request
