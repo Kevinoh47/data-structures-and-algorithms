@@ -57,7 +57,7 @@ class AnimalShelter {
       while (animalCount > 0) {
         let currentAnimal = this.animalQueue.dequeue();
         if (currentAnimal instanceof Dog) { 
-          foundAnimal = this.animalQueue.dequeue();
+          foundAnimal = currentAnimal;
         }
         else {
           this.helperQueue.enqueue(currentAnimal);
@@ -68,7 +68,7 @@ class AnimalShelter {
       while (animalCount > 0) {
         let currentAnimal = this.animalQueue.dequeue();
         if (currentAnimal instanceof Cat) { 
-          foundAnimal = this.animalQueue.dequeue();
+          foundAnimal = currentAnimal;
         }
         else {
           this.helperQueue.enqueue(currentAnimal);
