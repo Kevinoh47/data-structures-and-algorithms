@@ -1,7 +1,6 @@
 'use strict';
 
 const StacksAndQueues = require('../StacksAndQueues/stacks-and-queues.js');
-
 const Stack = new StacksAndQueues.Stack();
 
 class PseudoQueue {
@@ -49,4 +48,5 @@ class PseudoQueue {
   
 }
 
-module.exports = {PseudoQueue};
+// module.exports = {PseudoQueue};
+module.exports = PseudoQueue;
