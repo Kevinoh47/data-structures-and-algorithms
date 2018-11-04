@@ -48,10 +48,10 @@ class AnimalShelter {
     if (
       (pref !== 'dog' && pref !== 'cat' ) ||
       (pref === 'dog' && nextAnimal instanceof Dog) ||
-      (pref === 'cat' && nextAnimal instanceof Cat)
-    ){
-      nextAnimal = this.animalQueue.dequeue();
-      return nextAnimal;
+      (pref === 'cat' && nextAnimal instanceof Cat)) {
+
+      return this.animalQueue.dequeue();
+
     }
     else if (pref === 'dog' && !(nextAnimal instanceof Dog)) {
       while (animalCount > 0) {
