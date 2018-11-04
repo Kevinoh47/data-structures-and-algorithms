@@ -51,4 +51,5 @@ class Stack {
 
 }
 
-module.exports = {Stack, Queue};
+// module.exports = {Stack, Queue};
+module.exports = Stack, Queue;
