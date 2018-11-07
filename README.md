@@ -193,6 +193,9 @@ Using FIFO queues, return the desired animal. You can't necessarily just return 
 
 # Multi Bracket Validation -- Code Challenge 13
 
+[![Build Status](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms.svg?branch=multi-bracket-validation)](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms)
+
+Please note that tests for Multi Bracket Validation are passing. 
 
 <!-- Short summary or background information -->
 Write a method that tests whether a string with brackets {},[],() has all matching brackets, or not. Method takes a string and returns a boolean.
