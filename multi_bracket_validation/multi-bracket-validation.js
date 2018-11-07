@@ -3,20 +3,24 @@
 let multiBracketValidation = (str) => {
   let newArr = str.split('');
   let validChars = ['(', ')', '{', '}', '[', ']'];
-  const filteredArr = newArr.filter(i => validChars.includes(i));
-  
-  for (var i = 0; i < filteredArr.length-1; i++) {
+  let filteredArr = newArr.filter(i => validChars.includes(i)); //filter non-bracket characters
+
+  for (var i = 0; i < filteredArr.length; i++) {
     if( 
       (filteredArr[i] === validChars[0] && filteredArr[i+1] === validChars[1]) ||
       (filteredArr[i] === validChars[2] && filteredArr[i+1] === validChars[3]) ||
       (filteredArr[i] === validChars[4] && filteredArr[i+1] === validChars[5])
     ) {
-      filteredArr.splice(i,2, '*', '*');
+      filteredArr.splice(i,2);
+      i = -1; // reset to start loop at the beginning
     } 
   }
-  const finalArr = filteredArr.filter(i=> validChars.includes(i));
-  if (finalArr.length) {return false;}
+  if (filteredArr.length) {return false;}
   else {return true;}
 };
+
+module.exports = {multiBracketValidation};
+
+
 
 
