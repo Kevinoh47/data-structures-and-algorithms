@@ -17,8 +17,36 @@ The challenge is to avoid using built in array methods.
 - [x] Write actual code
 - [x] Photograph image of whiteboard
 - [x] Fill out README.md
-- [ ] Create pull request
-- [ ] Submit URL of PR to submit the task to Canvas
+- [x] Create pull request
+- [x] Submit URL of PR to submit the task to Canvas
+
+# Array Shift -- Code Challenge 2
+<!-- Short summary or background information -->
+Write a function called insertShiftArray which takes in an array and the value to be added. Without utilizing any of the built-in methods available to your language, return an array with the new value added at the middle index.
+
+## Challenge
+<!-- Description of the challenge -->
+The challenge is to avoid using built in array methods.
+
+## Solution
+<!-- Embedded whiteboard image -->
+![Whiteboard](./assets/array_shift.jpg)
+
+### Task List
+- [x] Create GitHub repo
+- [x] Build out file structure
+- [x] Whiteboard 
+- [x] Write actual code
+- [x] Photograph image of whiteboard
+- [x] Fill out README.md
+- [x] npm init -y
+- [x] npm install jest, eslint
+- [x] package.json scripts added
+- [x] Add test framework and tests.
+- [x] All tests passing including lint
+- [x] Passes Travis CI build
+- [x] Create pull request
+- [x] Submit URL of PR to submit the task to Canvas
 
 # Array Binary Search -- Code Challenge 3
 <!-- Short summary or background information -->

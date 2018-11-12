@@ -1,5 +1,6 @@
 'use strict';
 
+const insertShiftArray = require('./array_shift.js');
 const binarySearch = require('./array_binary_search.js');
 
 const Node = require('./node.js');
@@ -70,4 +71,6 @@ console.log(myStack.peek());
 // console.log(myStack.pop(), myStack.top);
 // console.log(myStack.peek(), myStack.top);
 
+console.log('binarySearch', binarySearch(myOrderedArr, mySearchKey));
+console.log('insertShiftArray', insertShiftArray(myOrderedArr, mySearchKey));
 
