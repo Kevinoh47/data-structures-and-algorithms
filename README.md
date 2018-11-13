@@ -164,6 +164,8 @@ No white board required for this challenge.
 - [x] Submit URL of PR to submit the task to Canvas
 
 # Queues With Stacks
+Passing CI tests on Travis:
+[![Build Status](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms.svg?branch=stacks-and-queues-test-fix)](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms)
 
 ## Challenge
 <!-- Description of the challenge -->
@@ -185,8 +187,8 @@ Build a Queue using Stacks as its underlying data structure.
 - [x] npm install jest, faker, eslint
 - [x] package.json scripts added
 - [x] Add test framework and tests.
-- [] All tests passing including lint
-- [] Passes Travis CI build
+- [x] All tests passing including lint
+- [x] Passes Travis CI build
 - [x] Create pull request
 - [x] Submit URL of PR to submit the task to Canvas
 
