@@ -1,20 +1,17 @@
 'use strict';
 
-const StacksAndQueues = require('../StacksAndQueues/stacks-and-queues.js');
-const Stack = new StacksAndQueues.Stack();
+const {Stack} = require('../StacksAndQueues/stacks-and-queues.js');
 
-class PseudoQueue {
+class Queue {
   constructor () {
     this.stack1 = new Stack();
     this.stack2 = new Stack();
   }
 
   enqueue1(value) { this.stack1.push(value);}
-
   enqueue2(value) { this.stack2.push(value);}
 
   dequeue1() { return this.stack1.pop(); }
-
   dequeue2() { return this.stack2.pop(); }
 
   enqueue(value) {
@@ -22,31 +19,34 @@ class PseudoQueue {
   }
 
   dequeue() {
-    let dequeued;
+
     // pops stack 1 and enqueues stack 2 until at base.
-    let s1count = this.stack1.linkedList.length;
-    while (s1count > 0) {
+    let len1 = this.stack1.linkedList.length;
+    while ( len1 > 1) {
       let current = this.dequeue1();
       this.enqueue2(current);
-      s1count--;
+      len1--;
     }
-    // Once at base, pops base storing for return, leaving stack 1 empty.
-    dequeued = this.dequeue1();
+    // Once at base, pops base and store for return, leaving stack 1 empty.
+    const dequeued = this.dequeue1();
 
-    s1count = 0;
+    // Now, pops stack 2, and enqueue stack 1 again until stack 2 is empty.
 
-    // Then, pops stack 2, and enqueues stack 1 again until stack 2 is empty.
-    let s2count = this.stack2.linkedList.length;
-    while (s2count >=0) {
+    let len2 = this.stack2.linkedList.length;
+    while (len2 > 0) {
       let current = this.dequeue2();
       this.enqueue1(current);
-      s2count--;
+      len2--;
     }
     // now return what we dequeued from stack 1, above.
     return dequeued;
   }
+
+  peek() {
+    return this.stack1.linkedList.head;
+  }
   
 }
 
-// module.exports = {PseudoQueue};
-module.exports = PseudoQueue;
+module.exports = {Queue};
+

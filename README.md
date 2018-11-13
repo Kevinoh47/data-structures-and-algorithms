@@ -185,8 +185,8 @@ Build a Queue using Stacks as its underlying data structure.
 - [x] npm install jest, faker, eslint
 - [x] package.json scripts added
 - [x] Add test framework and tests.
-- [] All tests passing including lint
-- [] Passes Travis CI build
+- [x] All tests passing including lint
+- [x] Passes Travis CI build
 - [x] Create pull request
 - [x] Submit URL of PR to submit the task to Canvas
 
