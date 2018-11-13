@@ -164,6 +164,8 @@ No white board required for this challenge.
 - [x] Submit URL of PR to submit the task to Canvas
 
 # Queues With Stacks
+Passing CI tests on Travis:
+[![Build Status](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms.svg?branch=stacks-and-queues-test-fix)](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms)
 
 ## Challenge
 <!-- Description of the challenge -->
