@@ -14,7 +14,7 @@ class BinaryTree {
     this.count = 0;
   }
 
-  insert(key) {
+  add(key) {
     let newNode = new BtNode(key);
 
     if (this.root === null) {
@@ -36,6 +36,7 @@ class BinaryTree {
       this.count++;
     }
     else  {
+      // https://coderwall.com/p/vcom6g/quick-coin-flip-heads-tails-function-in-javascript
       // if the node is full, pick right or left and continue looking for an available leaf spot.
       const leftOrRight = ((Math.floor(Math.random() * 2) == 0)) ? node.left : node.right;
 
@@ -44,22 +45,7 @@ class BinaryTree {
   }
 }
 
-class BinarySearchTree {
-  constructor() {
-    this.root = null;
-    this.count = 0;
-  }
-
-  insert(key) {
-    let newNode = new BtNode(key);
-
-    if (this.root === null) {
-      this.root = newNode;
-      this.count = 1;
-    } else {
-      this.insertNode(this.root, newNode);
-    }
-  }
+class BinarySearchTree extends BinaryTree{
 
   insertNode(node, newNode) {
     if (node.key === newNode.key) {
@@ -86,4 +72,4 @@ class BinarySearchTree {
   }
 }
 
-module.exports = {BinaryTree, BinarySearchTree};
+module.exports = {BtNode, BinaryTree, BinarySearchTree};
