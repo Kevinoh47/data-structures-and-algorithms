@@ -49,20 +49,45 @@ class BinaryTree {
   }
 
   // orders from smallest to largest in a BST (but not for regular BT)
-  inOrder () {
+
+
+  // search (value) {
+  //   let results = this.inOrder();
+  //   if (results.includes(value)) {
+  //     let foundNode = this.inOrder(pushNodeResults);
+  //     return foundNode;
+  //   } 
+  //   else {
+  //     return null;
+  //   }
+
+  // }
+
+  inOrder (callback = null) {
     let results = [];
 
-    let _traversal = (node) => {
+    let pushResults = function (value) {
+      results.push(value);
+    };
 
-      if (node.left) {  _traversal(node.left); }
+    // let pushNodeResults = function(node) {
+    //   results.push(node);
+    // };
 
-      results.push(node.key);
+    if (!callback) {callback = pushResults;}
 
-      if (node.right) {  _traversal(node.right); }
+    let _traversal = (node, callback) => {
+
+      if (node.left) {  _traversal(node.left, callback); }
+
+      //results.push(node.key);
+      callback(node.key);
+
+      if (node.right) {  _traversal(node.right, callback); }
 
     };
 
-    _traversal(this.root);
+    _traversal(this.root, callback);
 
     return results;
   }
@@ -100,6 +125,7 @@ class BinaryTree {
 
     return results;
   }
+
 }
 
 class BinarySearchTree extends BinaryTree{
