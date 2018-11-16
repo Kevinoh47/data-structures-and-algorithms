@@ -14,6 +14,10 @@ class BinaryTree {
     this.count = 0;
   }
 
+  getRootNode() {
+    return this.root;
+  }
+
   add(key) {
     let newNode = new BtNode(key);
 
@@ -42,6 +46,59 @@ class BinaryTree {
 
       this.insertNode(leftOrRight, newNode);
     }
+  }
+
+  // orders from smallest to largest in a BST (but not for regular BT)
+  inOrder () {
+    let results = [];
+
+    let _traversal = (node) => {
+
+      if (node.left) {  _traversal(node.left); }
+
+      results.push(node.key);
+
+      if (node.right) {  _traversal(node.right); }
+
+    };
+
+    _traversal(this.root);
+
+    return results;
+  }
+
+  preOrder () {
+    let results = [];
+
+    let _traversal = (node) => {
+
+      results.push(node.key);
+
+      if (node.left) { _traversal(node.left); }
+
+      if (node.right) { _traversal(node.right); }
+    };
+
+    _traversal(this.root);
+
+    return results;
+  }
+
+  postOrder () {
+    let results = [];
+
+    let _traversal = (node) => {
+      
+      if (node.left) { _traversal(node.left);}
+
+      if (node.right) { _traversal(node.right);}
+
+      results.push(node.key);
+    };
+
+    _traversal(this.root);
+
+    return results;
   }
 }
 

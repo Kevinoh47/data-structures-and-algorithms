@@ -26,24 +26,31 @@ myBTree.add(199);
 myBTree.add(102);
 myBTree.add(47); // regular BTree would allow dups
 
-console.log('MyBTree', myBTree);
+//console.log('MyBTree', myBTree);
+//let myRootNode = myBTree.getRootNode();
+//console.log('Root, RootLeft, RootRight', myRootNode, myRootNode.left, myRootNode.right);
 
-let myBSearchTree = new BinarySearchTree();
-myBSearchTree.add(47);
-myBSearchTree.add(23);
-myBSearchTree.add(26);
-myBSearchTree.add(49);
-myBSearchTree.add(1);
-myBSearchTree.add(0);
-myBSearchTree.add(142);
-myBSearchTree.add(99);
-myBSearchTree.add(66);
-myBSearchTree.add(33);
-myBSearchTree.add(199);
-myBSearchTree.add(102);
-myBSearchTree.add(47); //  BST should not allow dups
+// console.log('INORDER BTree TRAVERSAL', myBTree.inOrder());
 
-console.log('myBSearchTree', myBSearchTree);
+let bst2 = new BinarySearchTree();
+let input = [11,7,15,5,3,9,8,10,13,12,14,20,18,25];
+input.map(val =>bst2.add(val));
+console.log('BST2 ORDERED RESULTS: ', bst2.inOrder());
+console.log('BST2 PRE-ORDERED RESULTS: ', bst2.preOrder());
+console.log('BST2 POST-ORDERED RESULTS: ', bst2.postOrder());
+
+
+// notice dups are not allowed in a BST but are in a plain BT
+let bst1 = new BinarySearchTree();
+let bt1 = new BinaryTree();
+input = [47,23,26,49,1,0,142,99,66,33,199,102,47];
+input.map(val=>bst1.add(val));
+input.map(val=>bt1.add(val));
+// console.log('BST1 ordered results: ',bst1.inOrder());
+// console.log('BST1 pre-ordered results: ',bst1.preOrder());
+
+// console.log('BT1 ordered results: ',bt1.inOrder());
+// console.log('BT1 pre-ordered results: ',bt1.preOrder());
 
 
 // let myPseudoQueue = new Queue();
