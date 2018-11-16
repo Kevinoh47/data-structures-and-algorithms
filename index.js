@@ -38,7 +38,8 @@ input.map(val =>bst2.add(val));
 console.log('BST2 ORDERED RESULTS: ', bst2.inOrder());
 console.log('BST2 PRE-ORDERED RESULTS: ', bst2.preOrder());
 console.log('BST2 POST-ORDERED RESULTS: ', bst2.postOrder());
-
+console.log('BST2 Search For Node with Value: ', bst2.search(13));
+console.log('BST2 count: ', bst2.getTreeCount());
 
 // notice dups are not allowed in a BST but are in a plain BT
 let bst1 = new BinarySearchTree();

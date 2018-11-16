@@ -14,6 +14,10 @@ class BinaryTree {
     this.count = 0;
   }
 
+  getTreeCount() {
+    return this.count;
+  }
+  
   getRootNode() {
     return this.root;
   }
@@ -50,38 +54,20 @@ class BinaryTree {
 
   // orders from smallest to largest in a BST (but not for regular BT)
 
-
-  // search (value) {
-  //   let results = this.inOrder();
-  //   if (results.includes(value)) {
-  //     let foundNode = this.inOrder(pushNodeResults);
-  //     return foundNode;
-  //   } 
-  //   else {
-  //     return null;
-  //   }
-
-  // }
-
   inOrder (callback = null) {
     let results = [];
 
-    let pushResults = function (value) {
-      results.push(value);
+    let _pushResults = function (node) {
+      results.push(node.key);
     };
 
-    // let pushNodeResults = function(node) {
-    //   results.push(node);
-    // };
-
-    if (!callback) {callback = pushResults;}
+    if (!callback) {callback = _pushResults;}
 
     let _traversal = (node, callback) => {
 
       if (node.left) {  _traversal(node.left, callback); }
 
-      //results.push(node.key);
-      callback(node.key);
+      callback(node);
 
       if (node.right) {  _traversal(node.right, callback); }
 
@@ -152,6 +138,28 @@ class BinarySearchTree extends BinaryTree{
         this.insertNode(node.right, newNode);
       }
     }
+  }
+
+  search(key){
+
+    let _searchNode = function(node, key) {
+
+      if (node === null) {return false; }
+
+      if (key < node.key) {
+        return _searchNode(node.left, key);
+      }
+
+      else if (key > node.key) {
+        return _searchNode(node.right, key);
+      }
+
+      else {
+        return node;
+      }
+    };
+
+    return _searchNode(this.root, key);
   }
 }
 
