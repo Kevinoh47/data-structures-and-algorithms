@@ -33,14 +33,15 @@ myBTree.add(47); // regular BTree would allow dups
 // console.log('INORDER BTree TRAVERSAL', myBTree.inOrder());
 
 let bst2 = new BinarySearchTree();
-let input = [11,7,15,5,3,9,8,10,13,12,14,20,18,25];
+let input = [11,7,15,5,3,9,8,10,13,12,14,20,18,25,19];
+//[3,5,7,8,9,10,11,12,13,14,15,18,19,20,25];
 input.map(val =>bst2.add(val));
 console.log('BST2 ORDERED RESULTS: ', bst2.inOrder());
 console.log('BST2 PRE-ORDERED RESULTS: ', bst2.preOrder());
 console.log('BST2 POST-ORDERED RESULTS: ', bst2.postOrder());
 console.log('BST2 Search For Node with Value: ', bst2.search(13));
 console.log('BST2 count: ', bst2.getTreeCount());
-
+console.log("INPUT STRINGIFIED", input.toString());
 // notice dups are not allowed in a BST but are in a plain BT
 let bst1 = new BinarySearchTree();
 let bt1 = new BinaryTree();

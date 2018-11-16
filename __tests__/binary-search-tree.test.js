@@ -16,6 +16,42 @@ describe('The BinarySearchTree', () => {
     let result = myBst.getTreeCount();
     expect(result).toEqual(14);
   });
+
+  it('can add a node', () => {
+    myBst.add(19);
+    let result = myBst.getTreeCount();
+    expect(result).toEqual(15);
+  });
+
+  it('can search for a node', () => {
+    let result = myBst.search(13);
+    expect(result.key).toEqual(13);
+  });
+
+  it('can return false if a searched for node does not exist', () => {
+    let result = myBst.search(9999);
+    expect(result.key).toBeFalsy;
+  });
+
+  it('can return an ordered list of BST node values', () => {
+    let result = myBst.inOrder();
+    let expected = [3,5,7,8,9,10,11,12,13,14,15,18,19,20,25];
+    expect(result).toEqual(expected);
+  });
+
+  it('can return an pre-ordered list of BST node values', () => {
+    let result = myBst.preOrder();
+    expect(result[0]).toEqual(11);
+    expect(result.length).toEqual(15);
+    expect(result[14]).toEqual(25);
+  });
+
+  it('can return an post-ordered list of BST node values', () => {
+    let result = myBst.postOrder();
+    expect(result[0]).toEqual(3);
+    expect(result.length).toEqual(15);
+    expect(result[14]).toEqual(11);
+  });
 });
 
 
