@@ -17,7 +17,7 @@ class BinaryTree {
   getTreeCount() {
     return this.count;
   }
-  
+
   getRootNode() {
     return this.root;
   }
@@ -53,7 +53,6 @@ class BinaryTree {
   }
 
   // orders from smallest to largest in a BST (but not for regular BT)
-
   inOrder (callback = null) {
     let results = [];
 
@@ -108,6 +107,26 @@ class BinaryTree {
     };
 
     _traversal(this.root);
+
+    return results;
+  }
+
+  // Breadth first 
+  levelOrder() {
+    let results = [];
+    let nodeQueue = [];
+    nodeQueue.push(this.root);
+
+    while (nodeQueue.length) {
+      let current = nodeQueue.shift();
+      results.push(current.value);
+      if (current.left) {
+        nodeQueue.push(current.left);
+      }
+      if(current.right) {
+        nodeQueue.push(current.right);
+      }
+    }
 
     return results;
   }

@@ -52,6 +52,11 @@ describe('The BinarySearchTree', () => {
     expect(result.length).toEqual(15);
     expect(result[14]).toEqual(11);
   });
+
+  it ('can do a breadth-first traveral', () => {
+    let result = myBst.levelOrder();
+    expect(result.length).toEqual(15);
+  });
 });
 
 
