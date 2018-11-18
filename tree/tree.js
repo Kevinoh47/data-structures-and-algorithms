@@ -60,7 +60,13 @@ class BinaryTree {
       results.push(node.key);
     };
 
+    let _pushNodeResults = function (node) {
+      results.push(node);
+    };
+
     if (!callback) {callback = _pushResults;}
+
+    else if (callback) {callback = _pushNodeResults;}
 
     let _traversal = (node, callback) => {
 
