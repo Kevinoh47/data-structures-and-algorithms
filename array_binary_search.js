@@ -32,5 +32,5 @@ array_binary_search.binarySearch = function (sortedArr, searchKey) {
     }
   }
   return -1;
-}
+};
 

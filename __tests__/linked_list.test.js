@@ -66,3 +66,96 @@ describe ('The linked list insertAfter method', () => {
     expect(result).toEqual('!!!!!!!');
   });
 });
+
+describe ('The linked list shift method', () => {
+
+  let testLL = new linkedList();
+  testLL.append(100);
+  testLL.append(200);
+  testLL.append(300);
+  testLL.append(400);
+  let shifted = testLL.shift();
+  let newLen = testLL.length;
+  it('can remove a node from the front of a linked list', () => {
+    expect(testLL.head.value).toEqual(200);
+  });
+
+  it('can return a node from the front of a linked list', () => {
+    expect(shifted.value).toEqual(100); 
+  });
+
+  it('decrements the length property of a linked list', () => {
+    expect(newLen).toEqual(3);
+  });
+});
+
+describe ('The linked list prepend method', () => {
+
+  let testLL = new linkedList();
+
+  it('can add a node to an empty linked list', () => {
+    testLL.prepend(100);
+    expect(testLL.length).toEqual(1);
+  });
+
+  it('can add nodes to the front of a linked list', () => {
+    testLL.prepend(200);
+    expect(testLL.head.value).toEqual(200);
+  });
+
+  it('increments the length property of a linked list', () => {
+    expect(testLL.length).toEqual(2);
+  });
+});
+
+describe ('The linked list peek method', () => {
+
+  let testLL = new linkedList();
+  testLL.append(100);
+  testLL.append(200);
+  testLL.append(300);
+  testLL.append(400);
+
+  let result = testLL.peek();
+
+  it('can show the tail value of the linked list', () => {
+    expect(result.value).toEqual(400);
+  });
+  it('leaves the length property of a linked list', () => {
+    expect(testLL.length).toEqual(4);
+  });
+  it('the tail of the linked list is unchanged', () => {
+    expect(testLL.tail.value).toEqual(400);
+  });
+});
+
+describe ('The linked list delete method', () => {
+
+  let testLL = new linkedList();
+
+  it('returns null if we attempt to delete from an empty linked list', () => {
+
+    let result = testLL.delete();
+    expect(result).toBeNull();
+  });
+
+  it('can delete the head of a linked list if there is only one element', () => {
+    testLL.append(100);
+    testLL.delete();
+    expect(testLL.length).toEqual(0);
+  });
+  it('removes the tail of a linked list', () => {
+
+    testLL.append(100);
+    testLL.append(200);
+    testLL.append(300);
+    testLL.append(400);
+    let result = testLL.delete();
+
+    expect(result.value).toEqual(400);
+  });
+  it('decrements the length property of the linked list', () => {
+    expect(testLL.length).toEqual(3);
+  });
+});
+
