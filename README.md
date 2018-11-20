@@ -130,7 +130,34 @@ Write a method on your linked list class that takes a number k as a paremeter, a
 - [x] All tests passing including lint
 - [x] Passes Travis CI build
 - [x] Create pull request
-- [ ] Submit URL of PR to submit the task to Canvas
+- [x] Submit URL of PR to submit the task to Canvas
+
+# Merge Link Lists -- Code Challenge 8
+[![Build Status](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms.svg?branch=ll_merge)](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms)
+
+
+<!-- Short summary or background information -->
+Write a method on your linked list class that zips two linked lists into a new linked list.
+
+## Solution
+<!-- Embedded whiteboard image -->
+![Whiteboard](./assets/ll-merge.jpg) 
+
+### Task List
+- [x] Create GitHub repo
+- [x] Build out file structure
+- [x] Whiteboard 
+- [x] Write actual code
+- [x] Photograph image of whiteboard
+- [x] Fill out README.md
+- [x] npm init -y
+- [x] npm install jest, faker, eslint
+- [x] package.json scripts added
+- [x] Add test framework and tests.
+- [x] All tests passing including lint
+- [x] Passes Travis CI build
+- [x] Create pull request
+- [x] Submit URL of PR to submit the task to Canvas
 
 # Stacks and Queues
 Passing CI tests on Travis CI:
