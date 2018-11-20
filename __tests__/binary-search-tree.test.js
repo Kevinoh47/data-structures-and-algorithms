@@ -39,12 +39,12 @@ describe('The BinarySearchTree', () => {
     expect(result).toEqual(expected);
   });
 
-  // it('can return an ordered list of BST nodes', () => {
-  //   let result = myBst.inOrder('__pushNodeResults');
-  //   let extractedKyes = result.map(node => node.key);
-  //   let expected = [3,5,7,8,9,10,11,12,13,14,15,18,19,20,25];
-  //   expect(extractedKyes).toEqual(expected);
-  // });
+  it('can return an ordered list of BST nodes', () => {
+    let result = myBst.inOrder('__pushNodeResults');
+    let extractedKyes = result.map(node => node.key);
+    let expected = [3,5,7,8,9,10,11,12,13,14,15,18,19,20,25];
+    expect(extractedKyes).toEqual(expected);
+  });
 
   it('can return an pre-ordered list of BST node values', () => {
     let result = myBst.preOrder();
