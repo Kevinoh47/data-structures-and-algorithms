@@ -252,6 +252,27 @@ Write a method that tests whether a string with brackets {},[],() has all matchi
 - [x] Create pull request
 - [x] Submit URL of PR to submit the task to Canvas
 
+# Trees -- 
+
+[![Build Status](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms.svg?branch=tree)](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms)
+
+<!-- Short summary or background information -->
+Build Binary Tree and a Binary Search Tree classes with transversal methods. 
+
+### Task List
+- [x] Create GitHub repo
+- [x] Build out file structure
+- [x] Write actual code
+- [x] Fill out README.md
+- [x] npm init -y
+- [x] npm install jest, faker, eslint
+- [x] package.json scripts added
+- [x] Add test framework and tests.
+- [x] All tests passing including lint
+- [x] Passes Travis CI build
+- [x] Create pull request
+- [x] Submit URL of PR to submit the task to Canvas
+
 
 
 
