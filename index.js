@@ -1,15 +1,42 @@
 'use strict';
 
-// const insertShiftArray = require('./array_shift.js');
-// const binarySearch = require('./array_binary_search.js');
 
-// const Node = require('./node.js');
-// const StackAndQueue = require('./StacksAndQueues/stacks-and-queues.js');
+const LinkedList = require('./linked-list.js');
+const mergeLists = require('./llMerge/ll-merge.js');
+const insertShiftArray = require('./array_shift.js');
+const binarySearch = require('./array_binary_search.js');
+const Node = require('./node.js');
+const StackAndQueue = require('./StacksAndQueues/stacks-and-queues.js');
+const {Queue} = require('./queueWithStacks/queue-with-stacks.js');
+const {BinaryTree, BinarySearchTree} = require('./tree/tree.js');
 
-// const {Queue} = require('./queueWithStacks/queue-with-stacks.js');
 
-const {BtNode, BinaryTree, BinarySearchTree} = require('./tree/tree.js');
+let input1 = [1,3,5,7];
+let input2 = [2,4,6,8];
+let myLl1 = new LinkedList();
+let myLl2 = new LinkedList();
+input1.map(i => myLl1.append(i));
+input2.map(i => myLl2.append(i));
 
+// let current = myLl1.head;
+// while (current.next) {
+//   console.log('WHILE CURRENT: ', current.value);
+//   current = current.next;
+// }
+// console.log('FINAL CURRENT: ', current.value);
+
+let result = mergeLists(myLl1, myLl2);
+
+let current = result.head;
+while (current.next) {
+  console.log('WHILE CURRENT: ', current.value);
+  current = current.next;
+}
+console.log('FINAL CURRENT: ', current.value);
+
+
+
+/** BST */
 let myBTree = new BinaryTree();
 
 myBTree.add(47);

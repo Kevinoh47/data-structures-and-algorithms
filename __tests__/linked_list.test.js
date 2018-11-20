@@ -1,8 +1,9 @@
 'use strict';
 
-const linkedList = require('../linked-list.js');
+const LinkedList = require('../linked-list.js');
+const mergeLists = require('../llMerge/ll-merge.js');
 
-let myLL = new linkedList();
+let myLL = new LinkedList();
 myLL.append('The');
 myLL.append('quick');
 myLL.append('brown');
@@ -12,6 +13,55 @@ myLL.append('over');
 myLL.append('the');
 myLL.append('lazy');
 
+describe ('The Linked List mergeLists method', () => {
+
+  it('can take two lists of equal length and zip them', () => {
+    let input1 = [1,3,5,7];
+    let input2 = [2,4,6,8];
+    let myLl1 = new LinkedList();
+    let myLl2 = new LinkedList();
+    input1.map(i => myLl1.append(i));
+    input2.map(i => myLl2.append(i));
+
+    let result = mergeLists(myLl1, myLl2);
+
+    expect(result.length).toEqual(8);
+    expect(result.head.value).toEqual(1);
+    expect(result.tail.value).toEqual(8);
+  });
+
+  it('can take a short list and a long list and zip them', () => {
+
+    let input1 = [1,3,5,7];
+    let input2 = [2,4,6,8, 10,12];
+    let myLl1 = new LinkedList();
+    let myLl2 = new LinkedList();
+    input1.map(i => myLl1.append(i));
+    input2.map(i => myLl2.append(i));
+
+    let result = mergeLists(myLl1, myLl2);
+
+    expect(result.length).toEqual(10);
+    expect(result.head.value).toEqual(1);
+    expect(result.tail.value).toEqual(12);
+
+  });
+
+  it('can take a long list and a short list and zip them', () => {
+    let input1 = [1,3,5,7,9,11];
+    let input2 = [2,4,6,8];
+    let myLl1 = new LinkedList();
+    let myLl2 = new LinkedList();
+    input1.map(i => myLl1.append(i));
+    input2.map(i => myLl2.append(i));
+
+    let result = mergeLists(myLl1, myLl2);
+
+    expect(result.length).toEqual(10);
+    expect(result.head.value).toEqual(1);
+    expect(result.tail.value).toEqual(11);
+  });
+});
 describe ('The linked list kth from end method', () => {
   it('can find the first element of the Linked List', () => {
     let result = myLL.ll_kth_from_end(7);
@@ -69,7 +119,7 @@ describe ('The linked list insertAfter method', () => {
 
 describe ('The linked list shift method', () => {
 
-  let testLL = new linkedList();
+  let testLL = new LinkedList();
   testLL.append(100);
   testLL.append(200);
   testLL.append(300);
@@ -91,7 +141,7 @@ describe ('The linked list shift method', () => {
 
 describe ('The linked list prepend method', () => {
 
-  let testLL = new linkedList();
+  let testLL = new LinkedList();
 
   it('can add a node to an empty linked list', () => {
     testLL.prepend(100);
@@ -110,7 +160,7 @@ describe ('The linked list prepend method', () => {
 
 describe ('The linked list peek method', () => {
 
-  let testLL = new linkedList();
+  let testLL = new LinkedList();
   testLL.append(100);
   testLL.append(200);
   testLL.append(300);
@@ -131,7 +181,7 @@ describe ('The linked list peek method', () => {
 
 describe ('The linked list delete method', () => {
 
-  let testLL = new linkedList();
+  let testLL = new LinkedList();
 
   it('returns null if we attempt to delete from an empty linked list', () => {
 
