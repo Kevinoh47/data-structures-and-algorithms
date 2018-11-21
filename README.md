@@ -250,7 +250,7 @@ Using FIFO queues, return the desired animal. You can't necessarily just return 
 
 # Multi Bracket Validation -- Code Challenge 13
 
-[![Build Status](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms.svg?branch=multi-bracket-validation)](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms)
+[![Build Status](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms.svg?branch=master)](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms)
 
 Please note that tests for Multi Bracket Validation are passing. 
 
