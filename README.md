@@ -159,6 +159,15 @@ Write a method on your linked list class that zips two linked lists into a new l
 - [x] Create pull request
 - [x] Submit URL of PR to submit the task to Canvas
 
+# Linked List Palindrome function -- Code Challenge 9
+
+This one was purely a whiteboarding exercise. Images below:
+
+## Solution
+<!-- Embedded whiteboard image -->
+![Whiteboard](./assets/LinkedListPalindrome-1.jpg) 
+![Whiteboard](./assets/LinkedListPalindrome-2.jpg) 
+
 # Stacks and Queues
 Passing CI tests on Travis CI:
 [![Build Status](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms.svg?branch=master)](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms)
