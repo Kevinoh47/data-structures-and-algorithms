@@ -311,11 +311,18 @@ Build Binary Tree and a Binary Search Tree classes with transversal methods.
 
 
 # Maximum Value in Binary Trees -- Code Challenge 18 
+Travis 
+[![Build Status](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms.svg?branch=find-maximum-value-binary-tree)](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms)
+
+https://travis-ci.com/Kevinoh47/data-structures-and-algorithms/builds/92454726
 
 
 
 <!-- Short summary or background information -->
 In the Binary Tree, find the Max Value. Note that I also did min value, and following examples in Learning JavaScript Data Structures and Algorithms, did different versions of Min and Max for the Binary Search Tree.
+
+## Solution
+![Whiteboard](./assets/find-maximum-value-binary-tree.jpg) 
 
 ### Task List
 - [x] Create GitHub repo
