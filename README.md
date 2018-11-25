@@ -309,8 +309,36 @@ Build Binary Tree and a Binary Search Tree classes with transversal methods.
 - [x] Create pull request
 - [x] Submit URL of PR to submit the task to Canvas
 
+# Breadth First Binary Tree Traversal -- Code Challenge 17
+[![Build Status](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms.svg?branch=find-maximum-value-binary-tree)](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms)
 
-# Maximum Value in Binary Trees -- Code Challenge 18 
+https://travis-ci.com/Kevinoh47/data-structures-and-algorithms/builds/92479288
+
+<!-- Short summary or background information -->
+Breadth first traversal visits each node in the binary tree by going level by level, left to right.
+
+## Challenge
+<!-- Description of the challenge -->
+The challenge here is once again figuring out the proper recursive logic. I think I must have had an example to follow from somewhere, but I failed to record my source and now I don't remember. In any case my initial attempt wasn't quite right. 
+
+## Approach & Efficiency
+<!-- What approach did you take? Why? What is the Big O space/time for this approach? -->
+
+The recursive method here starts with the root, pushing it onto an array that will be treated as a queue. 
+
+Then while there is anything on the queue, it shifts the value off the queue into the results array, and adds any children (left first, then right) onto the queue. 
+
+The while loop repeats until there are no more children to add to the queue, and until the queue itself is finally empty.
+
+Then we return the results array.
+
+Big O for time O(n) space would both be O(2n), I believe.
+
+## Solution
+![Whiteboard](./assets/breadth-first-traversal-whiteboard.jpg) 
+
+
+# Maximum Value in Binary breadth-first-traversals -- Code Challenge 18 
 
 [![Build Status](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms.svg?branch=find-maximum-value-binary-tree)](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms)
 
@@ -336,3 +364,7 @@ In the Binary Tree, find the Max Value. Note that I also did min value, and foll
 - [x] Create pull request
 - [x] Submit URL of PR to submit the task to Canvas
 
+# File Structure Tree -- Code Challenge 19 
+This was a whiteboarding exercise
+
+![Whiteboard](./assets/code-challenge-19b-whiteboard.png)

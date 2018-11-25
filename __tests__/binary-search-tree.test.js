@@ -103,7 +103,16 @@ describe('The BinaryTree', () => {
 
   it ('can do a breadth-first traveral', () => {
     let result = myBt.levelOrder();
+
     expect(result.length).toEqual(15);
+    expect(result[0]).toEqual(11);
+    expect(result).toContain(20);
+  });
+  it ('can print the values to console in a breadth-first traversal', () => {
+    let result = myBt.levelOrder(true);
+    expect(result.length).toEqual(15);
+    expect(result[0]).toEqual(11);
+    expect(result).toContain(20);
   });
 
   it ('can find the max value of the BT', () =>{
