@@ -310,5 +310,24 @@ Build Binary Tree and a Binary Search Tree classes with transversal methods.
 - [x] Submit URL of PR to submit the task to Canvas
 
 
+# Maximum Value in Binary Trees -- Code Challenge 18 
 
+
+
+<!-- Short summary or background information -->
+In the Binary Tree, find the Max Value. Note that I also did min value, and following examples in Learning JavaScript Data Structures and Algorithms, did different versions of Min and Max for the Binary Search Tree.
+
+### Task List
+- [x] Create GitHub repo
+- [x] Build out file structure
+- [x] Write actual code
+- [x] Fill out README.md
+- [x] npm init -y
+- [x] npm install jest, faker, eslint
+- [x] package.json scripts added
+- [x] Add test framework and tests.
+- [x] All tests passing including lint
+- [x] Passes Travis CI build
+- [x] Create pull request
+- [x] Submit URL of PR to submit the task to Canvas
 
