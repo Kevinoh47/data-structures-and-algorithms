@@ -65,6 +65,18 @@ describe('The BinarySearchTree', () => {
     expect(result.length).toEqual(15);
   });
 
+  it ('can find the maximum value in the BST search tree', () => {
+    let result = myBst.findMaximumValue();
+    let expected = 25;
+    expect(result).toEqual(expected);
+  });
+
+  it ('can find the minimum value in the BST search tree', () => {
+    let result = myBst.findMinimumValue();
+    let expected = 3;
+    expect(result).toEqual(expected);
+  });
+
 });
 
 /** Binary Tree Class */
@@ -94,6 +106,15 @@ describe('The BinaryTree', () => {
     expect(result.length).toEqual(15);
   });
 
+  it ('can find the max value of the BT', () =>{
+    let result = myBt.maxVal();
+    expect(result).toEqual(25);
+  });
+
+  it ('can find the minimum value of the BT', () => {
+    let result = myBt.minVal();
+    expect(result).toEqual(3);
+  });
 });
 
 

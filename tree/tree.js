@@ -83,6 +83,28 @@ class BinaryTree {
     return results;
   }
 
+  maxVal() {
+    let currentMax = this.root.key;
+    let result = this.inOrder();
+    result.forEach(e => {
+      if (e > currentMax) {
+        currentMax = e;
+      }
+    });
+    return currentMax;
+  }
+
+  minVal() {
+    let currentMin = this.root.key;
+    let result = this.inOrder();
+    result.forEach(e => {
+      if(e < currentMin) {
+        currentMin = e;
+      }
+    });
+    return currentMin;
+  }
+
   preOrder () {
     let results = [];
 
@@ -141,6 +163,7 @@ class BinaryTree {
 
 class BinarySearchTree extends BinaryTree{
 
+  
   insertNode(node, newNode) {
     if (node.key === newNode.key) {
       return;
@@ -186,6 +209,37 @@ class BinarySearchTree extends BinaryTree{
 
     return _searchNode(this.root, key);
   }
+
+  // see Learning JavaScript Data Structures and Algorithms p. 138
+  findMaximumValue() {
+    let _maxValue = function(node){
+      if (node) {
+        while (node  && node.right !== null) {
+          node = node.right;
+        }
+        return node.key;
+      }
+      return null;
+    };
+    return _maxValue(this.root);
+
+  }
+
+  // see Learning JavaScript Data Structures and Algorithms p. 138
+  findMinimumValue() {
+    let _minValue = function(node){
+      if (node) {
+        while (node && node.left !== null) {
+          node = node.left;
+        }
+        return node.key;
+      }
+      return null;
+    };
+    return _minValue(this.root);
+  }
+
 }
+
 
 module.exports = {BtNode, BinaryTree, BinarySearchTree};
