@@ -83,27 +83,7 @@ class BinaryTree {
     return results;
   }
 
-  maxVal() {
-    let currentMax = this.root.key;
-    let result = this.inOrder();
-    result.forEach(e => {
-      if (e > currentMax) {
-        currentMax = e;
-      }
-    });
-    return currentMax;
-  }
 
-  minVal() {
-    let currentMin = this.root.key;
-    let result = this.inOrder();
-    result.forEach(e => {
-      if(e < currentMin) {
-        currentMin = e;
-      }
-    });
-    return currentMin;
-  }
 
   preOrder () {
     let results = [];
@@ -139,15 +119,19 @@ class BinaryTree {
     return results;
   }
 
-  // Breadth first 
-  levelOrder() {
+  // Breadth first traversal
+  levelOrder(printToConsole = false) {
     let results = [];
     let nodeQueue = [];
     nodeQueue.push(this.root);
 
     while (nodeQueue.length) {
       let current = nodeQueue.shift();
-      results.push(current.value);
+      results.push(current.key);
+      if (printToConsole) {
+        console.log(current.key);
+      }
+ 
       if (current.left) {
         nodeQueue.push(current.left);
       }
@@ -157,6 +141,28 @@ class BinaryTree {
     }
 
     return results;
+  }
+
+  maxVal() {
+    let currentMax = this.root.key;
+    let result = this.inOrder();
+    result.forEach(e => {
+      if (e > currentMax) {
+        currentMax = e;
+      }
+    });
+    return currentMax;
+  }
+
+  minVal() {
+    let currentMin = this.root.key;
+    let result = this.inOrder();
+    result.forEach(e => {
+      if(e < currentMin) {
+        currentMin = e;
+      }
+    });
+    return currentMin;
   }
 
 }

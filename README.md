@@ -309,8 +309,11 @@ Build Binary Tree and a Binary Search Tree classes with transversal methods.
 - [x] Create pull request
 - [x] Submit URL of PR to submit the task to Canvas
 
+# Breadth First Binary Tree Traversal -- Code Challenge 17
 
-# Maximum Value in Binary Trees -- Code Challenge 18 
+
+
+# Maximum Value in Binary breadth-first-traversals -- Code Challenge 18 
 
 [![Build Status](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms.svg?branch=find-maximum-value-binary-tree)](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms)
 
@@ -336,3 +339,7 @@ In the Binary Tree, find the Max Value. Note that I also did min value, and foll
 - [x] Create pull request
 - [x] Submit URL of PR to submit the task to Canvas
 
+# File Structure Tree -- Code Challenge 19 
+This was a whiteboarding exercise
+
+![Whiteboard](./assets/code-challenge-19b-whiteboard.png)
