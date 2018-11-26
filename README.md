@@ -295,6 +295,54 @@ Write a method that tests whether a string with brackets {},[],() has all matchi
 <!-- Short summary or background information -->
 Build Binary Tree and a Binary Search Tree classes with transversal methods. 
 
+## Approach & Efficiency
+<!-- What approach did you take? Why? What is the Big O space/time for this approach? -->
+I created a node class to support both the Binary Tree and the Binary Search Tree classes. Unlike the Node class for Linked Lists, this node class has left and right properties which are pointers to child nodes, as well as a key property which holds the value. I named my class BtNode to differentiate it from the Linked List nodes.
+
+I created a Binary Tree Class first, and placed all methods that would work for both a regular Binary Tree and a Binary Search Tree, on the Binary Tree Class. 
+
+I created the Binary Search Tree class to extend the Binary Tree Class. On the BST class I only put methods specific to it. 
+
+Notes on Big O can be found in the section below.
+
+## API
+<!-- Description of each method publicly available in each of your trees -->
+
+The Binary Tree class contains the following public methods:
+
+getTreeCount() -- returns this.Count
+
+getRootNode() -- returns this.root;
+
+add() -- note that this calls an internal insertNode() method. Note that the BT insertNode() method attempts to balance out the tree by using a coin toss to determine whether child nodes are searched for to the left or right of fully populated nodes.
+
+maxVal() -- because a BT isn't ordered, this method has to search all nodes for a Big O for time of O(n).
+
+minVal() -- because a BT isn't ordered, this method has to search all nodes for a Big O for time of O(n).
+
+traversal methods:
+
+inOrder() -- note that when used by a BST, this method returns node keys in order. Not so for a regular BT.
+
+preOrder()
+
+postOrder()
+
+LevelOrder() -- breadth first.
+
+
+Thie Binary Search Tree inherits methods from BinaryTree, and also has:
+
+insertNode() -- which overrides the insertNode method from BT to conform to the placement rules of a Binary Search Tree (smaller values go left, larger values go right).
+
+Search() Search for a BST is O(log(n)) because each comparison allows the search to cut the remaining number of values to search by half.
+
+findMaximumValue() -- Whereas findMax() for the BT must search all nodes, this method only needs to search down the chain of right nodes to the most right leaf node. Big O would be very efficient for this method. 
+
+findMinimumValue() -- Whereas findMin() for the BT must search all nodes, this method only needs to search down the chain of left nodes to the most left leaf node. Big O would be very efficient for this method.
+
+The latter two could be renamed findMax() and findMin() and override the same methods from BT.
+
 ### Task List
 - [x] Create GitHub repo
 - [x] Build out file structure
