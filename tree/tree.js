@@ -83,8 +83,6 @@ class BinaryTree {
     return results;
   }
 
-
-
   preOrder () {
     let results = [];
 
@@ -168,7 +166,6 @@ class BinaryTree {
 }
 
 class BinarySearchTree extends BinaryTree{
-
   
   insertNode(node, newNode) {
     if (node.key === newNode.key) {
