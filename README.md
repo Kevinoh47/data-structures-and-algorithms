@@ -309,6 +309,37 @@ Build Binary Tree and a Binary Search Tree classes with transversal methods.
 - [x] Create pull request
 - [x] Submit URL of PR to submit the task to Canvas
 
+
+# Fizz Buzz Tree -- Code Challenge 16
+[![Build Status](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms.svg?branch=FizzBuzzTree)](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms)
+
+https://travis-ci.com/Kevinoh47/data-structures-and-algorithms/jobs/160698385
+
+<!-- Short summary or background information -->
+Write a function that takes a tree as an input, and returns another tree, in which the values of the input have been transformed so that numbers divisible by 3 read "Fizz", numbers divisible by 5 read "Buzz", and numbers divisible by both 3 and 5 are replaced by "FizzBuzz".
+
+## Challenge
+<!-- Description of the challenge -->
+The challenge here is to use the tools we have to write something relatively compact and readable.
+
+## Approach & Efficiency
+<!-- What approach did you take? Why? What is the Big O space/time for this approach? -->
+
+The function takes the input tree, and runs a tranversal on it, outputting the results to an array.
+
+We then iterate over the array, transforming per the rules via a map, into an output array.
+
+The output array is then iterated over, adding the set of transformed values to a new tree, which is returned.
+
+Big O for time and space is O(3n), I believe.
+
+Possibly we could refactor to do both the transform and the tree.add() operation in the same iteration, which would reduce time and space to O(2n);
+
+Actually, I tried just the refactor mentioned above, and it passes all tests. So after my refactor, Big O for time and space is now O(2n).
+
+## Solution
+![Whiteboard](./assets/FizzBuzzTree.jpg) 
+
 # Breadth First Binary Tree Traversal -- Code Challenge 17
 [![Build Status](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms.svg?branch=find-maximum-value-binary-tree)](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms)
 
