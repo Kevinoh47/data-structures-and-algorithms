@@ -2,6 +2,9 @@
 
 const {BinaryTree, BinarySearchTree} = require('../tree/tree.js');
 
+const {fizzBuzzTree} = require('../fizzBuzzTree/fizz-buzz-tree.js');
+
+
 let myBst = new BinarySearchTree();
 let input = [11,7,15,5,3,9,8,10,13,12,14,20,18,25];
 input.map(val =>myBst.add(val));
@@ -48,6 +51,9 @@ describe('The BinarySearchTree', () => {
 
   it('can return an pre-ordered list of BST node values', () => {
     let result = myBst.preOrder();
+
+    expect.assertions(3);
+
     expect(result[0]).toEqual(11);
     expect(result.length).toEqual(15);
     expect(result[14]).toEqual(25);
@@ -55,6 +61,9 @@ describe('The BinarySearchTree', () => {
 
   it('can return an post-ordered list of BST node values', () => {
     let result = myBst.postOrder();
+
+    expect.assertions(3);
+
     expect(result[0]).toEqual(3);
     expect(result.length).toEqual(15);
     expect(result[14]).toEqual(11);
@@ -104,12 +113,17 @@ describe('The BinaryTree', () => {
   it ('can do a breadth-first traveral', () => {
     let result = myBt.levelOrder();
 
+    expect.assertions(3);
+
     expect(result.length).toEqual(15);
     expect(result[0]).toEqual(11);
     expect(result).toContain(20);
   });
   it ('can print the values to console in a breadth-first traversal', () => {
     let result = myBt.levelOrder(true);
+
+    expect.assertions(3);
+
     expect(result.length).toEqual(15);
     expect(result[0]).toEqual(11);
     expect(result).toContain(20);
@@ -126,4 +140,37 @@ describe('The BinaryTree', () => {
   });
 });
 
+/** Fizz Buzz Tree */
 
+
+describe('The Fizz Buzz Tree function', () => {
+ 
+  let myFancyBST = new BinaryTree();
+  let input3 = [11,7,15,5,3,9,12,20,27,45];
+  
+  input3.forEach(e => { myFancyBST.add(e);});
+  
+  let myFizzBuzzTree = fizzBuzzTree(myFancyBST);
+  let results = myFizzBuzzTree.inOrder();
+
+  it('returns a tree with the proper count.', () => {
+    expect(myFizzBuzzTree.count).toEqual(10);
+  });
+  
+  it('does not transform values that are not divisible by 3 or 5.', () => {
+    expect(results).toContain(7);
+  });
+
+  it('correctly transforms values that are divisible by 3', () => {
+    expect(results).toContain('Fizz: 9');
+  });
+
+  it('correctly transforms values that are divisible by 5', () => {
+    expect(results).toContain('Buzz: 20');
+  });
+
+  it('correctly transforms values that are divisible by both 3 and 5', () => {
+    expect(results).toContain('FizzBuzz: 15');
+  });
+
+});
