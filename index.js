@@ -1,6 +1,6 @@
 'use strict';
 
-
+const repeatedWord = require('./repeatedWord/repeated-word.js');
 const LinkedList = require('./linked-list.js');
 const mergeLists = require('./llMerge/ll-merge.js');
 const insertShiftArray = require('./array_shift.js');
@@ -11,6 +11,19 @@ const {Queue} = require('./queueWithStacks/queue-with-stacks.js');
 const {BinaryTree, BinarySearchTree} = require('./tree/tree.js');
 
 
+
+// const myStr = 'It was a queer, sultry summer, the summer they electrocuted the Rosenbergs, and I didn’t know what I was doing in New York...';
+// console.log(JSON.stringify(repeatedWord(myStr)));
+
+const myStr2 = 'It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair, we had everything before us, we had nothing before us, we were all going direct to Heaven, we were all going direct the other way – in short, the period was so far like the present period, that some of its noisiest authorities insisted on its being received, for good or for evil, in the superlative degree of comparison only...';
+
+console.log(JSON.stringify(repeatedWord(myStr2)));
+
+
+
+/**
+ * 
+ */
 let input1 = [1,3,5,7];
 let input2 = [2,4,6,8];
 let myLl1 = new LinkedList();
@@ -25,16 +38,14 @@ input2.map(i => myLl2.append(i));
 // }
 // console.log('FINAL CURRENT: ', current.value);
 
-let result = mergeLists(myLl1, myLl2);
+// let result = mergeLists(myLl1, myLl2);
 
-let current = result.head;
-while (current.next) {
-  console.log('WHILE CURRENT: ', current.value);
-  current = current.next;
-}
-console.log('FINAL CURRENT: ', current.value);
-
-
+// let current = result.head;
+// while (current.next) {
+//   console.log('WHILE CURRENT: ', current.value);
+//   current = current.next;
+// }
+// console.log('FINAL CURRENT: ', current.value);
 
 /** BST */
 let myBTree = new BinaryTree();
@@ -59,23 +70,23 @@ myBTree.add(47); // regular BTree would allow dups
 
 // console.log('INORDER BTree TRAVERSAL', myBTree.inOrder());
 
-let bst2 = new BinarySearchTree();
-let input = [11,7,15,5,3,9,8,10,13,12,14,20,18,25,19];
-//[3,5,7,8,9,10,11,12,13,14,15,18,19,20,25];
-input.map(val =>bst2.add(val));
-//console.log('BST2 ORDERED RESULTS: ', bst2.inOrder());
-console.log('BST2 ORDERED NODE RESULTS: ', bst2.inOrder('_pushNodeResults'));
+// let bst2 = new BinarySearchTree();
+// let input = [11,7,15,5,3,9,8,10,13,12,14,20,18,25,19];
+// //[3,5,7,8,9,10,11,12,13,14,15,18,19,20,25];
+// input.map(val =>bst2.add(val));
+// //console.log('BST2 ORDERED RESULTS: ', bst2.inOrder());
+// console.log('BST2 ORDERED NODE RESULTS: ', bst2.inOrder('_pushNodeResults'));
 //console.log('BST2 PRE-ORDERED RESULTS: ', bst2.preOrder());
 //console.log('BST2 POST-ORDERED RESULTS: ', bst2.postOrder());
 //console.log('BST2 Search For Node with Value: ', bst2.search(13));
 //console.log('BST2 count: ', bst2.getTreeCount());
 //console.log("INPUT STRINGIFIED", input.toString());
 // notice dups are not allowed in a BST but are in a plain BT
-let bst1 = new BinarySearchTree();
-let bt1 = new BinaryTree();
-input = [47,23,26,49,1,0,142,99,66,33,199,102,47];
-input.map(val=>bst1.add(val));
-input.map(val=>bt1.add(val));
+// let bst1 = new BinarySearchTree();
+// let bt1 = new BinaryTree();
+// input = [47,23,26,49,1,0,142,99,66,33,199,102,47];
+// input.map(val=>bst1.add(val));
+// input.map(val=>bt1.add(val));
 // console.log('BST1 ordered results: ',bst1.inOrder());
 // console.log('BST1 pre-ordered results: ',bst1.preOrder());
 
