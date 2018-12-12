@@ -447,3 +447,48 @@ In the Binary Tree, find the Max Value. Note that I also did min value, and foll
 This was a whiteboarding exercise
 
 ![Whiteboard](./assets/code-challenge-19b-whiteboard.png)
+
+
+# First repeated word -- Code Challenge 26 
+
+[![Build Status](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms.svg?branch=repeated_word)](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms)
+
+## Travis
+https://travis-ci.com/Kevinoh47/data-structures-and-algorithms
+
+
+<!-- Short summary or background information -->
+Write a function that takes a string, and without using built-in library methods, return the first word that occurs more than once. Stretch goals: 
+1) modify the function to return a count of each duplicate word in the string.
+2) modify the function to return a list of the words most frequently used in the string.
+
+## Challenge
+Find duplicates as efficiently as possible.
+
+## Approach & Efficiency
+First, split the string into an array of words, stripping out punctuation and setting all characters to lower case. This is so "Summer", "summer," and "summer!" can be considered duplicates.
+
+Second, loop over array, writing each word to a hash table. Because hash tables allow O(1) lookup, this should be the fastest way to count each time a word is used. 
+
+For the first iteration of the function, when i first encountered a duplicate, I just returned it.
+
+But to manage for the stretch goals, the hash table was perfect: I could add a key for each word, and increment a count. I could add keys such as firstDup, highestDupWords (and manage an array of words with the highest count), and highestDupCount.
+
+Efficiency: The array is O(n) and then iterating over it to create the hash table is O(n). To write and search the hash table is O(1) which is insignificant and drops out. Since Big O ignores constants, instead of O(2n), we are at O(n).
+
+## Solution
+![Whiteboard](./assets/repeatedWord.jpg) 
+
+### Task List
+- [x] Create GitHub repo
+- [x] Build out file structure
+- [x] Write actual code
+- [x] Fill out README.md
+- [x] npm init -y
+- [x] npm install jest, faker, eslint
+- [x] package.json scripts added
+- [x] Add test framework and tests.
+- [x] All tests passing including lint
+- [x] Passes Travis CI build
+- [x] Create pull request
+- [x] Submit URL of PR to submit the task to Canvas
