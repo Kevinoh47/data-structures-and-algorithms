@@ -451,9 +451,11 @@ This was a whiteboarding exercise
 
 # First repeated word -- Code Challenge 26 
 
-<!-- [![Build Status](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms.svg?branch=find-maximum-value-binary-tree)](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms)
+[![Build Status](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms.svg?branch=repeated_word)](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms)
 
-https://travis-ci.com/Kevinoh47/data-structures-and-algorithms/builds/92454726 -->
+## Travis
+https://travis-ci.com/Kevinoh47/data-structures-and-algorithms
+
 
 <!-- Short summary or background information -->
 Write a function that takes a string, and without using built-in library methods, return the first word that occurs more than once. Stretch goals: 
