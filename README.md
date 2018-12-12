@@ -448,6 +448,7 @@ This was a whiteboarding exercise
 
 ![Whiteboard](./assets/code-challenge-19b-whiteboard.png)
 
+
 # First repeated word -- Code Challenge 26 
 
 <!-- [![Build Status](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms.svg?branch=find-maximum-value-binary-tree)](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms)
@@ -474,7 +475,7 @@ But to manage for the stretch goals, the hash table was perfect: I could add a k
 Efficiency: The array is O(n) and then iterating over it to create the hash table is O(n). To write and search the hash table is O(1) which is insignificant and drops out. Since Big O ignores constants, instead of O(2n), we are at O(n).
 
 ## Solution
-<!-- ![Whiteboard](./assets/find-maximum-value-binary-tree.jpg)  -->
+![Whiteboard](./assets/repeatedWord.jpg) 
 
 ### Task List
 - [x] Create GitHub repo
