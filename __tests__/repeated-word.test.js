@@ -28,4 +28,4 @@ describe ('The repeatedWord function', () =>{
     expect(result.dupWordCount).toEqual(20);
   });
   
-})
+});
