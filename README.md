@@ -495,10 +495,11 @@ Efficiency: The array is O(n) and then iterating over it to create the hash tabl
 
 # Tree Intersection -- Code Challenge 27
 
-
+[![Build Status](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms.svg?branch=tree_intersection)](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms)
 
 ## Travis
 https://travis-ci.com/Kevinoh47/data-structures-and-algorithms
+
 
 
 <!-- Short summary or background information -->
