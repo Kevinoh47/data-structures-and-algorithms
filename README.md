@@ -492,3 +492,42 @@ Efficiency: The array is O(n) and then iterating over it to create the hash tabl
 - [x] Passes Travis CI build
 - [x] Create pull request
 - [x] Submit URL of PR to submit the task to Canvas
+
+# Tree Intersection -- Code Challenge 27
+
+[![Build Status](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms.svg?branch=tree_intersection)](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms)
+
+## Travis
+https://travis-ci.com/Kevinoh47/data-structures-and-algorithms
+
+
+
+<!-- Short summary or background information -->
+Write a function that takes two trees as input parameters, and find the intersection of values of the two trees. Assumptions: binary tree (not BSTs); values are numbers.
+
+## Challenge
+Find intersection as efficiently as possible.
+
+## Approach & Efficiency
+Since our methods for traversing trees outputs the values to an array, I first looked at creating an array for each tree and then finding the intersection of the two arrays. However, this looks to me to be a poor efficiency of O(n2), because each value n has to test each value of the other array. It may be somewhat more efficient if you used two Binary Search Trees, because if you do inOrder traversal, you may save some steps. 
+
+However, I figured it would be more efficient to use a hash table since look up for a hash is O(1). So I ran the first array into a hash table, then tested the second array values against the hash table.
+
+This lead to a Big O of O(3n) which can be reduced to O(n), and is more efficient than O(n2);
+
+## Solution
+![Whiteboard](./assets/tree-intersection.jpg) 
+
+### Task List
+- [x] Create GitHub repo
+- [x] Build out file structure
+- [x] Write actual code
+- [x] Fill out README.md
+- [x] npm init -y
+- [x] npm install jest, faker, eslint
+- [x] package.json scripts added
+- [x] Add test framework and tests.
+- [x] All tests passing including lint
+- [x] Passes Travis CI build
+- [x] Create pull request
+- [x] Submit URL of PR to submit the task to Canvas
