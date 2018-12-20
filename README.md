@@ -549,7 +549,7 @@ To make this work we need to make use of the Object.Entries method
 Hash lookups have an efficiency of O(1), so this approach should be efficient. We do have to iterate the entire iterable however, and create an output array of arrays... however those are constants which drop out. So I believe we rate it O(n);
 
 ## Solution
-![Whiteboard](./assets/left-join.jpg) 
+![Whiteboard](./assets/left-join-hashes.jpg) 
 
 ### Task List
 - [x] Create GitHub repo
