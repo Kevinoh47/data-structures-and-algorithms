@@ -501,7 +501,6 @@ Efficiency: The array is O(n) and then iterating over it to create the hash tabl
 https://travis-ci.com/Kevinoh47/data-structures-and-algorithms
 
 
-
 <!-- Short summary or background information -->
 Write a function that takes two trees as input parameters, and find the intersection of values of the two trees. Assumptions: binary tree (not BSTs); values are numbers.
 
@@ -517,6 +516,40 @@ This lead to a Big O of O(3n) which can be reduced to O(n), and is more efficien
 
 ## Solution
 ![Whiteboard](./assets/tree-intersection.jpg) 
+
+### Task List
+- [x] Create GitHub repo
+- [x] Build out file structure
+- [x] Write actual code
+- [x] Fill out README.md
+- [x] npm init -y
+- [x] npm install jest, faker, eslint
+- [x] package.json scripts added
+- [x] Add test framework and tests.
+- [x] All tests passing including lint
+- [x] Passes Travis CI build
+- [x] Create pull request
+- [x] Submit URL of PR to submit the task to Canvas
+
+# Left Join of HashMaps -- Code Challenge 28
+
+[![Build Status](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms.svg?branch=left_join)](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms)
+
+## Travis
+https://travis-ci.com/Kevinoh47/data-structures-and-algorithms
+
+
+<!-- Short summary or background information -->
+Write a function that takes two hashmpas as input parameters, and does a left join on them, outputting an array of arrays, where the inner arrays represent the join.
+
+## Challenge
+To make this work we need to make use of the Object.Entries method
+
+## Approach & Efficiency
+Hash lookups have an efficiency of O(1), so this approach should be efficient. We do have to iterate the entire iterable however, and create an output array of arrays... however those are constants which drop out. So I believe we rate it O(n);
+
+## Solution
+![Whiteboard](./assets/left-join-hashes.jpg) 
 
 ### Task List
 - [x] Create GitHub repo
