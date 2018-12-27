@@ -11,6 +11,27 @@ const {Queue} = require('./queueWithStacks/queue-with-stacks.js');
 const {BinaryTree, BinarySearchTree} = require('./tree/tree.js');
 const hashLeftJoin = require('./leftJoin/left-join.js');
 
+const HashTable = require('./hashtable/hashtable.js');
+
+// Hashtable methods:
+let myHashTable1 = new HashTable(20);
+let myHashTable2 = new HashTable(10);
+
+let input1 = ['Abba', 'Aabb','bbAa','bbaA','babA','abAb'];
+
+let input2 = ['Aaron','Bob','Carla','Dougie','Frederika','Geoffrey'];
+
+input1.map(i => myHashTable1.add(i, 'my Test Value'));
+input2.map(i => myHashTable2.add(i, 'my Test Value'));
+
+let myValContained = myHashTable2.contains('Carla');
+let myValFound = myHashTable2.find('Bob');
+let myKeyIndex = myHashTable2.getHash('Dougie');
+
+console.log({myValContained});
+console.log({myValFound});
+console.log({myKeyIndex});
+
 
 // hash left join
 let synonyms = {

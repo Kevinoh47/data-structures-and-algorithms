@@ -62,6 +62,7 @@ describe ('The Linked List mergeLists method', () => {
     expect(result.tail.value).toEqual(11);
   });
 });
+
 describe ('The linked list kth from end method', () => {
   it('can find the first element of the Linked List', () => {
     let result = myLL.ll_kth_from_end(7);
@@ -194,6 +195,7 @@ describe ('The linked list delete method', () => {
     testLL.delete();
     expect(testLL.length).toEqual(0);
   });
+
   it('removes the tail of a linked list', () => {
 
     testLL.append(100);
@@ -204,8 +206,73 @@ describe ('The linked list delete method', () => {
 
     expect(result.value).toEqual(400);
   });
+
   it('decrements the length property of the linked list', () => {
     expect(testLL.length).toEqual(3);
   });
 });
 
+describe ('The linked list remove method', () => {
+
+  it('can remove a node from a particular offset in the middle of the linked list', () => {
+    let input = [1,2,3,4,5,6,7];
+    let testMe = new LinkedList();
+    input.map(i => {testMe.append(i);});
+    let results = testMe.remove(3);
+    let newIndex3 = results.ll_kth_from_end(2);
+
+    expect(results.length).toEqual(6);
+    expect(newIndex3).toEqual(5);
+  });
+
+  it('can remove a node from the beginning of the linked list', () => {
+    let input = [1,2,3,4,5,6,7];
+    let testMe = new LinkedList();
+    input.map(i => {testMe.append(i);});
+    let results = testMe.remove(0);
+    let newIndex3 = results.ll_kth_from_end(5);
+
+    expect(results.length).toEqual(6);
+    expect(newIndex3).toEqual(2);
+    expect(results.head.value).toEqual(2);
+  });
+
+  it('can remove a node from the end of the linked list', () => {
+    let input = [1,2,3,4,5,6,7];
+    let testMe = new LinkedList();
+    input.map(i => {testMe.append(i);});
+    let results = testMe.remove(6);
+    let newIndex3 = results.ll_kth_from_end(0);
+
+    expect(results.length).toEqual(6);
+    expect(newIndex3).toEqual(6);
+    expect(results.tail.value).toEqual(6);
+  });
+});
+
+describe('the Linked List find method', () => {
+  let input = [1,2,3,4,5,6,7];
+  let testMe = new LinkedList();
+  input.map(i => {testMe.append(i);});
+  let results1 = testMe.find(0).value;
+  let results2 = testMe.find(6).value;
+  let results3 = testMe.find(3);
+  
+
+  it('can return the node at a particular index', () => {
+    expect(results3.value).toEqual(4);
+  });
+
+  it('can return the node at the first index', () => {
+    expect(results1).toEqual(1);
+  });
+
+  it('can return the node at the last index', () => {
+    expect(results2).toEqual(7);
+  });
+  
+  it('returns false when an incorrect index is supplied', () =>{
+    let results4 = testMe.find(47);
+    expect(results4).toBeFalsy();
+  });
+});
