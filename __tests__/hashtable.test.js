@@ -64,7 +64,7 @@ describe ('The HashTable ', () => {
 
   it('uses the delete method to delete a particular key', () => {
     let result = myHashTable2.delete('Aaron');
-    // let result2 = myHashTable2.contains('Aaron');
-    // expect(result2).toBeFalsy();
+    let result2 = myHashTable2.contains('Aaron');
+    expect(result2).toBeFalsy();
   });
 });
