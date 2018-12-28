@@ -35,17 +35,25 @@ class HashTable {
     if (!foundLL) {
       return false;
     }
+    else {
+      let current = foundLL.head;
 
-    let current = foundLL.head;
-
-    while(current.next) {
-      if(current.value[key]) {
-        return true;
+      if(current && foundLL.length === 1) {
+        if(current.value[key]) {
+          return true;
+        }
       }
-      current = current.next;
-    }
-    if(current.value[key]) {
-      return true;
+      else if (current && current.next) {
+        while(current.next) {
+          if(current.value[key]) {
+            return true;
+          }
+          current = current.next;
+        }
+        if(current.value[key]) {
+          return true;
+        }
+      }
     }
     return false;
   }

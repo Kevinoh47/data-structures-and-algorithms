@@ -13,9 +13,7 @@ input1.map(i => myHashTable1.add(i, 'my Test Value'));
 input2.map(i => myHashTable2.add(i, 'my Test Value'));
 
 // console.log(util.inspect(myHashTable1,{showHidden:false,depth:null}));
-
 // console.log(util.inspect(myHashTable2,{showHidden:false,depth:null}));
-
 
 describe ('The HashTable ', () => {
 
@@ -66,5 +64,17 @@ describe ('The HashTable ', () => {
     let result = myHashTable2.delete('Aaron');
     let result2 = myHashTable2.contains('Aaron');
     expect(result2).toBeFalsy();
+  });
+
+  it('uses the delete method to delete a particular key even when it has to find the key among more than one collision victims', () => {
+
+    let myHashTable4 = new HashTable(1); // they all go to the same slot.
+
+    let input4 = ['Abba', 'Aabb','bbAa','bbaA','babA','abAb'];
+    input4.map(i => myHashTable4.add(i, 'my Test Value'));
+    let result = myHashTable4.delete('Aabb');
+    let result2 = myHashTable4.contains('Aabb');
+    expect(result2).toBeFalsy();
+
   });
 });

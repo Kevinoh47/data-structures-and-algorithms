@@ -28,6 +28,9 @@ let myValContained = myHashTable2.contains('Carla');
 let myValFound = myHashTable2.find('Bob');
 let myKeyIndex = myHashTable2.getHash('Dougie');
 
+let result = myHashTable2.delete('Aaron');
+let result2 = myHashTable2.contains('Aaron');
+
 console.log({myValContained});
 console.log({myValFound});
 console.log({myKeyIndex});
