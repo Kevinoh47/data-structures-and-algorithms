@@ -564,3 +564,58 @@ Hash lookups have an efficiency of O(1), so this approach should be efficient. W
 - [x] Passes Travis CI build
 - [x] Create pull request
 - [x] Submit URL of PR to submit the task to Canvas
+
+# Hash Tables 
+
+[![Build Status](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms.svg?branch=hashtable)](https://travis-ci.com/Kevinoh47/data-structures-and-algorithms)
+
+## Travis
+https://travis-ci.com/Kevinoh47/data-structures-and-algorithms
+
+
+<!-- Short summary or background information -->
+Implement a hashtable class using linked lists to manage hashing collisions.
+
+## Challenge
+Implement a hashtable class with the following methods: hash, add, find, contains, and getHash.
+
+## Approach & Efficiency
+Hash lookups have an efficiency of O(1), unless there are a lot of hashing collisions. Collisions are managed in Linked Lists at each hash.map index location. If a hash object is created without enough hashing slots, or a not very good hashing algorithm, the efficiency drops to O(n) due to many values in the linked lists.
+
+## API
+Publically available methods include:
+
+### hash(key)
+The hash method contains a hashing algorithm that takes the incoming key, and assigns it an index in the hashtable.map array. For our algorithm, we take the input key, split it into an array of characters, and then run that array through a reduce function. The reduce function takes the ASCII number of each character, and adds it to the product of that ASCII number and the array index. It adds that subtotal to the previous subtotal. (Starting subtotal is 0). Finally, it takes that number and does a modulo operation against it, dividing by the size of the hashtable object. This maps each key to an "index" of the hash.map array.
+
+Given the same key, and a hash.map of the same size, the key will always be mapped to the same slot.
+
+
+### add(key, value)
+The add method takes as input a key and value, hashes the key, and appends it to the linked list that occupies that slot of the hash.map. (If no linked list exist there yet, it first adds it.)
+
+### contains(key)
+The contains method simply reports a boolean describing whether a particular key exists or not in the hash.map.
+
+### find(key)
+The find method searches the hash map for a provided key. If it exists, it returns the key value pair. Otherwise it returns false. Lookup should be O(1).
+
+### getHash(key)
+The getHash method simply returns the hash map index for the provided key. If the key does not exist in the hash.map, the method returns false.
+
+### delete(key)
+The delete function finds a key if it exists and removes it. This method relies on the underlying Linked List data structure to manage the internals of the delete operation.
+
+### Task List
+- [x] Create GitHub repo
+- [x] Build out file structure
+- [x] Write actual code
+- [x] Fill out README.md
+- [x] npm init -y
+- [x] npm install jest, faker, eslint
+- [x] package.json scripts added
+- [x] Add test framework and tests.
+- [x] All tests passing including lint (locally)
+- [x] Passes Travis CI build
+- [x] Create pull request
+- [x] Submit URL of PR to submit the task to Canvas

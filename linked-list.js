@@ -9,7 +9,27 @@ class LinkedList {
     this.length = 0;
   }
 
-  // return the value of the nodethat is k from the END of the linked list
+  // find the node of a particular "index" 
+  find(i) {
+    if (Number.isInteger(i) && i > -1 && i < this.length) {
+      let current = this.head;
+      let counter = 0;
+      while(current.next) {
+        if (counter === i) {
+          return current;
+        }
+        current = current.next;
+        counter++;
+      }
+      if (counter === i) {
+        return current;
+      }
+      else {
+        return false;
+      }
+    }
+  }
+  // return the value of the node that is k from the END of the linked list
   ll_kth_from_end(k) {
     if (Number.isInteger(k) && k > -1) {
       let current = this.head;
@@ -131,6 +151,48 @@ class LinkedList {
       this.length--;
     }
     return current;
+  }
+
+  // remove a node from the linked list
+  // Big O for time: O(n)
+  // Big O for space O(1)
+  remove(offset) {
+    let current = this.head;
+    let counter = 0;
+    let myPrevious;
+
+    if (offset >= 0 && offset <= this.length) {
+
+      // remove the head
+      if (current === this.head && counter === offset) {
+        this.head = current.next;
+        current.next = null;
+        this.length--;
+        return this;
+      }
+
+      // remove one from inside
+      while (current.next) {
+        if (counter === offset) {
+          myPrevious.next = current.next;
+          current.next = null;
+          this.length--;
+          return this;
+        }
+        myPrevious = current;
+        current = current.next;
+        counter++;
+      }
+      // removing the tail
+      if (!current.next && counter === offset) {
+        myPrevious.next = null;
+        this.tail = myPrevious;
+        this.length--;
+      }
+      return this;
+    } else {
+      return null; // should this throw an error instead?
+    }
   }
 
   // insert newValue immediately before the node containing value
