@@ -1,5 +1,5 @@
 'use strict';
-const util = require('util');
+// const util = require('util');
 const HashTable = require('../hashtable/hashtable.js');
 
 let myHashTable1 = new HashTable(20);
@@ -61,7 +61,7 @@ describe ('The HashTable ', () => {
   });
 
   it('uses the delete method to delete a particular key', () => {
-    let result = myHashTable2.delete('Aaron');
+    myHashTable2.delete('Aaron');
     let result2 = myHashTable2.contains('Aaron');
     expect(result2).toBeFalsy();
   });
@@ -72,7 +72,11 @@ describe ('The HashTable ', () => {
 
     let input4 = ['Abba', 'Aabb','bbAa','bbaA','babA','abAb'];
     input4.map(i => myHashTable4.add(i, 'my Test Value'));
-    let result = myHashTable4.delete('Aabb');
+    
+    let result1 = myHashTable4.contains('Aabb');
+    expect(result1).toBeTruthy();
+    myHashTable4.delete('Aabb');
+
     let result2 = myHashTable4.contains('Aabb');
     expect(result2).toBeFalsy();
 
