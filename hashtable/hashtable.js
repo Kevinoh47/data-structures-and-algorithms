@@ -1,5 +1,5 @@
 'use strict';
-const util = require('util');
+//const util = require('util');
 const LinkedList = require('../linked-list.js');
 
 class HashTable {
