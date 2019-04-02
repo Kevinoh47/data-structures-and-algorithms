@@ -40,25 +40,25 @@ var twoSum = function(arr, target) {
   return output.length > 0 ? output : null;
 };
 
-console.log('\n ... two sum with inner loop works but is expensive O(n2) ... \n');
+// console.log('\n ... two sum with inner loop works but is expensive O(n2) ... \n');
 
-var inputArr = [2,7,11,15];
-console.log({'TEST1 expects 0,1':twoSum(inputArr, 9)});
-console.log({'TEST2 expects 1,2':twoSum(inputArr, 18)});
-console.log({'TEST3 expects 2,3':twoSum(inputArr, 26)});
-console.log({'TEST4 expects 0,3':twoSum(inputArr, 17)});
-console.log({'TEST5 expects 0,2':twoSum(inputArr, 13)});
-console.log({'TEST6 expects 1,2':twoSum(inputArr, 18)});
-console.log({'TEST7 expects null':twoSum(inputArr, 1881)});
-console.log({'TEST8 expects 1,3':twoSum(inputArr, 22)});
-console.log({'TEST9 expects null':twoSum(inputArr, 14)}); 
+// var inputArr = [2,7,11,15];
+// console.log({'TEST1 expects 0,1':twoSum(inputArr, 9)});
+// console.log({'TEST2 expects 1,2':twoSum(inputArr, 18)});
+// console.log({'TEST3 expects 2,3':twoSum(inputArr, 26)});
+// console.log({'TEST4 expects 0,3':twoSum(inputArr, 17)});
+// console.log({'TEST5 expects 0,2':twoSum(inputArr, 13)});
+// console.log({'TEST6 expects 1,2':twoSum(inputArr, 18)});
+// console.log({'TEST7 expects null':twoSum(inputArr, 1881)});
+// console.log({'TEST8 expects 1,3':twoSum(inputArr, 22)});
+// console.log({'TEST9 expects null':twoSum(inputArr, 14)}); 
 
-var inputArr2 = [1,3,4,2];
-console.log({'TEST10 expects 2,3':twoSum(inputArr2, 6)}); 
-console.log({'TEST11 expects null':twoSum(inputArr2, 8)}); 
+// var inputArr2 = [1,3,4,2];
+// console.log({'TEST10 expects 2,3':twoSum(inputArr2, 6)}); 
+// console.log({'TEST11 expects null':twoSum(inputArr2, 8)}); 
 
-var inputArr3 = [3,3];
-console.log({'TEST10 expects 0,1':twoSum(inputArr3, 6)}); 
+// var inputArr3 = [3,3];
+// console.log({'TEST10 expects 0,1':twoSum(inputArr3, 6)}); 
 
 /**
  * https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/
@@ -81,62 +81,62 @@ So this one only would work for no dups in input array...
  * 
  */
 
-var twoSumAscending = function(arr, target) {
-  let output = [];
-  let myMap = new Map(); 
-  let currDiff;
+// var twoSumAscending = function(arr, target) {
+//   let output = [];
+//   let myMap = new Map(); 
+//   let currDiff;
   
-  arr.map((e,i) => { 
+//   arr.map((e,i) => { 
     
-    myMap[e] = i;
+//     myMap[e] = i;
     
-  });
+//   });
   
-  // console.log({'keys':Object.keys(myMap)});
-  // console.log({'values': Object.values(myMap)});
-  // console.log({'entries': Object.entries(myMap)});
+//   // console.log({'keys':Object.keys(myMap)});
+//   // console.log({'values': Object.values(myMap)});
+//   // console.log({'entries': Object.entries(myMap)});
 
-  arr.map((e,i) => {
+//   arr.map((e,i) => {
 
-    currDiff = target - e;
+//     currDiff = target - e;
     
-    // console.log({e});
-    // console.log({currDiff});
+//     // console.log({e});
+//     // console.log({currDiff});
 
-    if (
-      !output.length && 
-      !!myMap[currDiff] && 
-      myMap[currDiff] !== myMap[e]
-    ) {
+//     if (
+//       !output.length && 
+//       !!myMap[currDiff] && 
+//       myMap[currDiff] !== myMap[e]
+//     ) {
 
-      // console.log({'MYMAP[CURRDIFF]': myMap[currDiff]});
+//       // console.log({'MYMAP[CURRDIFF]': myMap[currDiff]});
 
-      output.push(i+1, myMap[currDiff]+1);
-    }
+//       output.push(i+1, myMap[currDiff]+1);
+//     }
     
-  });
-  return output.length > 0 ? output : null;
+//   });
+//   return output.length > 0 ? output : null;
 
-};
+// };
 
-console.log('\n ... this solution for ascending does NOT support dups  ... \n');
-var inputArrAscending = [2,7,11,15];
-console.log({'TEST10 expects 1,2':twoSumAscending(inputArrAscending, 9)});
-console.log({'TEST20 expects 2,3':twoSumAscending(inputArrAscending, 18)});
-console.log({'TEST30 expects 3,4':twoSumAscending(inputArrAscending, 26)});
-console.log({'TEST40 expects 1,4':twoSumAscending(inputArrAscending, 17)});
-console.log({'TEST50 expects 1,3':twoSumAscending(inputArrAscending, 13)});
-console.log({'TEST60 expects 2,3':twoSumAscending(inputArrAscending, 18)});
-console.log({'TEST70 expects null':twoSumAscending(inputArrAscending, 1881)});
-console.log({'TEST80 expects 2,4':twoSumAscending(inputArrAscending, 22)});
-console.log({'TEST90 expects null':twoSumAscending(inputArrAscending, 14)}); 
+// console.log('\n ... this solution for ascending does NOT support dups  ... \n');
+// var inputArrAscending = [2,7,11,15];
+// console.log({'TEST10 expects 1,2':twoSumAscending(inputArrAscending, 9)});
+// console.log({'TEST20 expects 2,3':twoSumAscending(inputArrAscending, 18)});
+// console.log({'TEST30 expects 3,4':twoSumAscending(inputArrAscending, 26)});
+// console.log({'TEST40 expects 1,4':twoSumAscending(inputArrAscending, 17)});
+// console.log({'TEST50 expects 1,3':twoSumAscending(inputArrAscending, 13)});
+// console.log({'TEST60 expects 2,3':twoSumAscending(inputArrAscending, 18)});
+// console.log({'TEST70 expects null':twoSumAscending(inputArrAscending, 1881)});
+// console.log({'TEST80 expects 2,4':twoSumAscending(inputArrAscending, 22)});
+// console.log({'TEST90 expects null':twoSumAscending(inputArrAscending, 14)}); 
 
-var inputArrAscending2 = [1,30,40,200];
-console.log({'TEST100 expects 1,2':twoSumAscending(inputArrAscending2, 31)}); 
-console.log({'TEST110 expects 2,3':twoSumAscending(inputArrAscending2, 70)}); 
+// var inputArrAscending2 = [1,30,40,200];
+// console.log({'TEST100 expects 1,2':twoSumAscending(inputArrAscending2, 31)}); 
+// console.log({'TEST110 expects 2,3':twoSumAscending(inputArrAscending2, 70)}); 
 
-var inputArrAscending3 = [3,3]; // the original question permits dups so this approach fails because it does not support duplicate values.
-console.log({'TEST120 expects 1,2 but returns null because this approach does not support duplicate values':twoSumAscending(inputArrAscending3, 6)}); 
+// var inputArrAscending3 = [3,3]; // the original question permits dups so this approach fails because it does not support duplicate values.
+// console.log({'TEST120 expects 1,2 but returns null because this approach does not support duplicate values':twoSumAscending(inputArrAscending3, 6)}); 
 
 
 /**
@@ -190,17 +190,17 @@ var twoSumAscendingDupsAllowed = function(arr, target) {
 
 };
 
-console.log('\n ... this solution for ascending DOES support dups and was accepted by LeetCode \n');
-var ascendingDupsIncluded = [1,1,2,7,11,15];
-console.log({'TEST900 expects 1,2':twoSumAscendingDupsAllowed(ascendingDupsIncluded, 2)});
-console.log({'TEST1000 expects 3,4':twoSumAscendingDupsAllowed(ascendingDupsIncluded, 9)});
-console.log({'TEST2000 expects 4,5':twoSumAscendingDupsAllowed(ascendingDupsIncluded, 18)});
-var ascendingDupsIncluded2 = [0,0,11,15];
-console.log({'TEST3000 expects 1,2':twoSumAscendingDupsAllowed(ascendingDupsIncluded2, 0)});
-ascendingDupsIncluded2 = [1,1,1,1];
-console.log({'TEST4000 expects 1,2':twoSumAscendingDupsAllowed(ascendingDupsIncluded2, 2)});
-ascendingDupsIncluded2 = [1,2,100,100];
-console.log({'TEST4000 expects 3,4':twoSumAscendingDupsAllowed(ascendingDupsIncluded2, 200)});
+// console.log('\n ... this solution for ascending DOES support dups and was accepted by LeetCode \n');
+// var ascendingDupsIncluded = [1,1,2,7,11,15];
+// console.log({'TEST900 expects 1,2':twoSumAscendingDupsAllowed(ascendingDupsIncluded, 2)});
+// console.log({'TEST1000 expects 3,4':twoSumAscendingDupsAllowed(ascendingDupsIncluded, 9)});
+// console.log({'TEST2000 expects 4,5':twoSumAscendingDupsAllowed(ascendingDupsIncluded, 18)});
+// var ascendingDupsIncluded2 = [0,0,11,15];
+// console.log({'TEST3000 expects 1,2':twoSumAscendingDupsAllowed(ascendingDupsIncluded2, 0)});
+// ascendingDupsIncluded2 = [1,1,1,1];
+// console.log({'TEST4000 expects 1,2':twoSumAscendingDupsAllowed(ascendingDupsIncluded2, 2)});
+// ascendingDupsIncluded2 = [1,2,100,100];
+// console.log({'TEST4000 expects 3,4':twoSumAscendingDupsAllowed(ascendingDupsIncluded2, 200)});
 
 
 /*
@@ -218,76 +218,77 @@ let twoSumAscendingSimple = (arr, target) => {
   return [i+1,j+1]; // +1 for non-zero-based index
 };
 
-console.log('\n ... from solution in LeetCode comments ...  \n');
-ascendingDupsIncluded = [2,7,11,15];
-console.log({'TEST901 expects 1,2':twoSumAscendingSimple(ascendingDupsIncluded, 9)});
-ascendingDupsIncluded = [0,0,2,7,11,15];
-console.log({'TEST902 expects 1,2':twoSumAscendingSimple(ascendingDupsIncluded, 0)});
+// console.log('\n ... from solution in LeetCode comments ...  \n');
+// ascendingDupsIncluded = [2,7,11,15];
+// console.log({'TEST901 expects 1,2':twoSumAscendingSimple(ascendingDupsIncluded, 9)});
+// ascendingDupsIncluded = [0,0,2,7,11,15];
+// console.log({'TEST902 expects 1,2':twoSumAscendingSimple(ascendingDupsIncluded, 0)});
 
 /*
  * first attempt at two sum ...
  * 
 */
 
-var twoSumNoDups = function(arr, target) {
-  let output = [];
-  let mySet = {}; // oops i can't use this approach if duplicate values such as [3,3] are allowed, because a set has no dups...
-  let currDiff;
+// var twoSumNoDups = function(arr, target) {
+//   let output = [];
+//   let mySet = {}; // oops i can't use this approach if duplicate values such as [3,3] are allowed, because a set has no dups...
+//   let currDiff;
   
-  arr.map((e,i) => { 
+//   arr.map((e,i) => { 
     
-    mySet[e] = i;
+//     mySet[e] = i;
     
-  });
+//   });
   
-  // console.log({'keys':Object.keys(mySet)});
-  // console.log({'values': Object.values(mySet)});
-  // console.log({'entries': Object.entries(mySet)});
+//   // console.log({'keys':Object.keys(mySet)});
+//   // console.log({'values': Object.values(mySet)});
+//   // console.log({'entries': Object.entries(mySet)});
 
-  arr.map((e,i) => {
+//   arr.map((e,i) => {
 
-    currDiff = target - e;
+//     currDiff = target - e;
     
-    // console.log({e});
-    // console.log({currDiff});
+//     // console.log({e});
+//     // console.log({currDiff});
 
-    if (
-      !output.length && 
-      !!mySet[currDiff] && 
-      currDiff + e == target &&
-      mySet[currDiff] !== mySet[e]
-    ) {
+//     if (
+//       !output.length && 
+//       !!mySet[currDiff] && 
+//       currDiff + e == target &&
+//       mySet[currDiff] !== mySet[e]
+//     ) {
 
-      // console.log({'MYSET[CURRDIFF]': mySet[currDiff]});
+//       // console.log({'MYSET[CURRDIFF]': mySet[currDiff]});
 
-      output.push(i, mySet[currDiff]);
-    }
+//       output.push(i, mySet[currDiff]);
+//     }
     
-  });
-  return output.length > 0 ? output : null;
+//   });
+//   return output.length > 0 ? output : null;
 
-};
+// };
 
-console.log('\n ... first attempt for two sum does NOT support dups...  \n');
-inputArr = [2,7,11,15];
-console.log({'TEST11 expects 1,2':twoSumNoDups(inputArr, 9)});
-console.log({'TEST21 expects 2,3':twoSumNoDups(inputArr, 18)});
-console.log({'TEST31 expects 3,4':twoSumNoDups(inputArr, 26)});
-console.log({'TEST41 expects 1,4':twoSumNoDups(inputArr, 17)});
-console.log({'TEST51 expects 1,3':twoSumNoDups(inputArr, 13)});
-console.log({'TEST61 expects 2,3':twoSumNoDups(inputArr, 18)});
-console.log({'TEST71 expects null':twoSumNoDups(inputArr, 1881)});
-console.log({'TEST71b expects 2,4':twoSumNoDups(inputArr, 22)});
-console.log({'TEST71c':twoSumNoDups(inputArr, 14)}); // edge case oops FIXED
-inputArr = [1,3,4,2];
-console.log({'TEST81 expects 3,4':twoSumNoDups(inputArr2, 6)}); // edge case oops FIXED
-console.log({'TEST91 expects null':twoSumNoDups(inputArr2, 8)}); // edge case oops FIXED
-inputArr = [3,3]; // oops using a SET does not work for dup values. Possibly a HashTable instead?
-console.log({'TEST101 expects 1,2 but returns null because this solution does not support duplicate values':twoSumNoDups(inputArr3, 6)}); 
+// console.log('\n ... first attempt for two sum does NOT support dups...  \n');
+// inputArr = [2,7,11,15];
+// console.log({'TEST11 expects 1,2':twoSumNoDups(inputArr, 9)});
+// console.log({'TEST21 expects 2,3':twoSumNoDups(inputArr, 18)});
+// console.log({'TEST31 expects 3,4':twoSumNoDups(inputArr, 26)});
+// console.log({'TEST41 expects 1,4':twoSumNoDups(inputArr, 17)});
+// console.log({'TEST51 expects 1,3':twoSumNoDups(inputArr, 13)});
+// console.log({'TEST61 expects 2,3':twoSumNoDups(inputArr, 18)});
+// console.log({'TEST71 expects null':twoSumNoDups(inputArr, 1881)});
+// console.log({'TEST71b expects 2,4':twoSumNoDups(inputArr, 22)});
+// console.log({'TEST71c':twoSumNoDups(inputArr, 14)}); // edge case oops FIXED
+// inputArr = [1,3,4,2];
+// console.log({'TEST81 expects 3,4':twoSumNoDups(inputArr2, 6)}); // edge case oops FIXED
+// console.log({'TEST91 expects null':twoSumNoDups(inputArr2, 8)}); // edge case oops FIXED
+// inputArr = [3,3]; // oops using a SET does not work for dup values. Possibly a HashTable instead?
+// console.log({'TEST101 expects 1,2 but returns null because this solution does not support duplicate values':twoSumNoDups(inputArr3, 6)}); 
 
 /**
  * https://leetcode.com/problems/two-sum-iv-input-is-a-bst/
  * hmmm... this solution tests correctly for me, using the same call as on LeetCode. But on LeetCode it produces false rather than true and fails. On LeetCode it is node.val rather than node.key ...  if I change it to orderedArr.push(node.val) it returns true as expected, but if i submit this, LeetCode reports  Time Limit Exceeded for their suite of tests.
+ * When i try to test it in my test suite, it also hangs. But my test below returns quickly.
  */
 
 let myBSTree = new BinarySearchTree();
@@ -332,6 +333,8 @@ var findTarget = function(root, k) {
   return _orderedTwoSum(orderedArr, k);
 };
 
-console.log({'findTarget for arr, 9 expects true': findTarget(myBSTree.root,9)});
+// console.log({'findTarget for arr, 9 expects true': findTarget(myBSTree.root,9)});
+
+module.exports = {findTarget, twoSumAscendingDupsAllowed, twoSumAscendingSimple, twoSum};
 
 
