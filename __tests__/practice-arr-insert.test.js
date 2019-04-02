@@ -1,7 +1,7 @@
 const arrInsert = require('../post_grad_practice/practice-arr-insert');
 
 let t1 = [1,2,4];
- let t2 = [];
+let t2 = [];
 // let t3 = [];
 
 describe('The arrInsert function', () => {
