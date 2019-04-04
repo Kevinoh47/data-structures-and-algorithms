@@ -36,41 +36,42 @@ describe('the twoSumAscendingDupsAllowed function', () => {
   });
 });
 
-// describe('the twoSumAscendingSimple function', () => {
+describe('the twoSumAscendingSimple function', () => {
 
-//   var inputArr = [1,1,2,7,11,15];
+  let inputArr = [1,1,2,7,11,15];
 
-//   it('can find two values in an array that add up to a target even when those values are duplicates, returning non-zero-based indices', () => {
+  it('can find two values in an array that add up to a target even when those values are duplicates, returning non-zero-based indices', () => {
 
-//     let result = twoSumAscendingSimple(inputArr, 2);
-//     expect(result).toEqual([1,2]);
-//   });
+    let result = twoSumAscendingSimple(inputArr, 2);
+    expect(result).toEqual([1,2]);
+  });
 
-//   it('can return null if there are not two values in the input array that add up to the target', () => {
+  // TODO The following test never completes. But the question implies that the input array is known to have two values that equal the target, so the function does not handle this case, i suppose you could say by design. We would obviously want to handle this in a production function.
 
-//     let result = twoSumAscendingSimple(inputArr, 1234);
-//     expect(result).toBeNull;
-//   });
-// });
+  // it('can return null if there are not two values in the input array that add up to the target', () => {
 
-// this doesn't return in a timely manner.
-// describe('the findTarget function', () => {
-
-//   let myBSTree = new BinarySearchTree();
-//   [5,3,6,2,4,null,7].map(e => myBSTree.add(e));
-
-//   it('can determine that two node values in a binary search tree add up to the target, and return true', () => {
-
-//     let result = findTarget(myBSTree.root, 9);
-//     expect(result).toBeTruthy;
-//   });
-
-  // it('can return false if there are not two values in the input array that add up to the target', () => {
-
-  //   let result = findTarget(myBSTree.root, 9999);
-  //   expect(result).toBeFalsy;
+  //   let result = twoSumAscendingSimple(inputArr, 999);
+  //   expect(result).toBeNull;
   // });
-// });
+});
+
+describe('the findTarget function', () => {
+
+  let myBSTree = new BinarySearchTree();
+  [5,3,6,2,4,null,7].map(e => myBSTree.add(e));
+
+  it('can determine that two node values in a binary search tree add up to the target, and return true', () => {
+
+    let result = findTarget(myBSTree.root, 9);
+    expect(result).toBeTruthy;
+  });
+
+  it('can return false if there are not two values in the input array that add up to the target', () => {
+
+    let result = findTarget(myBSTree.root, 9999);
+    expect(result).toBeFalsy;
+  });
+});
 
 
 
