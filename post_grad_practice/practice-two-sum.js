@@ -287,8 +287,8 @@ let twoSumAscendingSimple = (arr, target) => {
 
 /**
  * https://leetcode.com/problems/two-sum-iv-input-is-a-bst/
- * hmmm... this solution tests correctly for me, using the same call as on LeetCode. But on LeetCode it produces false rather than true and fails. On LeetCode it is node.val rather than node.key ...  if I change it to orderedArr.push(node.val) it returns true as expected, but if i submit this, LeetCode reports  Time Limit Exceeded for their suite of tests.
- * When i try to test it in my test suite, it also hangs. But my test below returns quickly.
+ * NOTE i needed to handle leetcode test of input 
+[1], 1
  */
 
 let myBSTree = new BinarySearchTree();
@@ -301,6 +301,8 @@ console.log({'myBSTree inOrder traversal': myBSTree.inOrder()});
 
 var findTarget = function(root, k) {
     
+  if (!root.left && !root.right) { return false; }
+
   let orderedArr = [];
   
   let _myOrderedTraversal = (node) => {
@@ -321,7 +323,7 @@ var findTarget = function(root, k) {
     while (arr[i] + arr[j] !== target) {
       arr[i] + arr[j] < target ? i++ : j--;
         
-      if (i === j && arr[i] + arr[j] !== target) {
+      if (i === j) {
         return false;
       }
     }
@@ -330,11 +332,25 @@ var findTarget = function(root, k) {
   
   _myOrderedTraversal(root);
 
+  //if (orderedArr.length < 2) { return false; }
+
   return _orderedTwoSum(orderedArr, k);
 };
 
-// console.log({'findTarget for arr, 9 expects true': findTarget(myBSTree.root,9)});
+console.log({'findTarget for arr, 9 expects true': findTarget(myBSTree.root,9)});
 
+console.log({'findTarget for arr, 999 expects false': findTarget(myBSTree.root,999)});
+
+// tests from leetcode:
+let myBSTreeSingle = new BinarySearchTree();
+[1].map(e => myBSTreeSingle.add(e));
+console.log({'findTarget for arr of length 1, target 1 expects false': findTarget(myBSTreeSingle.root,1)});
+
+let myBSTreeWithNull = new BinarySearchTree();
+[2,null,3].map(e => myBSTreeWithNull.add(e));
+console.log({'findTarget for 2 null 3, target 6 expects false': findTarget(myBSTreeWithNull.root,6)});
+
+// export
 module.exports = {findTarget, twoSumAscendingDupsAllowed, twoSumAscendingSimple, twoSum};
 
 
