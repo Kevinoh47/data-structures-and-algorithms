@@ -289,6 +289,17 @@ let twoSumAscendingSimple = (arr, target) => {
  * https://leetcode.com/problems/two-sum-iv-input-is-a-bst/
  * NOTE i needed to handle leetcode test of input 
 [1], 1
+
+from leetcode for my solution testing for single array value:
+Success
+Details 
+Runtime: 96 ms, faster than 77.99% of JavaScript online submissions for Two Sum IV - Input is a BST.
+Memory Usage: 42.8 MB, less than 16.00% of JavaScript online submissions for Two Sum IV - Input is a BST.
+
+from leetcode for my solution testing for no node children:
+Runtime: 112 ms, faster than 46.60% of JavaScript online submissions for Two Sum IV - Input is a BST.
+Memory Usage: 42 MB, less than 44.00% of JavaScript online submissions for Two Sum IV - Input is a BST.
+
  */
 
 let myBSTree = new BinarySearchTree();
@@ -301,7 +312,8 @@ console.log({'myBSTree inOrder traversal': myBSTree.inOrder()});
 
 var findTarget = function(root, k) {
     
-  if (!root.left && !root.right) { return false; }
+  // This is significantly slower than testing for array length below. Counterintuitive.
+  // if (!root.left && !root.right) { return false; }
 
   let orderedArr = [];
   
@@ -332,7 +344,8 @@ var findTarget = function(root, k) {
   
   _myOrderedTraversal(root);
 
-  //if (orderedArr.length < 2) { return false; }
+  // This is significantly faster than testing node for children above. Counterintuitive.
+  if (orderedArr < 2) {return false;}
 
   return _orderedTwoSum(orderedArr, k);
 };
@@ -350,7 +363,100 @@ let myBSTreeWithNull = new BinarySearchTree();
 [2,null,3].map(e => myBSTreeWithNull.add(e));
 console.log({'findTarget for 2 null 3, target 6 expects false': findTarget(myBSTreeWithNull.root,6)});
 
+
+/**
+ * two sum class
+ * NOTE that we are not using ordered input here.
+ * 
+
+Success
+Details 
+Runtime: 244 ms, faster than 63.92% of JavaScript online submissions for Two Sum III - Data structure design.
+Memory Usage: 55.4 MB, less than 50.00% of JavaScript online submissions for Two Sum III - Data structure design.
+
+/**
+ * Initialize your data structure here.
+ */
+var TwoSum = function() {
+  // Note: using a BST to allow for efficient ordering of values. Once they are ordered we can loop over them just once.
+  this.list = new BinarySearchTree(); // in LeetCode, I had to build my own stripped down BST and Node classes
+};
+
+/**
+* Add the number to an internal data structure.. 
+* @param {number} number
+* @return {void}
+*/
+TwoSum.prototype.add = function(number) {
+  this.list.add(number);
+};
+
+/**
+* Find if there exists any pair of numbers which sum is equal to the value. 
+* @param {number} value
+* @return {boolean}
+*/
+TwoSum.prototype.find = function(value) {
+  
+  let orderedInput = [];
+
+  let _orderedTraversal = node => {
+    if (node) {
+      _orderedTraversal(node.left);
+      orderedInput.push(node.key);
+      _orderedTraversal(node.right);
+    }
+  };
+
+  _orderedTraversal(this.list.root);
+
+  if (orderedInput.length < 2 ) { return false; }
+  
+  let _findTwoSum = () => {
+    let i = 0, l = orderedInput.length, j = l-1;
+    let sum = orderedInput[i] + orderedInput[j] ;
+
+    while (sum !== value) {
+  
+      if (i === j) { return false; }
+        
+      sum < value ? i++ : j--;
+      sum = orderedInput[i] + orderedInput[j];
+      console.log({'i':i, 'j':j, 'looping sum':sum});
+    }
+    // if it exits the loop and i === j, return false. otherwise true.
+    return i !== j; 
+  };
+
+  return _findTwoSum();  
+};
+
+/** 
+* Your TwoSum object will be instantiated and called as such:
+* var obj = new TwoSum()
+* obj.add(number)
+* var param_2 = obj.find(value)
+*/
+
+var obj = new TwoSum();
+obj.add(3);
+obj.add(1);
+obj.add(2);
+console.log({'find 3 for input 3,1,2 expects true': obj.find(3)});
+
+var obj2 = new TwoSum();
+obj2.add(3);
+obj2.add(2);
+obj2.add(1);
+console.log({'find 2 for input 3,2,1 expects false': obj2.find(2)});
+console.log({'find 3 for input 3,2,1 expects true': obj2.find(3)});
+console.log({'find 4 for input 3,2,1 expects true': obj2.find(4)});
+console.log({'find 5 for input 3,2,1 expects true': obj2.find(5)});
+console.log({'find 6 for input 3,2,1 expects false': obj2.find(6)});
+
+
+
 // export
-module.exports = {findTarget, twoSumAscendingDupsAllowed, twoSumAscendingSimple, twoSum};
+module.exports = {findTarget, twoSumAscendingDupsAllowed, twoSumAscendingSimple, twoSum, TwoSum};
 
 

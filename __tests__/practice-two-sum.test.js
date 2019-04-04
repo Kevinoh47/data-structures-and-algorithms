@@ -1,4 +1,4 @@
-const {findTarget, twoSum, twoSumAscendingSimple, twoSumAscendingDupsAllowed} = require('../post_grad_practice/practice-two-sum');
+const {findTarget, twoSum, twoSumAscendingSimple, twoSumAscendingDupsAllowed, TwoSum} = require('../post_grad_practice/practice-two-sum');
 
 const {BinarySearchTree} = require('../tree/tree.js');
 
@@ -46,7 +46,7 @@ describe('the twoSumAscendingSimple function', () => {
     expect(result).toEqual([1,2]);
   });
 
-  // TODO The following test never completes. But the question implies that the input array is known to have two values that equal the target, so the function does not handle this case, i suppose you could say by design. We would obviously want to handle this in a production function.
+  // TODO The following test never completes. But the question implies that the input array is known to have two values that equal the target, so the function does not handle this case, i suppose you could say by design. We would obviously want to handle this in a production function. To handle this case, when you exit the loop, return false if i === j, otherwise true.
 
   // it('can return null if there are not two values in the input array that add up to the target', () => {
 
@@ -72,6 +72,40 @@ describe('the findTarget function', () => {
     expect(result).toBeFalsy;
   });
 });
+
+describe('the TwoSum class (as opposed to the twoSum function)', () => {
+
+  let obj = new TwoSum();
+  let obj2 = new TwoSum();
+
+  [3,2,1].map(e => obj.add(e));
+  [3,1,2].map(e => obj2.add(e));
+
+  it('can determine that two node values stored in the class do NOT add up to the target', () => {
+
+    let result = obj.find(2);
+    expect(result).toBeFalsy;
+  });
+
+  it('can determine that two node values stored in the class do add up to the target', () => {
+
+    let result = obj.find(4);
+    expect(result).toBeTruthy;
+  });
+
+  it('can determine that two node values stored in the class do NOT add up to the target, even when the values are not added in an ordered fashion', () => {
+
+    let result = obj.find(6);
+    expect(result).toBeFalsy;
+  });
+
+  it('can determine that two node values stored in the class do add up to the target,  even when the values are not added in an ordered fashion', () => {
+
+    let result = obj.find(3);
+    expect(result).toBeTruthy;
+  });
+});
+
 
 
 
