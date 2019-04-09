@@ -43,12 +43,18 @@ class BinaryTree {
       node.right = newNode;
       this.count++;
     }
-    else  {
-      // https://coderwall.com/p/vcom6g/quick-coin-flip-heads-tails-function-in-javascript
-      // if the node is full, pick right or left and continue looking for an available leaf spot.
-      const leftOrRight = ((Math.floor(Math.random() * 2) == 0)) ? node.left : node.right;
+    // https://coderwall.com/p/vcom6g/quick-coin-flip-heads-tails-function-in-javascript
+    // if the node is full, pick right or left and continue looking for an available leaf spot.
+    // else  {
+    //   const leftOrRight = ((Math.floor(Math.random() * 2) == 0)) ? node.left : node.right;
 
-      this.insertNode(leftOrRight, newNode);
+    //   this.insertNode(leftOrRight, newNode);
+    // }
+
+    // LeetCode tree cousins problem expects tree to 
+    // always insert node left rather than pick left/right randomly
+    else {
+      this.insertNode(node.left, newNode);
     }
   }
 
@@ -141,6 +147,34 @@ class BinaryTree {
     return results;
   }
 
+  // inspired by https://leetcode.com/articles/binary-tree-level-order-traversal/
+  // Breadth first traversal with Levels
+  levelOrderWithLevels() {
+    let levels = [], nodeQueue = [];
+
+    if (this.root === null) {return levels;}
+
+    nodeQueue.push(this.root);
+
+    while (nodeQueue.length) {
+
+      levels.push([]);
+      let levelLength = nodeQueue.length;
+
+      for (let i = 0; i < levelLength; ++i) {
+        let currentNode = nodeQueue.shift();
+        let currentLevel = levels.length-1;
+        levels[currentLevel].push(currentNode.key);
+
+        // add child nodes of the current level to queue for the next level
+        if (currentNode.left) {nodeQueue.push(currentNode.left);}
+        if (currentNode.right) {nodeQueue.push(currentNode.right);}
+      }
+    }
+
+    return levels;
+  }
+
   maxVal() {
     let currentMax = this.root.key;
     let result = this.inOrder();
@@ -163,15 +197,41 @@ class BinaryTree {
     return currentMin;
   }
 
+  maxDepth() {
+
+    function _depthFinder(node) {
+
+      if (node === null) {
+        return 0;
+      }
+      
+      let left = _depthFinder(node.left);
+      let right = _depthFinder(node.right);
+
+      console.log({'_depthFinder node key' : node.key, 'left':left, 'right': right});
+
+      // two ways to return: 
+      return Math.max(left, right) + 1;
+      // return  (left > right) ? left+1 : right+1;
+    }
+
+    let maxDepth = _depthFinder(this.root);
+    return maxDepth;
+  }
+
 }
 
 class BinarySearchTree extends BinaryTree{
   
   insertNode(node, newNode) {
-    if (node.key === newNode.key) {
-      return;
-    }
-    else if (newNode.key < node.key) {
+
+    // if no dups are allowed 
+    // if (node.key === newNode.key) {
+    //   return;
+    // }
+    // else 
+
+    if (newNode.key < node.key) {
       if (node.left === null) {
         node.left = newNode;
         this.count++;
