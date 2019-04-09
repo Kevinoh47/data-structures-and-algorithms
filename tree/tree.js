@@ -175,6 +175,31 @@ class BinaryTree {
     return levels;
   }
 
+  // inspired by https://leetcode.com/articles/binary-tree-level-order-traversal/
+  levelOrderWithLevelsRecursive() {
+
+    let levels = [];
+
+    if (this.root == null) return levels;
+
+    function _helper (node, level) {
+      if (level === levels.length) {
+        levels.push([]);
+        
+        levels[level].push(node.key);
+
+        console.log({'node':node, 'level':level, 'levels':levels});
+
+        if (node.left) {return _helper(node.left, level+1);}
+        if (node.right) {return _helper(node.right, level+1);}
+      }
+    }
+
+    _helper(this.root, 0);
+
+    return levels;
+  }
+
   maxVal() {
     let currentMax = this.root.key;
     let result = this.inOrder();
