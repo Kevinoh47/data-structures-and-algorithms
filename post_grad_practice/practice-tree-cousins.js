@@ -43,33 +43,34 @@ Each node has a unique integer value from 1 to 100.
 */
 
 let depthFinder = (tree, target) => {
-  let nodeDepth = 0;
-  let targetDepth = null;
 
-  let _myRecurse = node => {
-    if (node) {
+  let levels = [], nodeQueue = [];
 
-      // we need to use level order traversal to view the nodes as they were added...
-      console.log({'current key': node.key});
-      
-      // parentAndChild.push([{'parent': node.key, 'leftChild':node.left, 'rightChild':node.right}]);
+  nodeQueue.push(tree.root);
 
-      nodeDepth++;
+  while (nodeQueue.length) {
 
-      if (node.key === target) {
-        targetDepth = nodeDepth;
+    levels.push([]);
+    let levelLength = nodeQueue.length;
+
+    for (let i = 0; i < levelLength; ++i) {
+      let currentNode = nodeQueue.shift();
+      let currentLevel = levels.length-1;
+      levels[currentLevel].push(currentNode.key);
+
+      if (currentNode.key === target) {
+        return currentLevel;
       }
-      
-      _myRecurse(node.left);
-      _myRecurse(node.right);
-
+      if(currentNode.left){
+        nodeQueue.push(currentNode.left);
+      }
+      if(currentNode.right){
+        nodeQueue.push(currentNode.right);
+      }
     }
-  };
+  }
 
-  _myRecurse(tree.root);
-
-  //return {'targetDepth': targetDepth, 'targetParent': targetParent};
-  return targetDepth;
+  return null;
 };
 
 // create and populate a btree;
@@ -82,7 +83,12 @@ console.log({'myBTree Breadth First': myBTree.levelOrder()});
 
 console.log({'myBTree Breadth First With Levels': myBTree.levelOrderWithLevels()});
 
+// console.log({'myBTree Breadth First With Levels, Recursive Version': myBTree.levelOrderWithLevelsRecursive()});
+
 console.log({'myBTree Max Depth': myBTree.maxDepth()});
 
-// console.log({'depthFinder should return 2': depthFinder(myBTree, 4)});
+console.log({'depthFinder for 1 should return 0': depthFinder(myBTree, 1)});
+console.log({'depthFinder for 2 should return 1': depthFinder(myBTree, 2)});
+console.log({'depthFinder for 3 should return 1': depthFinder(myBTree, 3)});
+console.log({'depthFinder for 4 should return 2': depthFinder(myBTree, 4)});
 

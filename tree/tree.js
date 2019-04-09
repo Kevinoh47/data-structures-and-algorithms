@@ -190,8 +190,16 @@ class BinaryTree {
 
         console.log({'node':node, 'level':level, 'levels':levels});
 
-        if (node.left) {return _helper(node.left, level+1);}
-        if (node.right) {return _helper(node.right, level+1);}
+        // TODO only the first if statement here is called! Doesnt matter which one it is, but only the first one...
+        if (node && node.left) {
+          _helper(node.left, level+1);
+        }
+
+        if (node && node.right) {
+          console.log('calling right for: ', node.right.key);
+          _helper(node.right, level+1);
+        }
+
       }
     }
 
