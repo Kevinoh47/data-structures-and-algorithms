@@ -70,4 +70,100 @@ while(finalCurrent.next){
 }
 console.log(finalCurrent.value);
 
+/**
+ * Hmmm the version used on Leet Code uses appears to use a list definition with no methods, just properties.
+ */
+
+ /**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} l1
+ * @param {ListNode} l2
+ * @return {ListNode}
+ */
+
+function ListNode(val) {
+  this.val = val;
+  this.next = null;
+}
+
+// lets make some lists of these nodes:
+
+let myList1Node1 = new ListNode(1);
+let myList1Node2 = new ListNode(2);
+let myList1Node3 = new ListNode(4);
+
+myList1Node1.next = myList1Node2;
+myList1Node2.next = myList1Node3;
+
+
+let myList2Node1 = new ListNode(1);
+let myList2Node2 = new ListNode(3);
+let myList2Node3 = new ListNode(4);
+
+myList2Node1.next = myList2Node2;
+myList2Node2.next = myList2Node3;
+
+
+function leetCodeListIterator(headListNode){
+  let current = headListNode;
+  while(current.next){
+    console.log(current.val);
+    current = current.next;
+  }
+  console.log(current.val);
+}
+
+console.log('\n ... iterate a LeetCode list ... \n');
+leetCodeListIterator(myList1Node1);
+console.log('\n ...  \n');
+leetCodeListIterator(myList2Node1);
+
+
+
+var mergeTwoLists = function(l1, l2) {
+  let currentA = l1, currentB = l2, tempANext, tempBNext;
+
+  if (l1 === null && l2 !== null) { return l2;}
+  else if (l1 !== null && l2 === null) { return l1;}
+  else if (l1 === null && l2 === null) {return null;}
+
+  while (currentA.next) {
+
+    if (currentB.next) {
+      tempANext = currentA.next; 
+      tempBNext = currentB.next;
+  
+      currentA.next = currentB; 
+      currentB.next = tempANext; 
+    
+      // now switch and iterate
+      currentA = currentB.next;
+      currentB = tempBNext;
+    }
+    // else {
+    //   currentA = currentA.next;
+    // }
+
+  }
+
+  // tail:
+  if (currentB) {
+    currentA.next = currentB; 
+  }
+};
+
+console.log('\n ... try to merge the lists ... \n');
+mergeTwoLists(myList1Node1, myList2Node1);
+leetCodeListIterator(myList1Node1);
+console.log('\n ...  \n');
+
+
+[-10,-10,-9,-4,1,6,6]
+[-7]
 
