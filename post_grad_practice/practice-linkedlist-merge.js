@@ -124,7 +124,19 @@ leetCodeListIterator(myList1Node1);
 console.log('\n ...  \n');
 leetCodeListIterator(myList2Node1);
 
+/***
+ * This version manages for nulls and for different lengths. It passes these inputs:
+ * 
+ * []
+ * []
+ * and
+ * [-10,-10,-9,-4,1,6,6]
+ * [-7]
 
+ * Although this version works, it still fails on this input case:
+ * l1 = 2, l2 = 1
+ * Output is expected to be 1, 2, but my output is not ordering the output. so its output is 2, 1. Requirements just said to merge the two ordered lists. I guess we also want the merged list to be ordered.
+ */
 
 var mergeTwoLists = function(l1, l2) {
   let currentA = l1, currentB = l2, tempANext, tempBNext;
@@ -146,10 +158,6 @@ var mergeTwoLists = function(l1, l2) {
       currentA = currentB.next;
       currentB = tempBNext;
     }
-    // else {
-    //   currentA = currentA.next;
-    // }
-
   }
 
   // tail:
@@ -163,7 +171,27 @@ mergeTwoLists(myList1Node1, myList2Node1);
 leetCodeListIterator(myList1Node1);
 console.log('\n ...  \n');
 
+/**
+ * I had to look at the LeetCode solution. 
+ * @param {*} l1 
+ * @param {*} l2 
+ */
+var mergeTwoOrderedLists = function(l1, l2) {
+  
+  if (l1 === null && l2 !== null) { return l2;}
+  else if (l1 !== null && l2 === null) { return l1;}
+  else if (l1 === null && l2 === null) {return null;}
 
-[-10,-10,-9,-4,1,6,6]
-[-7]
+  else if (l1.val < l2.val) {
+    l1.next = mergeTwoOrderedLists(l1.next, l2);
+    return l1;
+  }
+  else {
+    l2.next = mergeTwoOrderedLists(l1, l2.next);
+    return l2;
+  }
+};
+
+
+
 
