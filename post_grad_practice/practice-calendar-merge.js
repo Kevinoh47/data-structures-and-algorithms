@@ -19,7 +19,7 @@ function mergeRanges(meetings) {
   // Initialize mergedMeetings with the earliest meeting
   let mergedMeetings = [sortedMeetings[0]];
 
-  // start with 1 rather than 0
+  // start with 1 rather than 0 since you seeded the output array with the first one.
   for (let i = 1; i < sortedMeetings.length; i++) {
     const currentMeeting = sortedMeetings[i];
     const lastMergedMeeting = mergedMeetings[mergedMeetings.length-1];
