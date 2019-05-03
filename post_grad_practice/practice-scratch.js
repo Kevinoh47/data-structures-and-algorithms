@@ -85,7 +85,6 @@ console.log(squareArrayInPlace([1,2,3,4,5]));
 
 console.log('\n ... ... \n');
 
-console.log('\n ... ... \n');
 
 /**
  * https://www.interviewcake.com/question/javascript/reverse-words?course=fc1&section=array-and-string-manipulation
@@ -179,7 +178,28 @@ function reverseCharacters(message, leftIndex, rightIndex) {
 
 let test1 = ['p','a','n','t','s',' ','h','o','t',' ','p','i','n','k'];
 reverseWordsIC(test1);
+
 console.log({test1});
 let test2 = ['l','a','n','d','e','d',' ','h','a','s',' ','e','a','g','l','e',' ','t','h','e'];
 reverseWordsIC(test2);
 console.log({test2});
+
+console.log('\n ... ... \n');
+
+/**
+ * https://www.interviewcake.com/question/javascript/merge-sorted-arrays?course=fc1&section=array-and-string-manipulation
+ * input two sorted arrays, merge them into one sorted array
+ * 
+ */
+
+let mergeSortedArrays = (arr1, arr2) => {
+  let newArr = arr1.concat(arr2);
+
+  newArr.sort((a,b) => {return a - b;});
+  return newArr;
+};
+
+let arr1 = [3,4,6,10,11,15];
+let arr2 = [1,5,8,12,14,19];
+
+console.log(mergeSortedArrays(arr1, arr2));
