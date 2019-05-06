@@ -184,12 +184,15 @@ let test2 = ['l','a','n','d','e','d',' ','h','a','s',' ','e','a','g','l','e',' '
 reverseWordsIC(test2);
 console.log({test2});
 
-console.log('\n ... ... \n');
+console.log('\n ... Merge sorted arrays ... \n');
 
 /**
  * https://www.interviewcake.com/question/javascript/merge-sorted-arrays?course=fc1&section=array-and-string-manipulation
  * input two sorted arrays, merge them into one sorted array
+ * My solution is probably O(n lg n) ... IC claims O(n) for time and space.
  * 
+ *  "What would the time cost be? O(nlg⁡n)O(n\lg{n})O(nlgn), where n is the total length of our output array (the sum of the lengths of our inputs). We can do better. With this algorithm, we're not really taking advantage of the fact that the input arrays are themselves already sorted. How can we save time by using this fact?""
+
  */
 
 let mergeSortedArrays = (arr1, arr2) => {
@@ -203,3 +206,94 @@ let arr1 = [3,4,6,10,11,15];
 let arr2 = [1,5,8,12,14,19];
 
 console.log(mergeSortedArrays(arr1, arr2));
+
+console.log('\n ...  ... \n');
+
+/**
+ * My solution after looking at a few clues...
+ * @param {*} a1 
+ * @param {*} a2 
+ */
+let mergeSortedArraysMoreEfficiently = (a1, a2) => {
+  let a1Copy = [...a1];
+  let a2Copy = [...a2];
+
+  let totalLength = a1.length + a2.length;
+  const results = [];
+
+  while (totalLength > 0) {
+    if (a1Copy[0] <= a2Copy[0]) {
+      results.push(a1Copy[0]);
+      a1Copy.shift();
+    }
+    else if (a1Copy[0] > a2Copy[0]){
+      results.push(a2Copy[0]);
+      a2Copy.shift();
+    }
+    else if (a1Copy.length > 0 && a2Copy.length === 0) {
+      results.push(a1Copy[0]);
+      a1Copy.shift();
+    }
+    else if (a1Copy.length === 0 && a2Copy.length > 0) {
+      results.push(a2Copy[0]);
+      a2Copy.shift();
+    }
+    totalLength--;
+  }
+  return results;
+};
+
+console.log(mergeSortedArraysMoreEfficiently(arr1, arr2));
+
+let arr3 = [1,5,8,12,14,19,21,23,29];
+let arr0 = [3,4,6,10,11,15,16,17,19,21,22,25,30,35,40,45];
+console.log(mergeSortedArraysMoreEfficiently(arr1, arr3));
+console.log(mergeSortedArraysMoreEfficiently(arr0, arr3));
+
+console.log('\n ...  ... \n');
+
+/**
+ * Interview Cake solution. Logically it is similar to mine, but i believe mine to be easier to understand.
+ * However, mine uses copies of the input arrays. It wouldn't have to, but if we used the input arrays, we would be adding side effects.
+ * @param {*} myArray 
+ * @param {*} alicesArray 
+ */
+function mergeArraysIC(myArray, alicesArray) {
+
+  // Set up our mergedArray
+  const mergedArray = [];
+
+  let currentIndexAlices = 0;
+  let currentIndexMine = 0;
+  let currentIndexMerged = 0;
+
+  while (currentIndexMerged < (myArray.length + alicesArray.length)) {
+
+    const isMyArrayExhausted = currentIndexMine >= myArray.length;
+    const isAlicesArrayExhausted = currentIndexAlices >= alicesArray.length;
+
+    // Case: next comes from my array
+    // My array must not be exhausted, and EITHER:
+    // 1) Alice's array IS exhausted, or
+    // 2) The current element in my array is less
+    //    than the current element in Alice's array
+    if (!isMyArrayExhausted && (isAlicesArrayExhausted ||
+      (myArray[currentIndexMine] < alicesArray[currentIndexAlices]))) {
+
+      mergedArray[currentIndexMerged] = myArray[currentIndexMine];
+      currentIndexMine++;
+
+      // Case: next comes from Alice's array
+    } else {
+      mergedArray[currentIndexMerged] = alicesArray[currentIndexAlices];
+      currentIndexAlices++;
+    }
+
+    currentIndexMerged++;
+  }
+
+  return mergedArray;
+}
+
+console.log(mergeArraysIC(arr1, arr3));
+console.log(mergeArraysIC(arr0, arr3));
