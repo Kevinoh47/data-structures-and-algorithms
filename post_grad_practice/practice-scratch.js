@@ -254,15 +254,14 @@ console.log('\n ...  ... \n');
 
 /**
  * Interview Cake solution. Logically it is similar to mine, but i believe mine to be easier to understand.
- * However, mine uses copies of the input arrays. It wouldn't have to, but if we used the input arrays, we would be adding side effects.
+ * However, mine uses copies of the input arrays as queues. It wouldn't have to, but if we used the input arrays, we would be adding side effects.
+ * Theirs just uses pointers so no copies are necessary.
  * @param {*} myArray 
  * @param {*} alicesArray 
  */
 function mergeArraysIC(myArray, alicesArray) {
 
-  // Set up our mergedArray
   const mergedArray = [];
-
   let currentIndexAlices = 0;
   let currentIndexMine = 0;
   let currentIndexMerged = 0;
@@ -297,3 +296,34 @@ function mergeArraysIC(myArray, alicesArray) {
 
 console.log(mergeArraysIC(arr1, arr3));
 console.log(mergeArraysIC(arr0, arr3));
+
+/**
+ * My practice version of IC solution. This is same logic, just a little clearer via better names.
+ */
+
+let mergeOrderedArraysIC2 = (a1, a2) => {
+  let results = [];
+  let currentA1Idx = 0, currentA2Idx = 0, currentResultsIdx = 0;
+
+  while(currentResultsIdx < (a1.length + a2.length)) {
+    let a1IsFinished = currentA1Idx >= a1.length;
+    let a2IsFinished = currentA2Idx >= a2.length;
+
+    if(!a1IsFinished && (a2IsFinished || a1[currentA1Idx] < a2[currentA2Idx])) {
+      results[currentResultsIdx] = a1[currentA1Idx];
+      currentA1Idx++;
+    }
+    else {
+      results[currentResultsIdx] = a2[currentA2Idx];
+      currentA2Idx++;
+    }
+    currentResultsIdx++;
+  }
+  return results;
+};
+
+console.log('\n ...  My version of IC solution... \n');
+
+let arr4 = [1,5,8,12,14,19,21,23,29];
+let arr5 = [3,4,6,10,11,15,16,17,19,21,22,25,30,35,40,45];
+console.log(mergeOrderedArraysIC2(arr4, arr5));
