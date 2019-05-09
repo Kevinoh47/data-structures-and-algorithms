@@ -169,6 +169,90 @@ console.log({myNewHead});
 console.log('\n ... reverseOutOfPlace ... \n');
 myListIterator(myNewHead);
 
+/**
+ * https://leetcode.com/problems/reverse-linked-list/
+ * Reverse a singly linked list.
+
+Example:
+
+Input: 1->2->3->4->5->NULL
+Output: 5->4->3->2->1->NULL
+
+Follow up:
+
+A linked list can be reversed either iteratively or recursively. Could you implement both?
+
+Success
+Details
+Runtime: 52 ms, faster than 99.89% of JavaScript online submissions for Reverse Linked List.
+Memory Usage: 35.5 MB, less than 12.55% of JavaScript online submissions for Reverse Linked List.
+
+*/
+
+console.log('\n ... leet code linked list reverser... \n');
+
+
+
+function ListNode(val) {
+  this.val = val;
+  this.next = null;
+}
+
+let lC_one = new ListNode(1);
+let lC_two = new ListNode(2);
+let lC_three = new ListNode(3);
+let lC_four = new ListNode(4);
+let lC_five = new ListNode(5);
+
+lC_one.next = lC_two;
+lC_two.next = lC_three;
+lC_three.next = lC_four;
+lC_four.next = lC_five
+
+console.log({lC_one});
+console.log({lC_two});
+console.log({lC_three});
+console.log({lC_four});
+console.log({lC_five});
+
+var reverseList = function(head) {
+  if (!head || head === null) {return null;}
+  let temp, prev;
+  let curr = head;
+
+  console.log({curr});
+
+  while(curr.next) {
+    temp = {...curr};
+
+    console.log({temp});
+
+    
+    curr.next = prev;
+    prev = curr;
+    curr = temp.next;
+
+  };
+  // tail
+  curr.next = prev;
+
+  return curr; // new head
+}
+
+reverseList(lC_one);
+
+console.log('\n ... ... \n');
+
+console.log({lC_five});
+console.log({lC_four});
+console.log({lC_three});
+console.log({lC_two});
+console.log({lC_one});
+
+
+
+
+
 
 
 
