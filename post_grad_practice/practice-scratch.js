@@ -392,3 +392,31 @@ var isValid = function(s) {
 };
 
 console.log(isValid('[()[][{}]]'));
+
+console.log('\n ...  Max profit ... \n');
+/**
+ * https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
+ * 
+ * @param {number[]} prices
+ * @return {number}
+ */
+
+
+var maxProfit = function(prices) {
+  let maxProfit = 0;
+
+  prices.reduce((prev, curr, currIndex) => {
+    while(currIndex >= 0) {
+      let currProfit = curr - prices[currIndex];
+      
+      maxProfit = (currProfit > maxProfit) ? currProfit: maxProfit;
+
+      currIndex--;
+    }
+  }, maxProfit);
+
+  return maxProfit;
+};
+
+console.log(maxProfit([7,1,5,3,6,4]));
+console.log(maxProfit([7,6,4,3,1]));
