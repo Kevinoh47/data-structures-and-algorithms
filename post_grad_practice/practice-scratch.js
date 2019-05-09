@@ -327,3 +327,68 @@ console.log('\n ...  My version of IC solution... \n');
 let arr4 = [1,5,8,12,14,19,21,23,29];
 let arr5 = [3,4,6,10,11,15,16,17,19,21,22,25,30,35,40,45];
 console.log(mergeOrderedArraysIC2(arr4, arr5));
+
+console.log('\n ...  Another attempt at brackets matcher ... \n');
+/**
+ * Another attempt at Valid Parenthesis
+ * https://leetcode.com/problems/valid-parentheses/
+ * 
+ * Hints
+ * An interesting property about a valid parenthesis expression is that a sub-expression of a valid expression should also be a valid expression. (Not every sub-expression) e.g.
+
+{ { } [ ] [ [ [ ] ] ] } is VALID expression
+          [ [ [ ] ] ]    is VALID sub-expression
+  { } [ ]                is VALID sub-expression
+
+Can we exploit this recursive structure somehow?
+What if whenever we encounter a matching pair of parenthesis in the expression, we simply remove it from the expression? This would keep on shortening the expression. e.g.
+
+{ { ( { } ) } }
+      |_|
+
+{ { (      ) } }
+    |______|
+
+{ {          } }
+  |__________|
+
+{                }
+|________________|
+
+VALID EXPRESSION!
+
+The stack data structure can come in handy here in representing this recursive structure of the problem. We can't really process this from the inside out because we don't have an idea about the overall structure. But, the stack can help us process this recursively i.e. from outside to inwards.
+
+
+ * Success
+Details
+Runtime: 52 ms, faster than 99.88% of JavaScript online submissions for Valid Parentheses.
+Memory Usage: 34.6 MB, less than 32.50% of JavaScript online submissions for Valid Parentheses.
+ */
+
+var isValid = function(s) {
+  let myArr = s.split('');
+  let myStack = [];
+
+  while (myArr.length) { 
+    let curr = myArr.pop();
+
+    let prev = myStack.length ? myStack[myStack.length-1] : 'nope';
+
+    // if previous and current are a matching pair...
+    if (
+      ( prev === ')' && curr === '(') ||
+      ( prev === '}' && curr === '{') ||
+      ( prev === ']' && curr === '[') 
+    ) {
+      myStack.pop(); // pop previous and swallow current.
+    }
+    else {
+      myStack.push(curr);
+    }
+  }
+  
+  return (myStack.length === 0);
+};
+
+console.log(isValid('[()[][{}]]'));
