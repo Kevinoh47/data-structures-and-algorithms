@@ -539,10 +539,10 @@ var subdomainVisits = function(cpdomains) {
     let sub2, sub3;
 
     if (myDomains.indexOf('.') !== myDomains.lastIndexOf('.')) {
-
       sub2 = myDomains.substring(myDomains.indexOf('.')+1).trim();
       sub3 = myDomains.trim();
-    } else {
+    } 
+    else {
       sub2 = myDomains.trim();
       sub3 = null;
     }
@@ -585,3 +585,30 @@ var subdomainVisits = function(cpdomains) {
 let t1 = ['900 google.mail.com', '50 yahoo.com', '1 intel.mail.com', '5 wiki.org'];
 
 console.log(subdomainVisits(t1));
+
+/**
+ * here is a more elegant implementation along the same lines as mine:
+ * https://leetcode.com/problems/subdomain-visit-count/discuss/285938/Javascript-solution-using-hash-map
+ *  
+ */
+
+var subdomainVisits2 = function(cpdomains) {
+  const map = {};
+  const output = [];
+  cpdomains.forEach(cpdomain => {
+    const split = cpdomain.split(' ');
+    const count = parseInt(split[0]);
+    const subdomains = split[1].split('.');
+    let subdomain = subdomains[subdomains.length - 1];
+    for (let i = subdomains.length - 2; i >= -1; i --) {
+      map[subdomain] = map[subdomain] + count || count;
+      subdomain = `${subdomains[i]}.${subdomain}`;
+    }
+  });
+  for (let key in map) {
+    output.push(`${map[key]} ${key}`);
+  }
+  return output;
+};
+
+console.log(subdomainVisits2(t1));
