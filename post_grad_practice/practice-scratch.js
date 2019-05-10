@@ -397,6 +397,12 @@ console.log('\n ...  Max profit ... \n');
 /**
  * https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
  * 
+ * Success
+Details
+Runtime: 596 ms, faster than 6.16% of JavaScript online submissions for Best Time to Buy and Sell Stock.
+Memory Usage: 35.2 MB, less than 93.93% of JavaScript online submissions for Best Time to Buy and Sell Stock.
+
+ * 
  * @param {number[]} prices
  * @return {number}
  */
@@ -420,3 +426,162 @@ var maxProfit = function(prices) {
 
 console.log(maxProfit([7,1,5,3,6,4]));
 console.log(maxProfit([7,6,4,3,1]));
+
+console.log('\n ...  reverse integer digits ... \n');
+
+/**
+ * https://leetcode.com/problems/reverse-integer/
+ * 
+ * Check this: https://stackoverflow.com/questions/47600096/what-is-32-bit-integer-in-javascript
+ * 
+ * Also check the Solution tab to see much more elegant (and harder to understand) solutions.
+ * 
+ * Given a 32-bit signed integer, reverse digits of an integer.
+ * 
+
+Example 1:
+
+Input: 123
+Output: 321
+
+Example 2:
+
+Input: -123
+Output: -321
+
+Example 3:
+
+Input: 120
+Output: 21
+
+Notes:
+
+    The length of cpdomains will not exceed 100. 
+    The length of each domain name will not exceed 100.
+    Each address will have either 1 or 2 "." characters.
+    The input count in any count-paired domain will not exceed 10000.
+    The answer output can be returned in any order.
+
+    
+Success
+Details
+Runtime: 76 ms, faster than 99.09% of JavaScript online submissions for Reverse Integer.
+Memory Usage: 35.8 MB, less than 63.66% of JavaScript online submissions for Reverse Integer.
+
+ */
+
+/**
+ * @param {number} x
+ * @return {number}
+ */
+
+var reverseInt = function(x) {
+
+  let posNum = (x >= 0);
+  let myString = JSON.stringify(x);
+  let arr = myString.split('');
+  if (arr[0] === '-') {arr = arr.slice(1);}
+
+  let leftIdx = 0, rightIdx = arr.length-1;
+
+  while(leftIdx < rightIdx) {
+    let temp = arr[leftIdx];
+    arr[leftIdx] = arr[rightIdx];
+    arr[rightIdx] = temp;
+
+    leftIdx++;
+    rightIdx--;
+  }
+
+  let newString = (posNum) ? arr.join('') : '-' + arr.join('');
+
+  let myNum = Number(newString);
+
+  return (Math.abs(myNum) > 0x7FFFFFFF ) ? 0 : myNum;
+
+};
+
+console.log(reverseInt(321));
+console.log(reverseInt(-321));
+console.log(reverseInt(320));
+console.log(reverseInt(3200));
+console.log(reverseInt(32000));
+console.log(reverseInt(3201));
+console.log(Number.MAX_SAFE_INTEGER);
+console.log(reverseInt(1534236469)); // should be 0
+console.log(reverseInt(-2147483648));
+//should be 0
+
+console.log('\n ...  subdomain count ... \n');
+/**
+ * https://leetcode.com/problems/subdomain-visit-count/
+ * 
+ * Success
+Details
+Runtime: 76 ms, faster than 98.29% of JavaScript online submissions for Subdomain Visit Count.
+Memory Usage: 38.9 MB, less than 35.00% of JavaScript online submissions for Subdomain Visit Count.
+
+ */
+
+/**
+ * @param {string[]} cpdomains
+ * @return {string[]}
+ */
+var subdomainVisits = function(cpdomains) {
+  let subdomains = {};
+  let output = [];
+  
+  cpdomains.map((e) => {
+    let myCount = Number(e.substring(0, e.indexOf(' ')));
+    let myDomains = e.substring(e.indexOf(' '));
+
+    let sub1 = myDomains.substring(myDomains.lastIndexOf('.')+1).trim();
+    let sub2, sub3;
+
+    if (myDomains.indexOf('.') !== myDomains.lastIndexOf('.')) {
+
+      sub2 = myDomains.substring(myDomains.indexOf('.')+1).trim();
+      sub3 = myDomains.trim();
+    } else {
+      sub2 = myDomains.trim();
+      sub3 = null;
+    }
+
+    if (!subdomains[sub1]) {
+      subdomains[sub1]=myCount;
+    }
+    else if (subdomains[sub1]) {
+      
+      let subTotal = subdomains[sub1]; 
+      subTotal += myCount;
+
+      subdomains[sub1]=subTotal;
+    }
+    if (!subdomains[sub2]) {
+      subdomains[sub2]=myCount;
+    }
+    else if (subdomains[sub2]) {
+      let subTotal = subdomains[sub2] + myCount;
+      subdomains[sub2]=subTotal;
+    }
+    if (sub3 !== null) {
+      if (!subdomains[sub3]) {
+        subdomains[sub3]=myCount;
+      }
+      else if (subdomains[sub3]) {
+        let subTotal = subdomains[sub3] + myCount;
+        subdomains[sub3]=subTotal;
+      }
+    }
+  });
+
+  Object.keys(subdomains).map((e)=>{
+    output.push(`${subdomains[e]} ${e}`);
+  });
+
+  return output;
+};
+
+let t1 = ['900 google.mail.com', '50 yahoo.com', '1 intel.mail.com', '5 wiki.org'];
+
+console.log(subdomainVisits(t1));
