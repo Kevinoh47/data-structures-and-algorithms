@@ -397,6 +397,12 @@ console.log('\n ...  Max profit ... \n');
 /**
  * https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
  * 
+ * Success
+Details
+Runtime: 596 ms, faster than 6.16% of JavaScript online submissions for Best Time to Buy and Sell Stock.
+Memory Usage: 35.2 MB, less than 93.93% of JavaScript online submissions for Best Time to Buy and Sell Stock.
+
+ * 
  * @param {number[]} prices
  * @return {number}
  */
@@ -420,3 +426,72 @@ var maxProfit = function(prices) {
 
 console.log(maxProfit([7,1,5,3,6,4]));
 console.log(maxProfit([7,6,4,3,1]));
+
+console.log('\n ...  reverse integer digits ... \n');
+
+/**
+ * https://leetcode.com/problems/reverse-integer/
+ * 
+ * Check this: https://stackoverflow.com/questions/47600096/what-is-32-bit-integer-in-javascript
+ * 
+ * Given a 32-bit signed integer, reverse digits of an integer.
+ * 
+
+Example 1:
+
+Input: 123
+Output: 321
+
+Example 2:
+
+Input: -123
+Output: -321
+
+Example 3:
+
+Input: 120
+Output: 21
+
+ */
+
+/**
+ * @param {number} x
+ * @return {number}
+ */
+
+var reverseInt = function(x) {
+
+  let posNum = (x >= 0);
+  let myString = JSON.stringify(x);
+  let arr = myString.split('');
+  if (arr[0] === '-') {arr = arr.slice(1);}
+
+  let leftIdx = 0, rightIdx = arr.length-1;
+
+  while(leftIdx < rightIdx) {
+    let temp = arr[leftIdx];
+    arr[leftIdx] = arr[rightIdx];
+    arr[rightIdx] = temp;
+
+    leftIdx++;
+    rightIdx--;
+  }
+
+  let newString = (posNum) ? arr.join('') : '-' + arr.join('');
+
+  let myNum = Number(newString);
+
+  return (Math.abs(myNum) > 0x7FFFFFFF ) ? 0 : Number(newString);
+
+};
+
+console.log(reverseInt(321));
+console.log(reverseInt(-321));
+console.log(reverseInt(320));
+console.log(reverseInt(3200));
+console.log(reverseInt(32000));
+console.log(reverseInt(3201));
+console.log(Number.MAX_SAFE_INTEGER);
+console.log(reverseInt(1534236469)); // should be 0
+console.log(reverseInt(-2147483648))
+//should be 0
