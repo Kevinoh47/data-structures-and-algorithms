@@ -582,10 +582,63 @@ var subdomainVisits = function(cpdomains) {
   return output;
 };
 
+/**
+ * refactor
+ * Success
+Details
+Runtime: 84 ms, faster than 74.75% of JavaScript online submissions for Subdomain Visit Count.
+Memory Usage: 38.8 MB, less than 35.00% of JavaScript online submissions for Subdomain Visit Count.
+
+ */
+var subdomainVisitsRefactor = function(cpdomains) {
+  let subdomains = {};
+  let output = [];
+  
+  cpdomains.map((e) => {
+    let myCount = Number(e.substring(0, e.indexOf(' ')));
+    let myDomains = e.substring(e.indexOf(' '));
+
+    let sub1 = myDomains.substring(myDomains.lastIndexOf('.')+1).trim();
+    let sub2, sub3;
+
+    if (myDomains.indexOf('.') !== myDomains.lastIndexOf('.')) {
+      sub2 = myDomains.substring(myDomains.indexOf('.')+1).trim();
+      sub3 = myDomains.trim();
+    } 
+    else {
+      sub2 = myDomains.trim();
+      sub3 = null;
+    }
+
+    let subTotal = (subdomains[sub1]) ? subdomains[sub1] : 0; 
+    subTotal += myCount;
+    subdomains[sub1]=subTotal;
+    
+    subTotal = (subdomains[sub2]) ? subdomains[sub2] : 0; 
+    subTotal += myCount;
+    subdomains[sub2]=subTotal;
+    
+    if (sub3 !== null) {
+      subTotal = (subdomains[sub3]) ? subdomains[sub3] : 0; 
+      subTotal += myCount;
+      subdomains[sub3]=subTotal;
+    }
+  });
+
+  Object.keys(subdomains).map((e)=>{
+    output.push(`${subdomains[e]} ${e}`);
+  });
+
+  return output;
+};
+
+
 let t1 = ['900 google.mail.com', '50 yahoo.com', '1 intel.mail.com', '5 wiki.org'];
 
 console.log(subdomainVisits(t1));
-
+console.log('\n ...  subdomain count refactor ... \n');
+console.log(subdomainVisitsRefactor(t1));
+console.log('\n ...  subdomain count leet code solution ... \n');
 /**
  * here is a more elegant implementation along the same lines as mine:
  * https://leetcode.com/problems/subdomain-visit-count/discuss/285938/Javascript-solution-using-hash-map
