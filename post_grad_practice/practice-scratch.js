@@ -665,3 +665,79 @@ var subdomainVisits2 = function(cpdomains) {
 };
 
 console.log(subdomainVisits2(t1));
+
+/* me rewriting the above to make it a little clearer */
+var subdomainVisits3 = function(domainslist) {
+  const map = {};
+  const output = [];
+  domainslist.forEach(domain => {
+    const currArr = domain.split(' ');
+    const count = parseInt(currArr[0]); //to convert string to int
+    console.log({count});
+    const subdomains = currArr[1].split('.'); //will be either 2 or 3
+    let currSubdomain = subdomains[subdomains.length - 1]; // start with the least precise one and then work backwards
+    console.log({subdomains});
+    console.log({currSubdomain});
+    for (let i = subdomains.length - 2; i >= -1; i--) {
+      map[currSubdomain] = map[currSubdomain] + count || count;
+      currSubdomain = `${subdomains[i]}.${currSubdomain}`;
+      console.log({currSubdomain});
+    }
+
+  });
+  console.log({map});
+  // for in ... 
+  // for (let key in map) {
+  //   output.push(`${map[key]} ${key}`);
+  // }
+  // or Object.keys...:
+  Object.keys(map).map(e => {
+    output.push(`${map[e]} ${e}`);
+  });
+
+  return output;
+};
+
+console.log('\n ...  checking out the solution code ... \n');
+console.log(subdomainVisits3(t1));
+
+console.log(`\n ... jewels and stones ... \n`);
+/**
+ * jewels and stones
+ * https://leetcode.com/problems/jewels-and-stones/
+ * whiteboarded a solution pretty fast -- let's test it.
+ * 
+ * Note that my code failed at first, because my test was: 
+ * if(myMap[curr])
+ * But because i had set each hash map value to 0, that tested false due to the 0.
+ * Fix:
+ * if(myMap[curr] === 0)
+ * 
+ * Success
+Details
+Runtime: 56 ms, faster than 99.09% of JavaScript online submissions for Jewels and Stones.
+Memory Usage: 34.5 MB, less than 28.34% of JavaScript online submissions for Jewels and Stones.
+ */
+
+let jewelCounter = (J, S) => {
+
+  const myMap = {};
+  const myStones = S.split('');
+  const myTypes = J.split('');
+
+  myTypes.forEach(e=>{myMap[e] = 0; }); 
+
+  let counter = 0;
+  myStones.reduce((prev, curr, index) => {
+    if(myMap[curr] === 0) {
+      counter++;
+    }
+  }, 0);
+
+  return counter;
+};
+
+let J = 'aA',  S = 'aAAbbbb';
+console.log(jewelCounter(J,S));
+J = 'z',  S = 'ZZZ';
+console.log(jewelCounter(J,S));
