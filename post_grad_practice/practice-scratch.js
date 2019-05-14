@@ -539,10 +539,10 @@ var subdomainVisits = function(cpdomains) {
     let sub2, sub3;
 
     if (myDomains.indexOf('.') !== myDomains.lastIndexOf('.')) {
-
       sub2 = myDomains.substring(myDomains.indexOf('.')+1).trim();
       sub3 = myDomains.trim();
-    } else {
+    } 
+    else {
       sub2 = myDomains.trim();
       sub3 = null;
     }
@@ -582,6 +582,270 @@ var subdomainVisits = function(cpdomains) {
   return output;
 };
 
+/**
+ * refactor
+ * Success
+Details
+Runtime: 84 ms, faster than 74.75% of JavaScript online submissions for Subdomain Visit Count.
+Memory Usage: 38.8 MB, less than 35.00% of JavaScript online submissions for Subdomain Visit Count.
+
+ */
+var subdomainVisitsRefactor = function(cpdomains) {
+  let subdomains = {};
+  let output = [];
+  
+  cpdomains.map((e) => {
+    let myCount = Number(e.substring(0, e.indexOf(' ')));
+    let myDomains = e.substring(e.indexOf(' '));
+
+    let sub1 = myDomains.substring(myDomains.lastIndexOf('.')+1).trim();
+    let sub2, sub3;
+
+    if (myDomains.indexOf('.') !== myDomains.lastIndexOf('.')) {
+      sub2 = myDomains.substring(myDomains.indexOf('.')+1).trim();
+      sub3 = myDomains.trim();
+    } 
+    else {
+      sub2 = myDomains.trim();
+      sub3 = null;
+    }
+
+    let subTotal = (subdomains[sub1]) ? subdomains[sub1] : 0; 
+    subTotal += myCount;
+    subdomains[sub1]=subTotal;
+    
+    subTotal = (subdomains[sub2]) ? subdomains[sub2] : 0; 
+    subTotal += myCount;
+    subdomains[sub2]=subTotal;
+    
+    if (sub3 !== null) {
+      subTotal = (subdomains[sub3]) ? subdomains[sub3] : 0; 
+      subTotal += myCount;
+      subdomains[sub3]=subTotal;
+    }
+  });
+
+  Object.keys(subdomains).map((e)=>{
+    output.push(`${subdomains[e]} ${e}`);
+  });
+
+  return output;
+};
+
+
 let t1 = ['900 google.mail.com', '50 yahoo.com', '1 intel.mail.com', '5 wiki.org'];
 
 console.log(subdomainVisits(t1));
+console.log('\n ...  subdomain count refactor ... \n');
+console.log(subdomainVisitsRefactor(t1));
+console.log('\n ...  subdomain count leet code solution ... \n');
+/**
+ * here is a more elegant implementation along the same lines as mine:
+ * https://leetcode.com/problems/subdomain-visit-count/discuss/285938/Javascript-solution-using-hash-map
+ *  
+ */
+
+var subdomainVisits2 = function(cpdomains) {
+  const map = {};
+  const output = [];
+  cpdomains.forEach(cpdomain => {
+    const split = cpdomain.split(' ');
+    const count = parseInt(split[0]);
+    const subdomains = split[1].split('.');
+    let subdomain = subdomains[subdomains.length - 1];
+    for (let i = subdomains.length - 2; i >= -1; i --) {
+      map[subdomain] = map[subdomain] + count || count;
+      subdomain = `${subdomains[i]}.${subdomain}`;
+    }
+  });
+  for (let key in map) {
+    output.push(`${map[key]} ${key}`);
+  }
+  return output;
+};
+
+console.log(subdomainVisits2(t1));
+
+/* me rewriting the above to make it a little clearer */
+var subdomainVisits3 = function(domainslist) {
+  const map = {};
+  const output = [];
+  domainslist.forEach(domain => {
+    const currArr = domain.split(' ');
+    const count = parseInt(currArr[0]); //to convert string to int
+    console.log({count});
+    const subdomains = currArr[1].split('.'); //will be either 2 or 3
+    let currSubdomain = subdomains[subdomains.length - 1]; // start with the least precise one and then work backwards
+    console.log({subdomains});
+    console.log({currSubdomain});
+    for (let i = subdomains.length - 2; i >= -1; i--) {
+      map[currSubdomain] = map[currSubdomain] + count || count;
+      currSubdomain = `${subdomains[i]}.${currSubdomain}`;
+      console.log({currSubdomain});
+    }
+
+  });
+  console.log({map});
+  // for in ... 
+  // for (let key in map) {
+  //   output.push(`${map[key]} ${key}`);
+  // }
+  // or Object.keys...:
+  Object.keys(map).map(e => {
+    output.push(`${map[e]} ${e}`);
+  });
+
+  return output;
+};
+
+console.log('\n ...  checking out the solution code ... \n');
+console.log(subdomainVisits3(t1));
+
+console.log(`\n ... jewels and stones ... \n`);
+/**
+ * jewels and stones
+ * https://leetcode.com/problems/jewels-and-stones/
+ * 
+ * You're given strings J representing the types of stones that are jewels, and S representing the stones you have.  Each character in S is a type of stone you have.  You want to know how many of the stones you have are also jewels.
+
+The letters in J are guaranteed distinct, and all characters in J and S are letters. Letters are case sensitive, so "a" is considered a different type of stone from "A".
+
+Note:
+
+    S and J will consist of letters and have length at most 50.
+    The characters in J are distinct.
+
+
+
+ * whiteboarded a solution pretty fast -- let's test it.
+ * 
+ * Note that my code failed at first, because my reducer test was: 
+ * if(myMap[curr])
+ * But because i had set each hash map value to 0, that tested false due to the 0.
+ * Fix:
+ * if(myMap[curr] === 0)
+ * 
+ * Success
+Details
+Runtime: 56 ms, faster than 99.09% of JavaScript online submissions for Jewels and Stones.
+Memory Usage: 34.5 MB, less than 28.34% of JavaScript online submissions for Jewels and Stones.
+ */
+
+let jewelCounter = (J, S) => {
+
+  const myMap = {};
+  const myStones = S.split('');
+  const myTypes = J.split('');
+
+  myTypes.forEach(e=>{myMap[e] = 0; }); 
+
+  let counter = 0;
+  myStones.reduce((accumulator, curr) => {
+    if(myMap[curr] === 0) {
+      counter++;
+    }
+  }, 0);
+
+  return counter;
+};
+
+let J = 'aA',  S = 'aAAbbbb';
+console.log(jewelCounter(J,S));
+J = 'z',  S = 'ZZZ';
+console.log(jewelCounter(J,S));
+
+
+console.log(`\n ... palindrome number tester ... \n`);
+/**
+ * https://leetcode.com/problems/palindrome-number/
+ * 
+ * Determine whether an integer is a palindrome. An integer is a palindrome when it reads the same backward as forward.
+
+Example 1:
+
+Input: 121
+Output: true
+
+Example 2:
+
+Input: -121
+Output: false
+Explanation: From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.
+
+Example 3:
+
+Input: 10
+Output: false
+Explanation: Reads 01 from right to left. Therefore it is not a palindrome.
+
+Follow up:
+
+Coud you solve it without converting the integer to a string?
+
+Success
+Details
+Runtime: 200 ms, faster than 97.53% of JavaScript online submissions for Palindrome Number.
+Memory Usage: 45.3 MB, less than 73.06% of JavaScript online submissions for Palindrome Number.
+
+*/
+
+let palindromeNumTester = x => {
+  if (x < 0 || (x % 10 === 0 && x !== 0)) {return false;}
+
+  const numArr = JSON.stringify(x).split('');
+
+  let left = 0, right = numArr.length-1;
+
+  while (left < right) {
+
+    if (numArr[left] !== numArr[right]){
+      return false;
+    }
+    left++;
+    right--;
+  }
+  return true;
+};
+
+console.log('expect true', palindromeNumTester(0));
+console.log('expect false', palindromeNumTester(10));
+console.log('expect true', palindromeNumTester(2));
+console.log('expect true', palindromeNumTester(121));
+console.log('expect true', palindromeNumTester(1221));
+console.log('expect false', palindromeNumTester(-121));
+console.log('expect true', palindromeNumTester(12321));
+console.log('expect false', palindromeNumTester(123421));
+
+/**
+ * solution evolved from /inspired by https://leetcode.com/problems/palindrome-number/discuss/234068/Intuitive-JavaScript-Solution
+ * 
+ * Success
+Details
+Runtime: 204 ms, faster than 97.33% of JavaScript online submissions for Palindrome Number.
+Memory Usage: 45.1 MB, less than 82.28% of JavaScript online submissions for Palindrome Number.
+ * 
+ */
+
+let palindromeNumTester2 = x => {
+  if (x < 0 || (x % 10 === 0 && x !== 0)) {return false;}
+
+  if (x < 10) {return true;} // single digits are palindrome.
+  
+  // const reversed = parseInt(JSON.stringify(x).split('').reverse().join(''));
+  // return x === reversed;
+
+  // refactor of above two statements.
+  return x === parseInt(JSON.stringify(x).split('').reverse().join(''));
+
+
+};
+
+console.log('\n ... \n');
+console.log('expect true', palindromeNumTester2(0));
+console.log('expect false', palindromeNumTester2(10));
+console.log('expect true', palindromeNumTester2(2));
+console.log('expect true', palindromeNumTester2(121));
+console.log('expect true', palindromeNumTester2(1221));
+console.log('expect false', palindromeNumTester2(-121));
+console.log('expect true', palindromeNumTester2(12321));
+console.log('expect false', palindromeNumTester2(123421));
