@@ -753,3 +753,99 @@ let J = 'aA',  S = 'aAAbbbb';
 console.log(jewelCounter(J,S));
 J = 'z',  S = 'ZZZ';
 console.log(jewelCounter(J,S));
+
+
+console.log(`\n ... palindrome number tester ... \n`);
+/**
+ * https://leetcode.com/problems/palindrome-number/
+ * 
+ * Determine whether an integer is a palindrome. An integer is a palindrome when it reads the same backward as forward.
+
+Example 1:
+
+Input: 121
+Output: true
+
+Example 2:
+
+Input: -121
+Output: false
+Explanation: From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.
+
+Example 3:
+
+Input: 10
+Output: false
+Explanation: Reads 01 from right to left. Therefore it is not a palindrome.
+
+Follow up:
+
+Coud you solve it without converting the integer to a string?
+
+Success
+Details
+Runtime: 200 ms, faster than 97.53% of JavaScript online submissions for Palindrome Number.
+Memory Usage: 45.3 MB, less than 73.06% of JavaScript online submissions for Palindrome Number.
+
+*/
+
+let palindromeNumTester = x => {
+  if (x < 0 || (x % 10 === 0 && x !== 0)) {return false;}
+
+  const numArr = JSON.stringify(x).split('');
+
+  let left = 0, right = numArr.length-1;
+
+  while (left < right) {
+
+    if (numArr[left] !== numArr[right]){
+      return false;
+    }
+    left++;
+    right--;
+  }
+  return true;
+};
+
+console.log('expect true', palindromeNumTester(0));
+console.log('expect false', palindromeNumTester(10));
+console.log('expect true', palindromeNumTester(2));
+console.log('expect true', palindromeNumTester(121));
+console.log('expect true', palindromeNumTester(1221));
+console.log('expect false', palindromeNumTester(-121));
+console.log('expect true', palindromeNumTester(12321));
+console.log('expect false', palindromeNumTester(123421));
+
+/**
+ * solution evolved from /inspired by https://leetcode.com/problems/palindrome-number/discuss/234068/Intuitive-JavaScript-Solution
+ * 
+ * Success
+Details
+Runtime: 204 ms, faster than 97.33% of JavaScript online submissions for Palindrome Number.
+Memory Usage: 45.1 MB, less than 82.28% of JavaScript online submissions for Palindrome Number.
+ * 
+ */
+
+let palindromeNumTester2 = x => {
+  if (x < 0 || (x % 10 === 0 && x !== 0)) {return false;}
+
+  if (x < 10) {return true;} // single digits are palindrome.
+  
+  // const reversed = parseInt(JSON.stringify(x).split('').reverse().join(''));
+  // return x === reversed;
+
+  // refactor of above two statements.
+  return x === parseInt(JSON.stringify(x).split('').reverse().join(''));
+
+
+};
+
+console.log('\n ... \n');
+console.log('expect true', palindromeNumTester2(0));
+console.log('expect false', palindromeNumTester2(10));
+console.log('expect true', palindromeNumTester2(2));
+console.log('expect true', palindromeNumTester2(121));
+console.log('expect true', palindromeNumTester2(1221));
+console.log('expect false', palindromeNumTester2(-121));
+console.log('expect true', palindromeNumTester2(12321));
+console.log('expect false', palindromeNumTester2(123421));
