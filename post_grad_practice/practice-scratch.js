@@ -210,7 +210,7 @@ console.log(mergeSortedArrays(arr1, arr2));
 console.log('\n ...  ... \n');
 
 /**
- * My solution after looking at a few clues...
+ * My next solution after looking at a few clues...
  * @param {*} a1 
  * @param {*} a2 
  */
@@ -830,7 +830,7 @@ let palindromeNumTester2 = x => {
   if (x < 0 || (x % 10 === 0 && x !== 0)) {return false;}
 
   if (x < 10) {return true;} // single digits are palindrome.
-  
+
   // const reversed = parseInt(JSON.stringify(x).split('').reverse().join(''));
   // return x === reversed;
 
@@ -849,3 +849,59 @@ console.log('expect true', palindromeNumTester2(1221));
 console.log('expect false', palindromeNumTester2(-121));
 console.log('expect true', palindromeNumTester2(12321));
 console.log('expect false', palindromeNumTester2(123421));
+
+/**
+ * Leet Code reverse string (input is array) in place
+ * https://leetcode.com/problems/reverse-string/
+ * 
+ * Success
+Details
+Runtime: 120 ms, faster than 92.46% of JavaScript online submissions for Reverse String.
+Memory Usage: 46.6 MB, less than 93.13% of JavaScript online submissions for Reverse String.
+
+
+ */
+
+let reverseString = s => {
+  if(s.length === 1) { return s;}
+
+  let l = 0, r = s.length-1;
+  while( l < r ) {
+
+    let temp = s[r];
+    s[r] = s[l];
+    s[l] = temp;
+    
+    l++;
+    r--;
+  }
+  return s;
+};
+
+console.log('\n ... \n');
+console.log(reverseString(['h','e','l','l','o']));
+console.log(reverseString(['h','e','l','l','o', ' ','w','o','r','l','d','!']));
+
+/**
+ * Leet Code sorted array merge. A little different from the Interview Cake version above.
+ * https://leetcode.com/problems/merge-sorted-array/
+ * 
+ * Given two sorted integer arrays nums1 and nums2, merge nums2 into nums1 as one sorted array.
+
+Note:
+
+    The number of elements initialized in nums1 and nums2 are m and n respectively.
+    You may assume that nums1 has enough space (size that is greater or equal to m + n) to hold additional elements from nums2.
+
+Example:
+
+Input:
+nums1 = [1,2,3,0,0,0], m = 3
+nums2 = [2,5,6],       n = 3
+
+Output: [1,2,2,3,5,6]
+
+My Algorithm
+loop over nums1. 
+if nums2[curr] is 
+ */

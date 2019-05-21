@@ -145,3 +145,51 @@ console.log('expect 58', romanConverter('LVIII'));
 console.log('\n');
 console.log('expect 1994', romanConverter('MCMXCIV'));
 
+console.log('\n ... number to roman ... \n');
+/**
+ * https://leetcode.com/problems/integer-to-roman/
+ * hmmm... i am sort of going in the right direction.
+ * Here is a solution:
+ * https://leetcode.com/problems/integer-to-roman/discuss/290947/Javascript-faster-than-98.50-(without-converting-to-string)
+ * 
+ */
+
+// var intToRoman = function(num) {
+//   let numStr = JSON.stringify(num);
+//   let numArr = numStr.split('');
+//   const numArrLen = numArr.length;
+
+//   console.log({numArr});
+
+//   let output = numArr.reduce((acc, curr, idx, numArr) => {
+//     let decimalPlace, currNumber, currRoman, multiplier;
+
+//     decimalPlace = numArrLen - idx;
+
+//     switch(decimalPlace) {
+//     case 4:
+//       multiplier = 1000;
+//       break;
+//     case 3:
+//       multiplier = 100;
+//       break;
+//     case 2:
+//       multiplier = 10;
+//       break;
+//     case 1:
+//       multiplier = 1;
+//       break;
+//     }
+
+//     currNumber = parseInt(curr) * multiplier;
+
+//     return  acc + currNumber;
+//   }, 0 );
+
+//   return output;
+// };
+
+// console.log(intToRoman(1));
+// console.log(intToRoman(1004));
+// console.log(intToRoman(3999));
+
