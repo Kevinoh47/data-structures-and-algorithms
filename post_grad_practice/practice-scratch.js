@@ -882,6 +882,102 @@ console.log('\n ... \n');
 console.log(reverseString(['h','e','l','l','o']));
 console.log(reverseString(['h','e','l','l','o', ' ','w','o','r','l','d','!']));
 
+
+/**
+ * https://leetcode.com/problems/reverse-vowels-of-a-string/
+ * 
+ * Success Details 
+ * Runtime: 96 ms, faster than 43.94% of JavaScript online submissions for Reverse Vowels of a String.
+Memory Usage: 39.4 MB, less than 57.20% of JavaScript online submissions for Reverse Vowels of a String.
+ */
+
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var reverseVowels = function(s) {
+  let inputArr = s.split('');
+  let len = inputArr.length;
+  let vowels = [];
+
+  for (let i = 0; i < len; i++) {
+    if (
+      inputArr[i] === 'A' || 
+      inputArr[i] === 'a' || 
+      inputArr[i] === 'E' || 
+      inputArr[i] === 'e' || 
+      inputArr[i] === 'I' || 
+      inputArr[i] === 'i' || 
+      inputArr[i] === 'O' || 
+      inputArr[i] === 'o' || 
+      inputArr[i] === 'U' || 
+      inputArr[i] === 'u'  
+    ) {
+      vowels.push(inputArr[i]);
+    }
+  }
+
+  vowels.reverse();
+
+  for (let i = 0; i < len; i++) {
+    if (
+      inputArr[i] === 'A' || 
+      inputArr[i] === 'a' || 
+      inputArr[i] === 'E' || 
+      inputArr[i] === 'e' || 
+      inputArr[i] === 'I' || 
+      inputArr[i] === 'i' || 
+      inputArr[i] === 'O' || 
+      inputArr[i] === 'o' || 
+      inputArr[i] === 'U' || 
+      inputArr[i] === 'u'  
+    ) {
+      inputArr[i] = vowels.shift();
+    }
+  }
+
+  return inputArr.join('');
+};
+
+console.log('\n ... \n');
+console.log(reverseVowels('hello world'));
+
+/**
+ * here is the solution i was originally trying for, but got bogged down trying to manage independently moving left and right until they both match up with vowels:
+ * https://leetcode.com/problems/reverse-vowels-of-a-string/discuss/81356/JavaScript-Solution
+ */
+
+var reverseVowels2 = function(s) {
+  if(s === null || s.length === 0) {
+    return s;
+  }
+  var chars = s.split('');
+  var low = 0;
+  var high = s.length - 1;
+  var vowels = "aeiouAEIOU";
+  var tmp;
+  while(low < high) {
+    while(low < high && vowels.indexOf(chars[low]) === -1) {
+      low++;
+    }
+    
+    while(low < high && vowels.indexOf(chars[high]) === -1) {
+      high--;
+    }
+    
+    tmp = chars[high];
+    chars[high] = chars[low];
+    chars[low] = tmp;
+    low++;
+    high--;
+  }
+
+  return chars.join('');
+};
+ 
+console.log('\n ... \n');
+console.log(reverseVowels('hello world'));
+
 /**
  * Leet Code sorted array merge. A little different from the Interview Cake version above.
  * https://leetcode.com/problems/merge-sorted-array/
