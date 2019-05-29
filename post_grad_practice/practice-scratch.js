@@ -840,7 +840,7 @@ let palindromeNumTester2 = x => {
 
 };
 
-console.log('\n ... \n');
+console.log('\n ... palindrome number tester 2 ... \n');
 console.log('expect true', palindromeNumTester2(0));
 console.log('expect false', palindromeNumTester2(10));
 console.log('expect true', palindromeNumTester2(2));
@@ -878,7 +878,7 @@ let reverseString = s => {
   return s;
 };
 
-console.log('\n ... \n');
+console.log('\n ... reverse string using two pointers... \n');
 console.log(reverseString(['h','e','l','l','o']));
 console.log(reverseString(['h','e','l','l','o', ' ','w','o','r','l','d','!']));
 
@@ -900,19 +900,26 @@ var reverseVowels = function(s) {
   let len = inputArr.length;
   let vowels = [];
 
-  for (let i = 0; i < len; i++) {
+  let _vowelTest = inputChar => {
     if (
-      inputArr[i] === 'A' || 
-      inputArr[i] === 'a' || 
-      inputArr[i] === 'E' || 
-      inputArr[i] === 'e' || 
-      inputArr[i] === 'I' || 
-      inputArr[i] === 'i' || 
-      inputArr[i] === 'O' || 
-      inputArr[i] === 'o' || 
-      inputArr[i] === 'U' || 
-      inputArr[i] === 'u'  
+      inputChar === 'A' || 
+      inputChar === 'a' || 
+      inputChar === 'E' || 
+      inputChar === 'e' || 
+      inputChar === 'I' || 
+      inputChar === 'i' || 
+      inputChar === 'O' || 
+      inputChar === 'o' || 
+      inputChar === 'U' || 
+      inputChar === 'u'  
     ) {
+      return true;
+    }
+    return false;
+  };
+
+  for (let i = 0; i < len; i++) {
+    if ( _vowelTest(inputArr[i]) ) {
       vowels.push(inputArr[i]);
     }
   }
@@ -920,18 +927,7 @@ var reverseVowels = function(s) {
   vowels.reverse();
 
   for (let i = 0; i < len; i++) {
-    if (
-      inputArr[i] === 'A' || 
-      inputArr[i] === 'a' || 
-      inputArr[i] === 'E' || 
-      inputArr[i] === 'e' || 
-      inputArr[i] === 'I' || 
-      inputArr[i] === 'i' || 
-      inputArr[i] === 'O' || 
-      inputArr[i] === 'o' || 
-      inputArr[i] === 'U' || 
-      inputArr[i] === 'u'  
-    ) {
+    if ( _vowelTest(inputArr[i]) ) {
       inputArr[i] = vowels.shift();
     }
   }
@@ -939,7 +935,7 @@ var reverseVowels = function(s) {
   return inputArr.join('');
 };
 
-console.log('\n ... \n');
+console.log('\n ... leetcode reverseVowels,  my code ...\n');
 console.log(reverseVowels('hello world'));
 
 /**
@@ -976,7 +972,7 @@ var reverseVowels2 = function(s) {
   return chars.join('');
 };
  
-console.log('\n ... \n');
+console.log('\n ... leetcode reverseVowels solution code ...\n');
 console.log(reverseVowels('hello world'));
 
 /**
@@ -1038,11 +1034,13 @@ Output: [1,2,2,3,5,6]
 // Runtime: 44 ms, faster than 99.83% of JavaScript online submissions for Merge Sorted Array.
 // Memory Usage: 33.7 MB, less than 93.76% of JavaScript online submissions for Merge Sorted Array.
 
+// Time Complexity should be O(m+n); Space Complexity should be O(1);
+
 
 var merge = function(nums1, m, nums2, n) {
 
   if (m === 0) {
-
+    // remove everything, and copy in nums2.
     nums1.splice(0,nums1.length, ...nums2);
 
   }
@@ -1053,24 +1051,26 @@ var merge = function(nums1, m, nums2, n) {
 
     for (var i = 0; i < m+n; i++) {
 
+      // if we have passed m, just make curr1 the biggest possible number for easy comparison, since we are going to splice any real curr2 for that case.
       let curr1 = (nums1[i] === 0) ? 0 : ((nums1[i]) ? nums1[i] : Number.MAX_SAFE_INTEGER);
 
+      //if we have already shifted everything off of num2, set curr2 to null.
       let curr2 = (nums2[0] === 0) ? 0 : ((nums2[0]) ? nums2[0] : null);
       console.log('curr1:', curr1, 'curr2:', curr2);
 
-      if ((curr2|| curr2 === 0) && curr2 <= curr1 ) {
+      if (curr2 !== null && curr2 <= curr1 ) {
 
         console.log(`splicing curr2 ${curr2} into curr1 at index ${i}`);
 
         nums1.splice(i, 0, curr2); 
-        nums2.shift(); 
+        nums2.shift(); //get rid of current num2 value.
       }
     }
   }
 };
 
-
-console.log('\n ... test 5 ... \n');
+console.log('\n ... LeetCode Merge Sorted Arrays ...');
+console.log(' ... test 5 expects [ -1, -1, -1, 0, 0, 0 ] ... \n');
 
 
 let nums1 = [-1,-1,0,0,0,0];
@@ -1083,10 +1083,10 @@ console.log({'m': m, 'n': n});
 
 merge(nums1, m, nums2, n);
 
-console.log({nums1});
+console.log({'final num1:' : nums1});
 console.log({nums2});
 
-console.log('\n ... test 4 ... \n');
+console.log('\n ... test 4 expects [ -1, 0, 0, 1, 2, 2, 3, 3, 3 ]... \n');
 
 nums1 = [-1,0,0,3,3,3,0,0,0];
 m = 6;
@@ -1097,10 +1097,10 @@ console.log({nums2});
 
 merge(nums1, m, nums2, n);
 
-console.log({nums1});
+console.log({'final num1:' : nums1});
 console.log({nums2});
 
-console.log('\n ... test 3 ... \n');
+console.log('\n ... test 3 expects [ 1, 2 ] ... \n');
 
 nums1 = [2,0];
 m = 1;
@@ -1111,10 +1111,10 @@ console.log({nums2});
 
 merge(nums1, m, nums2, n);
 
-console.log({nums1});
+console.log({'final num1:' : nums1});
 console.log({nums2});
 
-console.log('\n ... test 2 ...\n');
+console.log('\n ... test 2 expects [ 1 ] ...\n');
 
 nums1 = [0];
 m = 0;
@@ -1125,13 +1125,13 @@ console.log({nums2});
 
 merge(nums1, m, nums2, n);
 
-console.log({nums1});
+console.log({'final num1:' : nums1});
 console.log({nums2});
 
 
 
 
-console.log('\n ... test 1 ... \n');
+console.log('\n ... test 1 expects [ 1, 2, 2, 3, 5, 6 ] ... \n');
 nums1 = [1,2,3,0,0,0];
 m = 3;
 nums2 = [2,5,6];
@@ -1141,7 +1141,7 @@ console.log({nums2});
 
 merge(nums1, m, nums2, n);
 
-console.log({nums1});
+console.log({'final num1:' : nums1});
 console.log({nums2});
 
 console.log('\n ... \n');
