@@ -945,6 +945,7 @@ console.log(reverseVowels('hello world'));
 /**
  * here is the solution i was originally trying for, but got bogged down trying to manage independently moving left and right until they both match up with vowels:
  * https://leetcode.com/problems/reverse-vowels-of-a-string/discuss/81356/JavaScript-Solution
+ * the inner whiles here are really elegant.
  */
 
 var reverseVowels2 = function(s) {
@@ -997,7 +998,150 @@ nums2 = [2,5,6],       n = 3
 
 Output: [1,2,2,3,5,6]
 
-My Algorithm
-loop over nums1. 
-if nums2[curr] is 
+*/
+
+/**
+ * @param {number[]} nums1
+ * @param {number} m
+ * @param {number[]} nums2
+ * @param {number} n
+ * @return {void} Do not return anything, modify nums1 in-place instead.
  */
+
+
+// this version is only slightly refactored from 
+// https://leetcode.com/problems/merge-sorted-array/discuss/155565/Javascript-64ms.
+
+// Success
+// Details
+// Runtime: 64 ms, faster than 43.37% of JavaScript online submissions for Merge Sorted Array.
+// Memory Usage: 34.9 MB, less than 20.33% of JavaScript online submissions for Merge Sorted Array.
+
+
+// var merge = function(nums1, m, nums2, n) {
+//   // remove the extras. Start at length of good ones, remove the rest.
+//   nums1.splice(m);
+
+//   // push on all the num2 values.
+//   nums1.push(...nums2);
+  
+//   // and sort.
+//   nums1.sort((a,b)=>a-b);
+// };
+
+
+
+// My solution. It was difficult managing for all the edge cases where value was 0, thus requiring || x === 0 tests to be included. But performace is great:
+
+// Success
+// Details
+// Runtime: 44 ms, faster than 99.83% of JavaScript online submissions for Merge Sorted Array.
+// Memory Usage: 33.7 MB, less than 93.76% of JavaScript online submissions for Merge Sorted Array.
+
+
+var merge = function(nums1, m, nums2, n) {
+
+  if (m === 0) {
+
+    nums1.splice(0,nums1.length, ...nums2);
+
+  }
+  else {
+    // remove the extras. Start at length of good ones, remove the rest.
+    nums1.splice(m);
+    console.log({'nums1 after truncating: ': nums1});
+
+    for (var i = 0; i < m+n; i++) {
+
+      let curr1 = (nums1[i] === 0) ? 0 : ((nums1[i]) ? nums1[i] : Number.MAX_SAFE_INTEGER);
+
+      let curr2 = (nums2[0] === 0) ? 0 : ((nums2[0]) ? nums2[0] : null);
+      console.log('curr1:', curr1, 'curr2:', curr2);
+
+      if ((curr2|| curr2 === 0) && curr2 <= curr1 ) {
+
+        console.log(`splicing curr2 ${curr2} into curr1 at index ${i}`);
+
+        nums1.splice(i, 0, curr2); 
+        nums2.shift(); 
+      }
+    }
+  }
+};
+
+
+console.log('\n ... test 5 ... \n');
+
+
+let nums1 = [-1,-1,0,0,0,0];
+let m = 4;
+let nums2 = [-1,0];
+let n = 2;
+console.log({nums1});
+console.log({nums2});
+console.log({'m': m, 'n': n});
+
+merge(nums1, m, nums2, n);
+
+console.log({nums1});
+console.log({nums2});
+
+console.log('\n ... test 4 ... \n');
+
+nums1 = [-1,0,0,3,3,3,0,0,0];
+m = 6;
+nums2 = [1,2,2];
+n = 3;
+console.log({nums1});
+console.log({nums2});
+
+merge(nums1, m, nums2, n);
+
+console.log({nums1});
+console.log({nums2});
+
+console.log('\n ... test 3 ... \n');
+
+nums1 = [2,0];
+m = 1;
+nums2 = [1];
+n = 1;
+console.log({nums1});
+console.log({nums2});
+
+merge(nums1, m, nums2, n);
+
+console.log({nums1});
+console.log({nums2});
+
+console.log('\n ... test 2 ...\n');
+
+nums1 = [0];
+m = 0;
+nums2 = [1];
+n = 1;
+console.log({nums1});
+console.log({nums2});
+
+merge(nums1, m, nums2, n);
+
+console.log({nums1});
+console.log({nums2});
+
+
+
+
+console.log('\n ... test 1 ... \n');
+nums1 = [1,2,3,0,0,0];
+m = 3;
+nums2 = [2,5,6];
+n = 3;
+console.log({nums1});
+console.log({nums2});
+
+merge(nums1, m, nums2, n);
+
+console.log({nums1});
+console.log({nums2});
+
+console.log('\n ... \n');
