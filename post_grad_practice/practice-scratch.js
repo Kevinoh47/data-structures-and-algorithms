@@ -330,7 +330,7 @@ console.log(mergeOrderedArraysIC2(arr4, arr5));
 
 console.log('\n ...  Another attempt at brackets matcher ... \n');
 /**
- * Another attempt at Valid Parenthesis
+ * Another attempt at Valid Parenthesis tester
  * https://leetcode.com/problems/valid-parentheses/
  * 
  * Hints
@@ -393,7 +393,7 @@ var isValid = function(s) {
 
 console.log(isValid('[()[][{}]]'));
 
-console.log('\n ...  Max profit ... \n');
+console.log('\n ...  leetcode max profit ... \n');
 /**
  * https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
  * 
@@ -500,6 +500,8 @@ var reverseInt = function(x) {
   return (Math.abs(myNum) > 0x7FFFFFFF ) ? 0 : myNum;
 
 };
+
+console.log('\n ...  reverse integer tests, including handling overflows ... \n');
 
 console.log(reverseInt(321));
 console.log(reverseInt(-321));
@@ -698,7 +700,7 @@ var subdomainVisits3 = function(domainslist) {
   return output;
 };
 
-console.log('\n ...  checking out the solution code ... \n');
+console.log('\n ...  checking out the subdomain count solution code ... \n');
 console.log(subdomainVisits3(t1));
 
 console.log(`\n ... jewels and stones ... \n`);
@@ -1144,4 +1146,61 @@ merge(nums1, m, nums2, n);
 console.log({'final num1:' : nums1});
 console.log({nums2});
 
-console.log('\n ... \n');
+console.log('\n ... LeetCode FizzBuzz ... \n');
+
+/**
+ * https://leetcode.com/problems/fizz-buzz/
+ * @param {*} n 
+ * My solution was first try, and pretty fast to come by. I missed though that numbers are expected to be stringified.
+ * 
+ * Success
+Details
+Runtime: 60 ms, faster than 95.78% of JavaScript online submissions for Fizz Buzz.
+Memory Usage: 36.8 MB, less than 99.52% of JavaScript online submissions for Fizz Buzz.
+
+ */
+let fizzBuzz = n => {
+  let output = [];
+
+  let _test = (x, divisor) => {
+    return (x % divisor === 0);
+  }
+
+  for (let i = 1; i <= n; i++) {
+    let fizz = _test(i, 3);
+    let buzz = _test(i, 5);
+
+    let curr = (fizz && buzz) ? 'FizzBuzz' : ( fizz ? 'Fizz' : ( buzz ) ? 'Buzz' : JSON.stringify(i));
+
+    output.push(curr);
+  }
+  return output;
+
+};
+
+console.log(fizzBuzz(15));
+
+console.log('\n ... LeetCode FizzBuzz done using a hash ... \n');
+
+let fizzBuzzWithHash = n => {
+  let output = [];
+
+  let myHash = {3 : 'Fizz', 5 : 'Buzz', 7 : 'Swee'};
+
+  for (let i = 1; i <= n; i++) {
+    let currStr = '';
+    
+    for (let currKey of Object.keys(myHash)) {
+
+      if (i % currKey === 0) { currStr += myHash[currKey];}
+    }
+
+    if(currStr.length === 0) { currStr = `${i}`;}
+
+    output.push(currStr);
+  }
+  return output;
+
+};
+
+console.log(fizzBuzzWithHash(35));
