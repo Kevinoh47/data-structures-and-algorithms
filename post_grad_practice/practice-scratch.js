@@ -1218,6 +1218,12 @@ console.log(fizzBuzzWithHash(35));
 console.log('\n ... LeetCode MinStack ... \n');
 /**
  * Leetcode Min Stack
+ * https://leetcode.com/problems/min-stack/submissions/
+ * Success
+Details
+Runtime: 8740 ms, faster than 5.03% of JavaScript online submissions for Min Stack.
+Memory Usage: 70 MB, less than 5.03% of JavaScript online submissions for Min Stack.
+
  */
 
 var MinStack = function() { 
@@ -1245,7 +1251,6 @@ let myTest = new MinStack();
 myTest.push(-2);
 myTest.push(0);
 myTest.push(-3);
-
 
 console.log({myTest});
 console.log('getMin:', myTest.getMin());
