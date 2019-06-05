@@ -1260,3 +1260,139 @@ console.log({myTest});
 console.log('top:', myTest.top());
 console.log('new min from getMin:', myTest.getMin());
 
+console.log('\n ... LeetCode ordered logs ... \n');
+/**
+ * https://leetcode.com/problems/reorder-log-files/
+ * 
+ * You have an array of logs.  Each log is a space delimited string of words.
+
+For each log, the first word in each log is an alphanumeric identifier.  Then, either:
+
+    Each word after the identifier will consist only of lowercase letters, or;
+    Each word after the identifier will consist only of digits.
+
+We will call these two varieties of logs letter-logs and digit-logs.  It is guaranteed that each log has at least one word after its identifier.
+
+Reorder the logs so that all of the letter-logs come before any digit-log.  The letter-logs are ordered lexicographically ignoring identifier, with the identifier used in case of ties.  The digit-logs should be put in their original order.
+
+Return the final order of the logs.
+
+
+Example 1:
+
+Input: ["a1 9 2 3 1","g1 act car","zo4 4 7","ab1 off key dog","a8 act zoo"]
+Output: ["g1 act car","a8 act zoo","ab1 off key dog","a1 9 2 3 1","zo4 4 7"]
+
+Note:
+
+    0 <= logs.length <= 100
+    3 <= logs[i].length <= 100
+    logs[i] is guaranteed to have an identifier, and a word after the identifier.
+ */
+
+
+// oops this function works for some tests but fails for some others. It seems that the comparison order (a,b) does not necessarily match the input order, because for the test that fails, first a = logs[0], but first b = logs[length-1]. This solution makes the assumption that the comparisons are made in index order, which is not necessarily the case, apparently.
+
+var reorderLogFilesFAILED = function(logs) {
+
+  logs.sort((a,b) => {
+
+    console.log(a, b);
+
+    let aArr = a.split(' ');
+    let bArr = b.split(' ');
+
+    let aIsAlphaNumeric = isNaN(aArr[1].charAt(0));
+    let bIsAlphaNumeric = isNaN(bArr[1].charAt(0));  // or .slice(0,1);
+
+    let aId = aArr[0];
+    let bId = bArr[0];
+
+    let aString = aArr.slice(1).join(' ');
+    let bString = bArr.slice(1).join(' ');
+
+    // sort two alphanumerics by string
+    if (aIsAlphaNumeric && bIsAlphaNumeric) {
+
+      // it the string value of two alphanumerics is the same, sort by id
+      if (aString === bString) {
+        if (aId < bId) {
+          return -1;
+        }
+        else {return 1;}
+      }
+      else {
+        if ( aString > bString) { return 1;}
+        else { return -1;}
+      }
+    }
+    // alphanumerics first
+    else if(aIsAlphaNumeric && !bIsAlphaNumeric) {
+      return -1; 
+    }
+    // alphanumerics first
+    else if(!aIsAlphaNumeric && bIsAlphaNumeric) {
+      return 1;
+    }
+    //For numbers, just sort by input order
+    else if(!aIsAlphaNumeric && !bIsAlphaNumeric) {
+      return -1; 
+    }
+    else { 
+      return 0;}
+  });
+  return logs; 
+};
+
+// Success
+// Details
+// Runtime: 80 ms, faster than 29.82% of JavaScript online submissions for Reorder Log Files.
+// Memory Usage: 37.7 MB, less than 44.50% of JavaScript online submissions for Reorder Log Files.
+
+var reorderLogFiles = function(logs) {
+  let alpha = [], nums = [];
+
+  logs.map((e) => { 
+    let eIsAlpha = isNaN(e.split(' ')[1].charAt(0));
+    if (eIsAlpha) { alpha.push(e);}
+    else {nums.push(e);}
+  });
+
+  //sort alphas
+  alpha.sort((a,b) => {
+    let aId = a.substring(0,a.indexOf(' '));
+    let aStr = a.substring(a.indexOf(' ')+1);
+    let bId = b.substring(0,  b.indexOf(' '));
+    let bStr = b.substring(b.indexOf(' ')+1);
+
+    if (aStr === bStr) {
+      if (aId <= bId) { return -1;} 
+      else {return 1;}
+    }
+    else {
+      if (aStr <= bStr) { return -1;} else {return 1;}
+    }
+  });
+
+  return alpha.concat(nums);
+};
+
+let logs = ['a1 9 2 3 1','g1 act car', 'zo4 4 7','ab1 off key dog','a8 act zoo', 'b2 act car', 'b1 act car'];
+console.log('input: ', logs);
+console.log(reorderLogFiles(logs));
+
+console.log('\n ... ... \n');
+logs = ["6p tzwmh ige mc", "ns 566543603829", "ubd cujg j d yf", "ha6 1 938 376 5", "3yx 97 666 56 5", "d 84 34353 2249", "0 tllgmf qp znc", "s 1088746413789", "ys0 splqqxoflgx", "uhb rfrwt qzx r", "u lrvmdt ykmox", "ah4 4209164350", "rap 7729 8 125", "4 nivgc qo z i", "apx 814023338 8"];
+
+console.log('input: ', logs);
+
+let expected = ["ubd cujg j d yf","u lrvmdt ykmox","4 nivgc qo z i","uhb rfrwt qzx r","ys0 splqqxoflgx","0 tllgmf qp znc","6p tzwmh ige mc","ns 566543603829","ha6 1 938 376 5","3yx 97 666 56 5","d 84 34353 2249","s 1088746413789","ah4 4209164350","rap 7729 8 125","apx 814023338 8"];
+
+console.log('expected output: ', expected);
+console.log('actual output: ', reorderLogFiles(logs));
+
+
+
+
+
+
