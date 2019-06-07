@@ -1377,8 +1377,39 @@ var reorderLogFiles = function(logs) {
   return alpha.concat(nums);
 };
 
+/**
+ * Here is a super slick solution:
+ * https://leetcode.com/problems/reorder-log-files/discuss/305183/Javascript-easy-to-understand-solution-beats-95
+ */
+
+
+reorderLogFiles = function(logs) {
+  const logArrs = logs.map(l => l.split(' '));
+  const numbers = '1234567890'.split('');
+  let letters = logArrs.filter(l => !numbers.includes(l[1][0])); //array of arrays.[1] is the string, 0 is first char
+  const digits = logArrs.filter(l => numbers.includes(l[1][0]));
+  
+  letters = letters.map(l => { 
+    let [lead, ...others] = l;
+
+    console.log('l:', l, 'lead:', lead, 'others: ', others.join(' '));
+    return [lead, others.join(' ')];
+  })
+    .sort((a,b) => {
+      if(a[1] < b[1]) { return -1; }
+      if(a[1] >= b[1]) { return 1; } //keep head order
+      return 0;
+    });
+  
+  return [
+    ...letters.map(l => l.join(' ')),
+    ...digits.map(l => l.join(' ')),
+  ];
+};
+
 let logs = ['a1 9 2 3 1','g1 act car', 'zo4 4 7','ab1 off key dog','a8 act zoo', 'b2 act car', 'b1 act car'];
 console.log('input: ', logs);
+console.log('\n ... \n');
 console.log(reorderLogFiles(logs));
 
 console.log('\n ... ... \n');
