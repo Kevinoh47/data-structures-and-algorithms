@@ -126,3 +126,33 @@ kanga.speaks('rrrgg');
 kanga.moves(3);
 kanga.eats(); //default
 kanga.eats('berries');
+
+console.log(Object.getOwnPropertyDescriptor(kanga, 'noise'));
+
+for (let key in kanga) console.log(key);
+let animals = {'d':'dog', 'c':'cat', 'e':'Eagle', 'e2': 'earwig'};
+for (let key in animals) console.log(key);
+console.log(Object.values(animals));
+let animalsThatBeginWithE = Object.values(animals).filter((v)=>{return (v.slice(0,1).toLowerCase() === 'e');});
+console.log(animalsThatBeginWithE);
+
+console.log(`\n .... \n`);
+let currUser = {
+  name:'john', 
+  surname:'smith',
+
+  // getter method behaves as a property
+  get fullName(){
+    let preppedName = this.name.slice(0,1).toUpperCase() + this.name.slice(1);
+    let preppedSurname = this.surname.slice(0,1).toUpperCase() + this.surname.slice(1);
+    return `${preppedName} ${preppedSurname}`;
+  },
+
+  set fullName(str) {
+    [this.name, this.surname] =  str.split(' ');
+  },
+};
+
+console.log(currUser.fullName);
+currUser.fullName = "Scarlett Johannson";
+console.log(currUser.fullName);
