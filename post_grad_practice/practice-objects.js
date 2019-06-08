@@ -45,6 +45,46 @@ speak.call( you );
 
 */
 
+console.log('\n\nCowslip the Elf...');
+
+function Elf (elfType, name) {
+  this.elfType = elfType;
+  this.name = name;
+}
+
+Elf.prototype.sing = function(greeting) {
+  if (greeting) {
+    console.log(`tra la la hello dear ${greeting}...`);
+  } else {
+    console.log(`tra la la my name is ${this.name}... `);
+  }
+};
+
+let dance = function(timesAround) {
+  let message, reportedName = '';
+  if (!Number.isInteger(timesAround) || timesAround > 3 ) timesAround = 1;
+  timesAround = Math.abs(timesAround);
+
+  if (this.fullName) { 
+    reportedName = this.fullName;
+  } else if (this.name) {
+    reportedName = this.name;
+  } 
+  message = `I am ${reportedName} `;
+  for (let i = 0; i < timesAround; i++) {
+    message += ` dancing round and round...`;
+  }
+  console.log(message);
+};
+
+let cowslip = new Elf('woodland', 'Cowslip');
+
+// .call provides context to function.
+dance.call(cowslip);
+
+console.log(cowslip.sing());
+console.log(cowslip.sing('DewDrop'));
+
 console.log('\n\nDewDrop the fairy...');
 class Fairy {
   constructor(fairyType, name) {
@@ -75,6 +115,7 @@ dewDrop.sprinkle();
 dewDrop.sprinkle(7); // default since out of bounds
 dewDrop.sprinkle(3); 
 
+console.log('\n\nKangaroo extends mammal...');
 class Mammal {
   constructor(name, noise, food) {
     this.name = name;
@@ -93,9 +134,9 @@ class Mammal {
 }
 
 class Kangaroo extends Mammal {
-  constructor(name,noise,food,whereFound) {
+  constructor(name,noise,food,fight) {
     super(name,noise,food);
-    this.whereFound = whereFound;
+    this.fight = fight;
   }
   eats(food) {
     // if different food is input, chew that. otherwise chew constructor food.
@@ -111,6 +152,9 @@ class Kangaroo extends Mammal {
       console.log(`hop! `);
     }
   }
+  brawl() {
+    console.log(`i am fighting here comes some ${this.fight}!`);
+  }
 }
 
 console.log('\n\na generic mammal...');
@@ -120,26 +164,31 @@ mammal.eats();
 mammal.eats('grubs');
 
 console.log('\n\nkanga the kangaroo...');
-const kanga = new Kangaroo('Kanga', 'cheee', 'leaves', 'Australia');
+const kanga = new Kangaroo('Kanga', 'cheee', 'leaves', 'punches');
 kanga.speaks(); // 
 kanga.speaks('rrrgg');
 kanga.moves(3);
 kanga.eats(); //default
 kanga.eats('berries');
+kanga.brawl();
 
+console.log('\nkanga getOwnPropertyDescriptor...');
 console.log(Object.getOwnPropertyDescriptor(kanga, 'noise'));
 
+console.log('\nkanga for in loop showing iterable properties...');
 for (let key in kanga) console.log(key);
+
+console.log('\nfor in loop with array filter on first letter e...');
 let animals = {'d':'dog', 'c':'cat', 'e':'Eagle', 'e2': 'earwig'};
 for (let key in animals) console.log(key);
 console.log(Object.values(animals));
 let animalsThatBeginWithE = Object.values(animals).filter((v)=>{return (v.slice(0,1).toLowerCase() === 'e');});
 console.log(animalsThatBeginWithE);
 
-console.log(`\n .... \n`);
+console.log(`\n .... getters and setters ... \n`);
 let currUser = {
-  name:'john', 
-  surname:'smith',
+  name:'keanu', 
+  surname:'reeVES',
 
   // getter method behaves as a property
   get fullName(){
@@ -149,10 +198,29 @@ let currUser = {
   },
 
   set fullName(str) {
-    [this.name, this.surname] =  str.split(' ');
+    let [first, last] =  str.split(' ');
+    this.name = first.slice(0,1).toUpperCase() + first.slice(1).toLowerCase();
+    this.surname = last.slice(0,1).toUpperCase() + last.slice(1).toLowerCase();
   },
 };
 
+// first instance is not set through setter...
 console.log(currUser.fullName);
-currUser.fullName = "Scarlett Johannson";
+// dance is called without args array so uses default.
+dance.call(currUser);
+
+// setter to replace current values on currUser
+currUser.fullName = 'scarLEtt johaNnson';
 console.log(currUser.fullName);
+
+console.log(`\n .... passing object context + input values to function using .call ... \n`);
+
+let args = [3];
+dance.call(currUser, ...args);
+
+args = [2];
+dance.call(cowslip, ...args);
+
+console.log(`\n .... passing object context + input values to function using .apply ... \n`);
+
+dance.apply(cowslip, [3]);
