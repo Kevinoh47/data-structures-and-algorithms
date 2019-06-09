@@ -1624,7 +1624,8 @@ let convertBinaryToArabic = str => {
   let reversedArr = str.split('').reverse();
 
   let results = reversedArr.reduce((accum, curr, currIndex, reversedArr) => {
-    // currVal of 0 will evaluate to false...
+    // currVal of 0 will evaluate to false... otherwise 1 = true of course.
+    // If curr === 1, then we convert it to 2 to the power of the currIndex and add it to accum.
     let currVal = parseInt(curr);
     return (currVal) ? accum + Math.pow(2, currIndex) : accum; 
 
