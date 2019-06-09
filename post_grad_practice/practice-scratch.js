@@ -1507,7 +1507,7 @@ Output: "10101"
 
 */
 
-console.log('\n ... Binary addition ... \n');
+console.log('\n ... Binary addition first version returns sum as Arabic numeral... \n');
 
 let addBinary = function(a, b) {
 
@@ -1517,7 +1517,7 @@ let addBinary = function(a, b) {
   console.log({aArr});
   console.log({bArr});
 
-  let _convertBinaryToDecimal = reversedArr => {
+  let _convertBinaryToArabic = reversedArr => {
 
     let results = reversedArr.reduce((accum, curr, currIndex, reversedArr) => {
       // currVal of 0 will evaluate to false...
@@ -1535,10 +1535,10 @@ let addBinary = function(a, b) {
     return results;
   };
 
-  let aDecimal = _convertBinaryToDecimal(aArr);
-  let bDecimal = _convertBinaryToDecimal(bArr);
+  let aArabic = _convertBinaryToArabic(aArr);
+  let bArabic = _convertBinaryToArabic(bArr);
 
-  return {'a': aDecimal, 'b': bDecimal, 'sum': aDecimal + bDecimal};
+  return {'a': aArabic, 'b': bArabic, 'sum': aArabic + bArabic};
 
 };
 
@@ -1601,7 +1601,7 @@ let addBinary2 = (a,b) => {
 
     carry = ( currSum > 1 ) ? 1 : 0;
   }
-
+  // if carry is left over we need to push one more place
   if (carry === 1) {output.push(1);}
   output.reverse();
 
@@ -1615,11 +1615,11 @@ a = "1010", b = "1011"
 console.log('\nadding binary 10 with  binary 11 should equal binary21:', addBinary2(a,b));
 
 /**
- * And just surfacing my binary to decimal function from my first version:
+ * And just surfacing my binary to Arabic numeral function from my first version:
  *
  */
 
-let convertBinaryToDecimal = str => {
+let convertBinaryToArabic = str => {
 
   let reversedArr = str.split('').reverse();
 
@@ -1632,5 +1632,6 @@ let convertBinaryToDecimal = str => {
 
   return results;
 };
-console.log('\n binary to decimial converter... \n');
-console.log('10101 should be 21:', convertBinaryToDecimal('10101'));
+console.log('\n binary to Arabic numeral converter... \n');
+console.log('100 should be 4:', convertBinaryToArabic('100'));
+console.log('10101 should be 21:', convertBinaryToArabic('10101'));
