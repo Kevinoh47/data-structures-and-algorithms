@@ -1488,3 +1488,77 @@ console.log(fibonacciRecurse(5));
 console.log(fibonacciRecurse(6));
 console.log(fibonacciRecurse(7));
 
+/**
+ * https://leetcode.com/problems/add-binary/
+ * 
+ * Given two binary strings, return their sum (also a binary string).
+
+The input strings are both non-empty and contains only characters 1 or 0.
+
+Example 1:
+
+Input: a = "11", b = "1"
+Output: "100"
+
+Example 2:
+
+Input: a = "1010", b = "1011"
+Output: "10101"
+
+*/
+
+console.log('\n ... Binary addition ... \n');
+
+let addBinary = function(a, b) {
+
+  let aArr = a.split('').reverse();
+  let bArr = b.split('').reverse();
+
+  console.log({aArr});
+  console.log({bArr});
+
+  let _convertBinaryToDecimal = reversedArr => {
+
+    let results = reversedArr.reduce((accum, curr, currIndex, reversedArr) => {
+      // currVal of 0 will evaluate to false...
+      let currVal = parseInt(curr);
+      // console.log({reversedArr});
+      // console.log({currIndex});
+      // console.log({accum});
+      // console.log({curr});
+      // console.log('current return value: ', (currVal) ? accum + Math.pow(2, currIndex) : accum);
+
+      return (currVal) ? accum + Math.pow(2, currIndex) : accum; 
+
+    }, 0);
+
+    return results;
+  };
+
+  let aDecimal = _convertBinaryToDecimal(aArr);
+  let bDecimal = _convertBinaryToDecimal(bArr);
+
+  return {'a': aDecimal, 'b': bDecimal, 'sum': aDecimal + bDecimal};
+
+};
+
+// console.log('2 power 0', Math.pow(2,0));
+// console.log('2 power 1', Math.pow(2,1));
+// console.log('2 power 2', Math.pow(2,2));
+
+// let test10 = [0, 1, 2, 3, 4].reduce((accumulator, currentValue, currentIndex, array) => {
+//   return accumulator + currentValue;
+// }, 10);
+// console.log({test10});
+
+// let test0 = [0, 1, 2, 3, 4].reduce((accumulator, currentValue, currentIndex, array) => {
+//   return accumulator + currentValue;
+// }, 0);
+// console.log({test0});
+
+console.log('\n my function... \n');
+let a = "11", b = "1";
+console.log('\nadding binary 3 with  binary 1 should equal 4:', addBinary(a,b));
+
+a = "1010", b = "1011"
+console.log('\nadding binary 10 with  binary 11 should equal 21:', addBinary(a,b));

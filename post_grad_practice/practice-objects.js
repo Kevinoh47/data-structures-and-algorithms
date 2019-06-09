@@ -416,10 +416,51 @@ Pangolin.prototype.sayHi = function() {console.log(`Hello my name is ${this.name
 
 let bobby = new Pangolin('Bobby');
 
+// all but the first are looking for sayHi at its prototype, which isn't named. Thus there this.name is undefined for all but the first.
 bobby.sayHi();
 Pangolin.prototype.sayHi();
 Object.getPrototypeOf(bobby).sayHi();
 bobby.__proto__.sayHi();
+
+/**
+ * Built in prototypes:
+ * https://javascript.info/native-prototypes
+ * 
+ * Borrowing from prototypes
+
+In the chapter Decorators and forwarding, call/apply we talked about method borrowing.
+
+That’s when we take a method from one object and copy it into another.
+Some methods of native prototypes are often borrowed.
+For instance, if we’re making an array-like object, we may want to copy some array methods to it.
+
+E.g.
+
+let obj = {
+  0: "Hello",
+  1: "world!",
+  length: 2,
+};
+
+obj.join = Array.prototype.join;
+
+alert( obj.join(',') ); // Hello,world!
+ * Summary
+
+    All built-in objects follow the same pattern:
+        The methods are stored in the prototype (Array.prototype, Object.prototype, Date.prototype etc).
+        The object itself stores only the data (array items, object properties, the date).
+    Primitives also store methods in prototypes of wrapper objects: Number.prototype, String.prototype, Boolean.prototype. Only undefined and null do not have wrapper objects.
+    Built-in prototypes can be modified or populated with new methods. But it’s not recommended to change them. Probably the only allowable cause is when we add-in a new standard, but not yet supported by the engine JavaScript method.
+
+
+ */
+
+ console.log('\n borrowing native methods, which are stored in .prototype: \n');
+ // interesting: note that without the length property this fails silently. Apparently join uses the array.prototype.length under the covers, and without it, nothing.
+ let myHash = {0: "hello", 1: "world", length: 2, };
+ myHash.join = Array.prototype.join;
+ console.log(myHash.join(','));
 
 console.log('\n ... class inheritance ... \n');
 
