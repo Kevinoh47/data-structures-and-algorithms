@@ -1260,3 +1260,379 @@ console.log({myTest});
 console.log('top:', myTest.top());
 console.log('new min from getMin:', myTest.getMin());
 
+console.log('\n ... LeetCode ordered logs ... \n');
+/**
+ * https://leetcode.com/problems/reorder-log-files/
+ * 
+ * You have an array of logs.  Each log is a space delimited string of words.
+
+For each log, the first word in each log is an alphanumeric identifier.  Then, either:
+
+    Each word after the identifier will consist only of lowercase letters, or;
+    Each word after the identifier will consist only of digits.
+
+We will call these two varieties of logs letter-logs and digit-logs.  It is guaranteed that each log has at least one word after its identifier.
+
+Reorder the logs so that all of the letter-logs come before any digit-log.  The letter-logs are ordered lexicographically ignoring identifier, with the identifier used in case of ties.  The digit-logs should be put in their original order.
+
+Return the final order of the logs.
+
+
+Example 1:
+
+Input: ["a1 9 2 3 1","g1 act car","zo4 4 7","ab1 off key dog","a8 act zoo"]
+Output: ["g1 act car","a8 act zoo","ab1 off key dog","a1 9 2 3 1","zo4 4 7"]
+
+Note:
+
+    0 <= logs.length <= 100
+    3 <= logs[i].length <= 100
+    logs[i] is guaranteed to have an identifier, and a word after the identifier.
+ */
+
+
+// oops this function works for some tests but fails for some others. It seems that the comparison order (a,b) does not necessarily match the input order, because for the test that fails, first a = logs[0], but first b = logs[length-1]. This solution makes the assumption that the comparisons are made in index order, which is not necessarily the case, apparently.
+
+var reorderLogFilesFAILED = function(logs) {
+
+  logs.sort((a,b) => {
+
+    console.log(a, b);
+
+    let aArr = a.split(' ');
+    let bArr = b.split(' ');
+
+    let aIsAlphaNumeric = isNaN(aArr[1].charAt(0));
+    let bIsAlphaNumeric = isNaN(bArr[1].charAt(0));  // or .slice(0,1);
+
+    let aId = aArr[0];
+    let bId = bArr[0];
+
+    let aString = aArr.slice(1).join(' ');
+    let bString = bArr.slice(1).join(' ');
+
+    // sort two alphanumerics by string
+    if (aIsAlphaNumeric && bIsAlphaNumeric) {
+
+      // it the string value of two alphanumerics is the same, sort by id
+      if (aString === bString) {
+        if (aId < bId) {
+          return -1;
+        }
+        else {return 1;}
+      }
+      else {
+        if ( aString > bString) { return 1;}
+        else { return -1;}
+      }
+    }
+    // alphanumerics first
+    else if(aIsAlphaNumeric && !bIsAlphaNumeric) {
+      return -1; 
+    }
+    // alphanumerics first
+    else if(!aIsAlphaNumeric && bIsAlphaNumeric) {
+      return 1;
+    }
+    //For numbers, just sort by input order
+    else if(!aIsAlphaNumeric && !bIsAlphaNumeric) {
+      return -1; 
+    }
+    else { 
+      return 0;}
+  });
+  return logs; 
+};
+
+// Success
+// Details
+// Runtime: 80 ms, faster than 29.82% of JavaScript online submissions for Reorder Log Files.
+// Memory Usage: 37.7 MB, less than 44.50% of JavaScript online submissions for Reorder Log Files.
+
+var reorderLogFiles = function(logs) {
+  let alpha = [], nums = [];
+
+  logs.map((e) => { 
+    let eIsAlpha = isNaN(e.split(' ')[1].charAt(0));
+    if (eIsAlpha) { alpha.push(e);}
+    else {nums.push(e);}
+  });
+
+  //sort alphas
+  alpha.sort((a,b) => {
+    let aId = a.substring(0,a.indexOf(' '));
+    let aStr = a.substring(a.indexOf(' ')+1);
+    let bId = b.substring(0,  b.indexOf(' '));
+    let bStr = b.substring(b.indexOf(' ')+1);
+
+    if (aStr === bStr) {
+      if (aId <= bId) { return -1;} 
+      else {return 1;}
+    }
+    else {
+      if (aStr <= bStr) { return -1;} else {return 1;}
+    }
+  });
+
+  return alpha.concat(nums);
+};
+
+/**
+ * Here is a super slick solution:
+ * https://leetcode.com/problems/reorder-log-files/discuss/305183/Javascript-easy-to-understand-solution-beats-95
+ */
+
+
+reorderLogFiles = function(logs) {
+  const logArrs = logs.map(l => l.split(' '));
+  const numbers = '1234567890'.split('');
+  let letters = logArrs.filter(l => !numbers.includes(l[1][0])); //array of arrays.[1] is the string, 0 is first char
+  const digits = logArrs.filter(l => numbers.includes(l[1][0]));
+  
+  letters = letters.map(l => { 
+    let [lead, ...others] = l;
+
+    console.log('l:', l, 'lead:', lead, 'others: ', others.join(' '));
+    return [lead, others.join(' ')];
+  })
+    .sort((a,b) => {
+      if(a[1] < b[1]) { return -1; }
+      if(a[1] >= b[1]) { return 1; } //keep head order
+      return 0;
+    });
+  
+  return [
+    ...letters.map(l => l.join(' ')),
+    ...digits.map(l => l.join(' ')),
+  ];
+};
+
+let logs = ['a1 9 2 3 1','g1 act car', 'zo4 4 7','ab1 off key dog','a8 act zoo', 'b2 act car', 'b1 act car'];
+console.log('input: ', logs);
+console.log('\n ... \n');
+console.log(reorderLogFiles(logs));
+
+console.log('\n ... ... \n');
+logs = ["6p tzwmh ige mc", "ns 566543603829", "ubd cujg j d yf", "ha6 1 938 376 5", "3yx 97 666 56 5", "d 84 34353 2249", "0 tllgmf qp znc", "s 1088746413789", "ys0 splqqxoflgx", "uhb rfrwt qzx r", "u lrvmdt ykmox", "ah4 4209164350", "rap 7729 8 125", "4 nivgc qo z i", "apx 814023338 8"];
+
+console.log('input: ', logs);
+
+let expected = ["ubd cujg j d yf","u lrvmdt ykmox","4 nivgc qo z i","uhb rfrwt qzx r","ys0 splqqxoflgx","0 tllgmf qp znc","6p tzwmh ige mc","ns 566543603829","ha6 1 938 376 5","3yx 97 666 56 5","d 84 34353 2249","s 1088746413789","ah4 4209164350","rap 7729 8 125","apx 814023338 8"];
+
+console.log('expected output: ', expected);
+console.log('actual output: ', reorderLogFiles(logs));
+
+
+
+console.log('\n ... Fibonacci ... \n');
+/**
+ * Write  a function that returns the nth in the Fibonacci sequence.
+ * Fibonacci = (n-1)+(n-2)=n
+ */
+var fibonacci = [];
+fibonacci[0]=0;
+fibonacci[1]=1;
+fibonacci[2]=2;
+
+for(var i=3; i < 20; i++) {
+  fibonacci[i] = fibonacci[i-1]+fibonacci[i-2];
+}
+console.log({fibonacci});
+
+console.log(`\n ... \n`);
+
+// here, sequenceNumber = position. if sequenceNumber should return the index rather than position, test should be currIndex <= n, rather than currIndex < n.
+let myFibonacci = sequenceNumber => {
+  let output = [1,2];
+
+  let currIndex = 2; 
+  while(currIndex < sequenceNumber) {
+    output.push(output[currIndex-2] + output[currIndex-1]);
+    currIndex++;
+  }
+  return output;
+};
+
+console.log(myFibonacci(3));
+console.log(myFibonacci(4));
+console.log(myFibonacci(5));
+console.log(myFibonacci(6));
+console.log(myFibonacci(7));
+
+console.log(`\n ... \n`);
+// position = length rather than index (1-based)
+let fibonacciRecurse = position => {
+
+  let results = [1,2];
+
+  let _myRecurse = currIdx => {
+    //base case:
+    if(results.length === position) {
+      return;
+    }
+    else {
+      results.push(results[currIdx-2]+results[currIdx-1]);
+
+      _myRecurse(currIdx+1);
+    }
+  };
+
+  _myRecurse(2);
+
+  return results;
+};
+
+console.log(fibonacciRecurse(3));
+console.log(fibonacciRecurse(4));
+console.log(fibonacciRecurse(5));
+console.log(fibonacciRecurse(6));
+console.log(fibonacciRecurse(7));
+
+/**
+ * https://leetcode.com/problems/add-binary/
+ * 
+ * Given two binary strings, return their sum (also a binary string).
+
+The input strings are both non-empty and contains only characters 1 or 0.
+
+Example 1:
+
+Input: a = "11", b = "1"
+Output: "100"
+
+Example 2:
+
+Input: a = "1010", b = "1011"
+Output: "10101"
+
+*/
+
+console.log('\n ... Binary addition first version returns sum as Arabic numeral... \n');
+
+let addBinary = function(a, b) {
+
+  let aArr = a.split('').reverse();
+  let bArr = b.split('').reverse();
+
+  console.log({aArr});
+  console.log({bArr});
+
+  let _convertBinaryToArabic = reversedArr => {
+
+    let results = reversedArr.reduce((accum, curr, currIndex, reversedArr) => {
+      // currVal of 0 will evaluate to false...
+      let currVal = parseInt(curr);
+      // console.log({reversedArr});
+      // console.log({currIndex});
+      // console.log({accum});
+      // console.log({curr});
+      // console.log('current return value: ', (currVal) ? accum + Math.pow(2, currIndex) : accum);
+
+      return (currVal) ? accum + Math.pow(2, currIndex) : accum; 
+
+    }, 0);
+
+    return results;
+  };
+
+  let aArabic = _convertBinaryToArabic(aArr);
+  let bArabic = _convertBinaryToArabic(bArr);
+
+  return {'a': aArabic, 'b': bArabic, 'sum': aArabic + bArabic};
+
+};
+
+// console.log('2 power 0', Math.pow(2,0));
+// console.log('2 power 1', Math.pow(2,1));
+// console.log('2 power 2', Math.pow(2,2));
+
+// let test10 = [0, 1, 2, 3, 4].reduce((accumulator, currentValue, currentIndex, array) => {
+//   return accumulator + currentValue;
+// }, 10);
+// console.log({test10});
+
+// let test0 = [0, 1, 2, 3, 4].reduce((accumulator, currentValue, currentIndex, array) => {
+//   return accumulator + currentValue;
+// }, 0);
+// console.log({test0});
+
+console.log('\n my function... \n');
+let a = "11", b = "1";
+console.log('\nadding binary 3 with  binary 1 should equal 4:', addBinary(a,b));
+
+a = "1010", b = "1011"
+console.log('\nadding binary 10 with  binary 11 should equal 21:', addBinary(a,b));
+
+console.log('\n let\'s refactor... and add binary directly. \n');
+/**
+ * 
+ * https://leetcode.com/problems/add-binary/submissions/
+ * Success
+Details
+Runtime: 68 ms, faster than 81.14% of JavaScript online submissions for Add Binary.
+Memory Usage: 35.8 MB, less than 45.76% of JavaScript online submissions for Add Binary.
+
+ */
+let addBinary2 = (a,b) => {
+
+  let aArr = a.split('');
+  let bArr = b.split('');
+  let maxIndex = (aArr.length > bArr.length) ? aArr.length - 1 : bArr.length -1;
+  let carry = 0, output = [];
+
+  while(aArr.length-1 < maxIndex) {
+    aArr.unshift(0);
+  }
+
+  while(bArr.length-1 < maxIndex) {
+    bArr.unshift(0);
+  }
+
+  for (let i = maxIndex; i >= 0; i--) {
+
+    let currSum = carry + parseInt(aArr[i]) + parseInt(bArr[i]);
+
+    if( currSum === 2 || currSum === 0) { 
+      output.push(0); 
+    }
+    else if( currSum === 3 || currSum === 1) { 
+      output.push(1); 
+    }
+
+    carry = ( currSum > 1 ) ? 1 : 0;
+  }
+  // if carry is left over we need to push one more place
+  if (carry === 1) {output.push(1);}
+  output.reverse();
+
+  return output.join('');
+};
+
+a = "11", b = "1";
+console.log('\nadding binary 3 with  binary 1 should equal binary4:', addBinary2(a,b));
+
+a = "1010", b = "1011"
+console.log('\nadding binary 10 with  binary 11 should equal binary21:', addBinary2(a,b));
+
+/**
+ * And just surfacing my binary to Arabic numeral function from my first version:
+ *
+ */
+
+let convertBinaryToArabic = str => {
+
+  let reversedArr = str.split('').reverse();
+
+  let results = reversedArr.reduce((accum, curr, currIndex, reversedArr) => {
+    // currVal of 0 will evaluate to false... otherwise 1 = true of course.
+    // If curr === 1, then we convert it to 2 to the power of the currIndex and add it to accum.
+    let currVal = parseInt(curr);
+    return (currVal) ? accum + Math.pow(2, currIndex) : accum; 
+
+  }, 0);
+
+  return results;
+};
+console.log('\n binary to Arabic numeral converter... \n');
+console.log('100 should be 4:', convertBinaryToArabic('100'));
+console.log('10101 should be 21:', convertBinaryToArabic('10101'));
