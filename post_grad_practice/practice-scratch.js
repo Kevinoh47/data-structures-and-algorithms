@@ -1424,6 +1424,67 @@ console.log('actual output: ', reorderLogFiles(logs));
 
 
 
+console.log('\n ... Fibonacci ... \n');
+/**
+ * Write  a function that returns the nth in the Fibonacci sequence.
+ * Fibonacci = (n-1)+(n-2)=n
+ */
+var fibonacci = [];
+fibonacci[0]=0;
+fibonacci[1]=1;
+fibonacci[2]=2;
 
+for(var i=3; i < 20; i++) {
+  fibonacci[i] = fibonacci[i-1]+fibonacci[i-2];
+}
+console.log({fibonacci});
 
+console.log(`\n ... \n`);
+
+// here, sequenceNumber = position. if sequenceNumber should return the index rather than position, test should be currIndex <= n, rather than currIndex < n.
+let myFibonacci = sequenceNumber => {
+  let output = [1,2];
+
+  let currIndex = 2; 
+  while(currIndex < sequenceNumber) {
+    output.push(output[currIndex-2] + output[currIndex-1]);
+    currIndex++;
+  }
+  return output;
+};
+
+console.log(myFibonacci(3));
+console.log(myFibonacci(4));
+console.log(myFibonacci(5));
+console.log(myFibonacci(6));
+console.log(myFibonacci(7));
+
+console.log(`\n ... \n`);
+// position = length rather than index (1-based)
+let fibonacciRecurse = position => {
+
+  let results = [1,2];
+
+  let _myRecurse = currIdx => {
+    //base case:
+    if(results.length === position) {
+      return;
+    }
+    else {
+      results.push(results[currIdx-2]+results[currIdx-1]);
+
+      _myRecurse(currIdx+1);
+    }
+  };
+
+  _myRecurse(2);
+
+  return results;
+};
+
+console.log(fibonacciRecurse(3));
+console.log(fibonacciRecurse(4));
+console.log(fibonacciRecurse(5));
+console.log(fibonacciRecurse(6));
+console.log(fibonacciRecurse(7));
 
