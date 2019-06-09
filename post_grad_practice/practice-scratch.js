@@ -1562,3 +1562,75 @@ console.log('\nadding binary 3 with  binary 1 should equal 4:', addBinary(a,b));
 
 a = "1010", b = "1011"
 console.log('\nadding binary 10 with  binary 11 should equal 21:', addBinary(a,b));
+
+console.log('\n let\'s refactor... and add binary directly. \n');
+/**
+ * 
+ * https://leetcode.com/problems/add-binary/submissions/
+ * Success
+Details
+Runtime: 68 ms, faster than 81.14% of JavaScript online submissions for Add Binary.
+Memory Usage: 35.8 MB, less than 45.76% of JavaScript online submissions for Add Binary.
+
+ */
+let addBinary2 = (a,b) => {
+
+  let aArr = a.split('');
+  let bArr = b.split('');
+  let maxIndex = (aArr.length > bArr.length) ? aArr.length - 1 : bArr.length -1;
+  let carry = 0, output = [];
+
+  while(aArr.length-1 < maxIndex) {
+    aArr.unshift(0);
+  }
+
+  while(bArr.length-1 < maxIndex) {
+    bArr.unshift(0);
+  }
+
+  for (let i = maxIndex; i >= 0; i--) {
+
+    let currSum = carry + parseInt(aArr[i]) + parseInt(bArr[i]);
+
+    if( currSum === 2 || currSum === 0) { 
+      output.push(0); 
+    }
+    else if( currSum === 3 || currSum === 1) { 
+      output.push(1); 
+    }
+
+    carry = ( currSum > 1 ) ? 1 : 0;
+  }
+
+  if (carry === 1) {output.push(1);}
+  output.reverse();
+
+  return output.join('');
+};
+
+a = "11", b = "1";
+console.log('\nadding binary 3 with  binary 1 should equal binary4:', addBinary2(a,b));
+
+a = "1010", b = "1011"
+console.log('\nadding binary 10 with  binary 11 should equal binary21:', addBinary2(a,b));
+
+/**
+ * And just surfacing my binary to decimal function from my first version:
+ *
+ */
+
+let convertBinaryToDecimal = str => {
+
+  let reversedArr = str.split('').reverse();
+
+  let results = reversedArr.reduce((accum, curr, currIndex, reversedArr) => {
+    // currVal of 0 will evaluate to false...
+    let currVal = parseInt(curr);
+    return (currVal) ? accum + Math.pow(2, currIndex) : accum; 
+
+  }, 0);
+
+  return results;
+};
+console.log('\n binary to decimial converter... \n');
+console.log('10101 should be 21:', convertBinaryToDecimal('10101'));
