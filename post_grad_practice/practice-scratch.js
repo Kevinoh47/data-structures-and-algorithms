@@ -1623,6 +1623,7 @@ let convertBinaryToArabic = str => {
 
   let reversedArr = str.split('').reverse();
 
+  // reduce takes callback and startng value.
   let results = reversedArr.reduce((accum, curr, currIndex, reversedArr) => {
     // currVal of 0 will evaluate to false... otherwise 1 = true of course.
     // If curr === 1, then we convert it to 2 to the power of the currIndex and add it to accum.
