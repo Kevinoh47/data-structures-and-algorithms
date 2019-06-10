@@ -1656,3 +1656,27 @@ let convertBinaryToArabic = str => {
 console.log('\n binary to Arabic numeral converter... \n');
 console.log('100 should be 4:', convertBinaryToArabic('100'));
 console.log('10101 should be 21:', convertBinaryToArabic('10101'));
+
+/**
+ * Removing dups from an array
+ * 
+ * I've seen these before but this is a handy companion:
+ * https://www.samanthaming.com/tidbits/43-3-ways-to-remove-array-duplicates
+ * 
+ */
+let myArrWithDups = [1,2,2,3,4,2,3,5];
+
+// 1: "Set"
+let dedup1 = [...new Set(myArrWithDups)];
+
+// 2: "Filter"
+let dedup2 = myArrWithDups.filter((item, index) => myArrWithDups.indexOf(item) === index);
+
+// 3: "Reduce"
+let dedup3 = myArrWithDups.reduce((unique, item) => 
+  unique.includes(item) ? unique : [...unique, item], []);
+
+console.log('\n ... deduping arrays ... \n');
+console.log({dedup1});
+console.log({dedup2});
+console.log({dedup3});
