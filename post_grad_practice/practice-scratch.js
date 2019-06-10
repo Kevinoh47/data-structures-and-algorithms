@@ -1575,6 +1575,9 @@ Memory Usage: 35.8 MB, less than 45.76% of JavaScript online submissions for Add
  */
 let addBinary2 = (a,b) => {
 
+  if(!a) {return b;}
+  if(!b) {return a;}
+
   let aArr = a.split('');
   let bArr = b.split('');
   let maxIndex = (aArr.length > bArr.length) ? aArr.length - 1 : bArr.length -1;
@@ -1613,6 +1616,22 @@ console.log('\nadding binary 3 with  binary 1 should equal binary4:', addBinary2
 
 a = "1010", b = "1011"
 console.log('\nadding binary 10 with  binary 11 should equal binary21:', addBinary2(a,b));
+
+
+/**
+ * What if I wanted to add more than two?
+ * 
+ */
+
+let addMultipleBinaries = arrOfBinaries => {
+  let results = arrOfBinaries.reduce((accum, curr)=>{
+    return addBinary2(accum, curr);
+  },'');
+  return results;
+};
+
+let myBinaries = ['11','1010','1','1011']; // 3 + 10 + 1 + 11 = 25 = 11001
+console.log('\n3 + 10 + 1 + 11 =25 = 1101:', addMultipleBinaries(myBinaries));
 
 /**
  * And just surfacing my binary to Arabic numeral function from my first version:
