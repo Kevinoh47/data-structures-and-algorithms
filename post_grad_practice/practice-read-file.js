@@ -41,6 +41,15 @@ Promise.all(promises)
   .catch( error => { throw error;});
 
 // read files
+/**
+ * https://nodejs.org/api/fs.html#fs_fs_readdir_path_callback
+ * https://stackoverflow.com/questions/32511789/looping-through-files-in-a-folder-node-js
+ * https://nodejs.org/api/fs.html#fs_fs_stat_path_options_callback
+ * https://nodejs.org/api/fs.html#fs_fs_readfile_path_options_callback
+ * 
+ * 
+ */
+
 fs.readdir('./', function (err, files) {
   if (err) {
     console.error('could not list the directory.', err);

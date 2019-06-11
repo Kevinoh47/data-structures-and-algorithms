@@ -1680,3 +1680,44 @@ console.log('\n ... deduping arrays ... \n');
 console.log({dedup1});
 console.log({dedup2});
 console.log({dedup3});
+
+/***
+ * Palindrome Tester
+ */
+console.log('\n ... palindrome tester ... \n');
+
+var re = /(\w+)\s(\w+)/;
+var str = 'John Smith';
+var newstr = str.replace(re, '$2, $1');
+
+
+let myPalindromeTester = function(str) {
+  let strArr = str.toLowerCase().split('');
+  var regEx =  /[A-Za-z0-9]/;
+
+  let filteredArr = strArr.filter((curr, idx) => {
+    if (curr.match(regEx)) {
+      return curr;}
+  });
+
+  let reversedArr = [...filteredArr].reverse();
+
+
+  for (let i=0; i < filteredArr.length; i++) {
+    let curr = filteredArr[i], mirror = reversedArr[i];
+    // console.log(curr, mirror);
+
+    if (curr !== mirror) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+
+let myStr = 'A man, a plan, a canal. Panama!';
+console.log('result shoulb be true: ', myPalindromeTester(myStr));
+
+myStr = 'A man, a planT, a canal. Panama!';
+console.log('result shoulb be false: ',myPalindromeTester(myStr));
