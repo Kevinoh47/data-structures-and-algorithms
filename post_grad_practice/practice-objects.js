@@ -52,6 +52,7 @@ function Elf (elfType, name) {
   this.name = name;
 }
 
+// sing is a shared function of all elfs, because it resides in the prototype object.
 Elf.prototype.sing = function(greeting) {
   if (greeting) {
     console.log(`tra la la hello dear ${greeting}...`);
@@ -127,6 +128,7 @@ class Mammal {
     console.log(`${this.noise} ... ${this.noise} ...`);
   }
 
+  //default food or override food
   eats(food) {
     console.log(`eating ${(food) ? food : this.food}`);
   }
@@ -591,6 +593,8 @@ class List {
     return state;
   }
 }
+
+
 
 console.log('\n ... class inheritance ... \n');
 
