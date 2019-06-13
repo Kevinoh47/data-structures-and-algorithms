@@ -1686,11 +1686,6 @@ console.log({dedup3});
  */
 console.log('\n ... palindrome tester ... \n');
 
-var re = /(\w+)\s(\w+)/;
-var str = 'John Smith';
-var newstr = str.replace(re, '$2, $1');
-
-
 let myPalindromeTester = function(str) {
   let strArr = str.toLowerCase().split('');
   var regEx =  /[A-Za-z0-9]/;
@@ -1700,12 +1695,11 @@ let myPalindromeTester = function(str) {
       return curr;}
   });
 
-  let reversedArr = [...filteredArr].reverse();
-
+  // TODO: refactor by splicing out 2 halves, tossing away middle odd, and comparing.
+  let reversedArr = [...filteredArr].reverse();  
 
   for (let i=0; i < filteredArr.length; i++) {
     let curr = filteredArr[i], mirror = reversedArr[i];
-    // console.log(curr, mirror);
 
     if (curr !== mirror) {
       return false;

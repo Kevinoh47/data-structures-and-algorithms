@@ -5,7 +5,10 @@
 
 console.log('\n\nfunctions called without context variables...');
 function identify() {
-  return this.name.toUpperCase();
+  if (this.name) {
+    return this.name.toUpperCase();
+  }
+  else {return undefined;}
 }
 
 function speak() {
@@ -17,11 +20,14 @@ var me = { name: 'Kevin'};
 
 var you = { name: 'Jane'};
 
+var unnamed = { cheese: 'blu'}
+
 identify.call( me );
 identify.call( you );
 
 speak.call( me );
 speak.call( you );
+speak.call( unnamed );
 
 /**
  * Practice making objects:
