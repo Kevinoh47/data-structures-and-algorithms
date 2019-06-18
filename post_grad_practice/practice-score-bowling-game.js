@@ -101,25 +101,25 @@ class BowlingSummary {
       if (idx < 20) {
         const currVal = (curr === null) ? 0 : curr;
         return prev + currVal;
-      } else {
-        return prev;
-      }
+      } 
+      return prev;
     }, 0);
     return results;
   }
 
   getExtraPoints() {
     const results = this.pointsArr.reduce((prev, curr, idx, arr) => {
-      if (idx <= 18) {
+      // calculate Extra Points from the 1st throw per frame. For strikes, the following throw must be null in the arr.
+      if (idx % 2 === 0 && idx <= 18) {
         
         const currVal = (curr === null) ? 0 : curr;
-        const isStrike = (idx % 2 === 0 && currVal === 10);
-        const isSpare = (idx % 2 === 0 && currVal + arr[idx + 1] === 10);
+        const isStrike = (currVal === 10);
+        const isSpare = (currVal + arr[idx + 1] === 10);
 
         if (isStrike) {
-          if (idx % 2 === 0 && idx <= 16) {
+          if (idx <= 16) {
             // nextIsStrike only important through frame 9 (idx 16):
-            const nextIsStrike = ((idx + 2) % 2 === 0 && arr[idx + 2] === 10);
+            const nextIsStrike = (arr[idx + 2] === 10);
             if (nextIsStrike) {
               return prev + arr[idx + 2] + arr[idx + 4];
             }
@@ -127,8 +127,8 @@ class BowlingSummary {
               return prev + arr[idx + 2] + arr[idx + 3];
             }
           }
-          // strike on frame 10
-          else if (isStrike && idx === 18) {
+          // strike on frame 10:
+          else if (idx === 18) {
             return prev + arr[20] + arr[21];
           }
         }
