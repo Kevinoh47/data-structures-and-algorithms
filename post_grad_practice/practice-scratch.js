@@ -1542,9 +1542,10 @@ let addBinary = function(a, b) {
 
 };
 
-// console.log('2 power 0', Math.pow(2,0));
-// console.log('2 power 1', Math.pow(2,1));
-// console.log('2 power 2', Math.pow(2,2));
+console.log('2 power 0 = 1: ', Math.pow(2,0));
+console.log('2 power 1 = 2: ', Math.pow(2,1));
+console.log('2 power 2 = 4: ', Math.pow(2,2));
+console.log('2 power 3 = 8: ', Math.pow(2,3));
 
 // let test10 = [0, 1, 2, 3, 4].reduce((accumulator, currentValue, currentIndex, array) => {
 //   return accumulator + currentValue;
