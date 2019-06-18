@@ -1542,9 +1542,10 @@ let addBinary = function(a, b) {
 
 };
 
-// console.log('2 power 0', Math.pow(2,0));
-// console.log('2 power 1', Math.pow(2,1));
-// console.log('2 power 2', Math.pow(2,2));
+console.log('2 power 0 = 1: ', Math.pow(2,0));
+console.log('2 power 1 = 2: ', Math.pow(2,1));
+console.log('2 power 2 = 4: ', Math.pow(2,2));
+console.log('2 power 3 = 8: ', Math.pow(2,3));
 
 // let test10 = [0, 1, 2, 3, 4].reduce((accumulator, currentValue, currentIndex, array) => {
 //   return accumulator + currentValue;
@@ -1574,6 +1575,9 @@ Memory Usage: 35.8 MB, less than 45.76% of JavaScript online submissions for Add
 
  */
 let addBinary2 = (a,b) => {
+
+  if(!a) {return b;}
+  if(!b) {return a;}
 
   let aArr = a.split('');
   let bArr = b.split('');
@@ -1614,6 +1618,22 @@ console.log('\nadding binary 3 with  binary 1 should equal binary4:', addBinary2
 a = "1010", b = "1011"
 console.log('\nadding binary 10 with  binary 11 should equal binary21:', addBinary2(a,b));
 
+
+/**
+ * What if I wanted to add more than two?
+ * 
+ */
+
+let addMultipleBinaries = arrOfBinaries => {
+  let results = arrOfBinaries.reduce((accum, curr)=>{
+    return addBinary2(accum, curr);
+  },'');
+  return results;
+};
+
+let myBinaries = ['11','1010','1','1011']; // 3 + 10 + 1 + 11 = 25 = 11001
+console.log('\n3 + 10 + 1 + 11 =25 = 1101:', addMultipleBinaries(myBinaries));
+
 /**
  * And just surfacing my binary to Arabic numeral function from my first version:
  *
@@ -1623,6 +1643,7 @@ let convertBinaryToArabic = str => {
 
   let reversedArr = str.split('').reverse();
 
+  // reduce takes callback and startng value.
   let results = reversedArr.reduce((accum, curr, currIndex, reversedArr) => {
     // currVal of 0 will evaluate to false... otherwise 1 = true of course.
     // If curr === 1, then we convert it to 2 to the power of the currIndex and add it to accum.
@@ -1636,3 +1657,62 @@ let convertBinaryToArabic = str => {
 console.log('\n binary to Arabic numeral converter... \n');
 console.log('100 should be 4:', convertBinaryToArabic('100'));
 console.log('10101 should be 21:', convertBinaryToArabic('10101'));
+
+/**
+ * Removing dups from an array
+ * 
+ * I've seen these before but this is a handy companion:
+ * https://www.samanthaming.com/tidbits/43-3-ways-to-remove-array-duplicates
+ * 
+ */
+let myArrWithDups = [1,2,2,3,4,2,3,5];
+
+// 1: "Set"
+let dedup1 = [...new Set(myArrWithDups)];
+
+// 2: "Filter"
+let dedup2 = myArrWithDups.filter((item, index) => myArrWithDups.indexOf(item) === index);
+
+// 3: "Reduce"
+let dedup3 = myArrWithDups.reduce((unique, item) => 
+  unique.includes(item) ? unique : [...unique, item], []);
+
+console.log('\n ... deduping arrays ... \n');
+console.log({dedup1});
+console.log({dedup2});
+console.log({dedup3});
+
+/***
+ * Palindrome Tester
+ */
+console.log('\n ... palindrome tester ... \n');
+
+let myPalindromeTester = function(str) {
+  let strArr = str.toLowerCase().split('');
+  var regEx =  /[A-Za-z0-9]/;
+
+  let filteredArr = strArr.filter((curr, idx) => {
+    if (curr.match(regEx)) {
+      return curr;}
+  });
+
+  // TODO: refactor by splicing out 2 halves, tossing away middle odd, and comparing.
+  let reversedArr = [...filteredArr].reverse();  
+
+  for (let i=0; i < filteredArr.length; i++) {
+    let curr = filteredArr[i], mirror = reversedArr[i];
+
+    if (curr !== mirror) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+
+let myStr = 'A man, a plan, a canal. Panama!';
+console.log('result shoulb be true: ', myPalindromeTester(myStr));
+
+myStr = 'A man, a planT, a canal. Panama!';
+console.log('result shoulb be false: ',myPalindromeTester(myStr));

@@ -5,7 +5,10 @@
 
 console.log('\n\nfunctions called without context variables...');
 function identify() {
-  return this.name.toUpperCase();
+  if (this.name) {
+    return this.name.toUpperCase();
+  }
+  else {return undefined;}
 }
 
 function speak() {
@@ -17,11 +20,14 @@ var me = { name: 'Kevin'};
 
 var you = { name: 'Jane'};
 
+var unnamed = { cheese: 'blu'}
+
 identify.call( me );
 identify.call( you );
 
 speak.call( me );
 speak.call( you );
+speak.call( unnamed );
 
 /**
  * Practice making objects:
@@ -52,6 +58,7 @@ function Elf (elfType, name) {
   this.name = name;
 }
 
+// sing is a shared function of all elfs, because it resides in the prototype object.
 Elf.prototype.sing = function(greeting) {
   if (greeting) {
     console.log(`tra la la hello dear ${greeting}...`);
@@ -127,6 +134,7 @@ class Mammal {
     console.log(`${this.noise} ... ${this.noise} ...`);
   }
 
+  //default food or override food
   eats(food) {
     console.log(`eating ${(food) ? food : this.food}`);
   }
@@ -461,6 +469,138 @@ alert( obj.join(',') ); // Hello,world!
  let myHash = {0: "hello", 1: "world", length: 2, };
  myHash.join = Array.prototype.join;
  console.log(myHash.join(','));
+
+ console.log('\n ... changing an object ... \n');
+
+ let person = {firstName: "john", lastName: "cokos"};
+
+ function makePersonCopy(firstName, lastName) {
+   let newPerson = {...person};
+   newPerson.firstName = firstName;
+   newPerson.lastName = lastName;
+
+   return newPerson;
+ }
+
+ let newPerson = makePersonCopy('joe', 'strummer');
+
+ console.log({person});
+ console.log({newPerson});
+
+ console.log('\n ...  ... \n');
+ console.log('\n ... old school classes, revisited ( see 401 class 03 code review video) ... \n');
+
+ const Vehicle = function(name, wheels) {
+   this.name = name;
+   this.wheels = wheels;
+ }
+ // add functions to Object.prototype:
+ Vehicle.prototype.drive = () => { return 'going...'};
+ Vehicle.prototype.stop = () => { return 'stopping ...'};
+
+ const Car = function(name) {
+   Vehicle.call(this, name, 4); // context and input arguments for the Vehicle constructor;
+ }
+ //prototype for the car is a Vehicle.
+ Car.prototype = new Vehicle();
+
+ const Motorcycle = function(name) {
+   Vehicle.call(this, name, 2);
+ }
+ Motorcycle.prototype = new Vehicle();
+ Motorcycle.prototype.skid = () => { return ' yikes sliding ....'};
+
+ console.log('\n ... new classes, revisited ( see 401 class 03 code review video) ... \n');
+
+class Aircraft {
+  constructor(name, engines) {
+    this.name = name;
+    this.engines = engines;
+  }
+  fly() { return ' zooming into the clouds... '};
+  land() { return 'time to return to earth... '};
+}
+
+class Balloon extends Aircraft {
+  constructor(name) {
+    super(name, 0);
+  }
+}
+class TwinJet extends Aircraft {
+  constructor(name) {
+    super(name, 2);
+  }
+}
+class Helicopter extends Aircraft {
+  constructor(name) {
+    super(name, 1);
+  }
+}
+// note that Factory is at 9:10 and 10:50 of class 03 - code review video.
+
+// List class is at ~20:00
+
+class List {
+  constructor() {
+    this.length = 0;
+  }
+
+  push(item) {
+    // Question: where does "arguments" come from?
+    if (arguments.length === 1) {
+      this[this.length++] = item; // i think length is increased after the assignment?
+    }
+    return this.length;
+  }
+
+  pop() {
+    if ( !this.length ) { return undefined; }
+    let item = this[this.length-1];
+    delete this[this.length-1];
+    this.length--;
+    return item;
+  }
+
+  forEach(callback) {
+    if ( this.length ) {
+      for(let i = 0; i < this.length; i++) {
+        callback(this[i], i);
+      }
+    }
+  }
+
+  map(callback) {
+    if (!this.length) { return undefined; }
+    let result = new List();
+    for (let i = 0; i < this.length; i++) {
+      result.push(callback(this[i],i));
+    }
+    return result;
+  }
+
+  filter(callback) {
+    if (!this.length) { return undefined; }
+    let result = new List();
+    for (let i = 0; i < this.length; i++) {
+      if(callback(this[i])) {
+        result.push(this[i]);
+      };
+    }
+    return result;
+  }
+  
+  //array.reduce(callback) ; callback takes initial value/accumlator, current Val, current index, and even possibly the array
+  reduce(callback, state) {
+    if (!this.length) { return undefined; }
+
+    for (let i = 0; i < this.length; i++) {
+      state = callback(state, this[i], i); //state is starter value then cumulative value; followed by current value, current idx
+    }
+    return state;
+  }
+}
+
+
 
 console.log('\n ... class inheritance ... \n');
 
