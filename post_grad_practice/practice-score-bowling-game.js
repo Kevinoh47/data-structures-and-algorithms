@@ -50,6 +50,7 @@ const roll7AllSpares = [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,10]; // 155 i th
 // frames:                 1   2   3   4   5   6   7   8   9   10
 const noSparesOrStrikes = [8,1,9,0,0,9,4,5,5,4,8,1,9,0,0,9,4,5,5,4];
 
+console.log(`\n ... bowling score function ... \n`);
 const computeBowlingScore = (arr) => {
   const output = arr.reduce((accum, curr, idx, arr) => {
     if (idx <= 19) {
@@ -79,7 +80,7 @@ const computeBowlingScore = (arr) => {
   return output;
 };
 
-console.log('all zeros: ', computeBowlingScore(rolls0Score0));
+console.log('minigame expects 0: ', computeBowlingScore(rolls0Score0));
 console.log('minigame expects 16: ', computeBowlingScore(rolls1Score16));
 console.log('minigame expects 15: ', computeBowlingScore(rolls2Score15));
 console.log('minigame expects 13: ', computeBowlingScore(rolls3Score13));
@@ -149,7 +150,7 @@ class BowlingSummary {
   }
 }
 
-console.log(`\n ... \n`);
+console.log(`\n ... Bowling Game Class instances ... \n`);
 
 let joesGame = new BowlingSummary('joe', roll7AllSpares);
 console.log({joesGame});
@@ -163,6 +164,7 @@ console.log({joesExtraPoints});
 let joesTotalPoints = joesGame.getTotalPoints();
 console.log({joesTotalPoints});
 
+console.log(`\n ... ... \n`);
 let annesGame = new BowlingSummary('anne', rolls6Score300PerfectGame);
 console.log({annesGame});
 
@@ -175,6 +177,8 @@ console.log({annesExtraPoints});
 let annesTotalPoints = annesGame.getTotalPoints();
 console.log({annesTotalPoints});
 
+
+console.log(`\n ... ... \n`);
 let jillsGame = new BowlingSummary('jill', noSparesOrStrikes);
 console.log({jillsGame});
 
@@ -192,16 +196,9 @@ class BowlingFrame extends BowlingSummary {
   constructor(bowler, pointsArr, frameNumber) {
     super(bowler, pointsArr);
     this.frameNumber = frameNumber;
-    // this.throw1 = this.getThrow1();
-    // this.throw2 = this.getThrow2();
-    // this.isStrike = this.frameIsStrike();
-    // this.isSpare = this.frameIsSpare();
-    // this.frameBasePoints = this.getFrameBasePoints();
-    // this.frameExtraPoints = this.getFrameExtraPoints();
   }
   
   getThrow1() {
- 
     switch (this.frameNumber) {
     case 1:
       return this.pointsArr[0];
@@ -325,7 +322,7 @@ class BowlingFrame extends BowlingSummary {
   }
 }
 
-console.log(`\n ... frame information ... \n`);
+console.log(`\n ... frame class instances ... \n`);
 const joesFrame10 = new BowlingFrame('joe', roll7AllSpares, 10);
 console.log({joesFrame10});
 console.log('throw1: ', joesFrame10.getThrow1());
@@ -339,7 +336,7 @@ console.log('game total points: ', joesFrame10.getTotalPoints()); // inherited f
 console.log('game total base points: ', joesFrame10.getRegularPoints()); // inherited from BowlingSummary prototype chain
 console.log('game total extra points: ', joesFrame10.getExtraPoints()); // inherited from BowlingSummary prototype chain
 
-console.log(`\n ... \n`);
+console.log(`\n ... ... \n`);
 const annesFrame10 = new BowlingFrame('anne', rolls6Score300PerfectGame, 10);
 console.log({annesFrame10});
 console.log('throw1: ', annesFrame10.getThrow1());
@@ -353,7 +350,7 @@ console.log('game total points: ', annesFrame10.getTotalPoints()); // inherited 
 console.log('game total base points: ', annesFrame10.getRegularPoints()); // inherited from BowlingSummary prototype chain
 console.log('game total extra points: ', annesFrame10.getExtraPoints()); // inherited from BowlingSummary prototype chain
 
-console.log(`\n ... \n`);
+console.log(`\n ... ... \n`);
 const jillsFrame10 = new BowlingFrame('jill', noSparesOrStrikes, 10);
 console.log({jillsFrame10});
 console.log('throw1: ', jillsFrame10.getThrow1());
