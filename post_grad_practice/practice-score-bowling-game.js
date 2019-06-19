@@ -47,6 +47,8 @@ const rolls6Score300PerfectGame = [10, null, 10, null, 10, null, 10, null, 10, n
 
 const roll7AllSpares = [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,10]; // 155 i think...
 
+// frames:                 1   2   3   4   5   6   7   8   9   10
+const noSparesOrStrikes = [8,1,9,0,0,9,4,5,5,4,8,1,9,0,0,9,4,5,5,4];
 
 const computeBowlingScore = (arr) => {
   const output = arr.reduce((accum, curr, idx, arr) => {
@@ -77,14 +79,15 @@ const computeBowlingScore = (arr) => {
   return output;
 };
 
-console.log(computeBowlingScore(rolls0Score0));
-console.log(computeBowlingScore(rolls1Score16));
-console.log(computeBowlingScore(rolls2Score15));
-console.log(computeBowlingScore(rolls3Score13));
-console.log(computeBowlingScore(rolls4Score21));
-console.log(computeBowlingScore(rolls5Score38));
-console.log(computeBowlingScore(rolls6Score300PerfectGame));
-console.log(computeBowlingScore(roll7AllSpares));
+console.log('all zeros: ', computeBowlingScore(rolls0Score0));
+console.log('minigame expects 16: ', computeBowlingScore(rolls1Score16));
+console.log('minigame expects 15: ', computeBowlingScore(rolls2Score15));
+console.log('minigame expects 13: ', computeBowlingScore(rolls3Score13));
+console.log('minigame expects 21: ', computeBowlingScore(rolls4Score21));
+console.log('minigame expects 38: ', computeBowlingScore(rolls5Score38));
+console.log('perfect game expects 300: ', computeBowlingScore(rolls6Score300PerfectGame));
+console.log('all spares with 10 points for extra throw expects 155: ', computeBowlingScore(roll7AllSpares));
+console.log('no spares no strikes all frames 9 points expects 90: ', computeBowlingScore(noSparesOrStrikes));
 
 /**
  * Let's try a class-based solution
@@ -171,9 +174,6 @@ console.log({annesExtraPoints});
 
 let annesTotalPoints = annesGame.getTotalPoints();
 console.log({annesTotalPoints});
-
-// frames:                 1   2   3   4   5   6   7   8   9   10
-const noSparesOrStrikes = [8,1,9,0,0,9,4,5,5,4,8,1,9,0,0,9,4,5,5,4];
 
 let jillsGame = new BowlingSummary('jill', noSparesOrStrikes);
 console.log({jillsGame});
