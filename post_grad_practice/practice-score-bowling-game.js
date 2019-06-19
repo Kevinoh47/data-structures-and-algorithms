@@ -138,7 +138,6 @@ class BowlingSummary {
       }
       return prev;
     }, 0);
-    console.log({results});
     return results;
   }
 
@@ -188,131 +187,186 @@ console.log({jillsExtraPoints});
 let jillsTotalPoints = jillsGame.getTotalPoints();
 console.log({jillsTotalPoints});
 
-// not currently using Bowling Frame... 
+
 class BowlingFrame extends BowlingSummary {
   constructor(bowler, pointsArr, frameNumber) {
     super(bowler, pointsArr);
     this.frameNumber = frameNumber;
-    this.throw1 = this.getThrow1();
-    this.throw2 = this.getThrow2();
-    this.isStrike = this.frameIsStrike();
-    this.isSpare = this.frameIsSpare();
-    this.frameBasePoints = this.getFrameBasePoints();
-    this.frameExtraPoints = this.getFrameExtraPoints();
+    // this.throw1 = this.getThrow1();
+    // this.throw2 = this.getThrow2();
+    // this.isStrike = this.frameIsStrike();
+    // this.isSpare = this.frameIsSpare();
+    // this.frameBasePoints = this.getFrameBasePoints();
+    // this.frameExtraPoints = this.getFrameExtraPoints();
   }
   
   getThrow1() {
+ 
     switch (this.frameNumber) {
-    case '1':
+    case 1:
       return this.pointsArr[0];
-    case '2':
+    case 2:
       return this.pointsArr[2];
-    case '3':
+    case 3:
       return this.pointsArr[4];  
-    case '4':
-      return this.pointsArr[6];    
-    case '5':
-      return this.pointsArr[8];    
-    case '6':
-      return this.pointsArr[10];     
-    case '7':
-      return this.pointsArr[12];      
-    case '8':
-      return this.pointsArr[14];      
-    case '9':
+    case 4:
+      return this.pointsArr[6]; 
+    case 5:
+      return this.pointsArr[8]; 
+    case 6:
+      return this.pointsArr[10];    
+    case 7:
+      return this.pointsArr[12];    
+    case 8:
+      return this.pointsArr[14];     
+    case 9:
       return this.pointsArr[16];     
-    case '10':
+    case 10:
       return this.pointsArr[18];
     }
   }
 
   getThrow2() {
     switch (this.frameNumber) {
-    case '1':
+    case 1:
       return this.pointsArr[1];
-    case '2':
+    case 2:
       return this.pointsArr[3];
-    case '3':
+    case 3:
       return this.pointsArr[5];    
-    case '4':
+    case 4:
       return this.pointsArr[7];   
-    case '5':
+    case 5:
       return this.pointsArr[9];   
-    case '6':
+    case 6:
       return this.pointsArr[11];     
-    case '7':
+    case 7:
       return this.pointsArr[13];     
-    case '8':
+    case 8:
       return this.pointsArr[15];      
-    case '9':
+    case 9:
       return this.pointsArr[17];   
-    case '10':
+    case 10:
       return this.pointsArr[19];
     }
   }
 
   frameIsStrike() {
-    return (this.throw1 === 10);
+    return (this.getThrow1() === 10);
   }
 
   frameIsSpare() {
-    return (this.throw2 !== null && this.throw1 !== 10 && this.throw1 + this.throw2 === 10) 
+    const throw1 = this.getThrow1();
+    const throw2 = this.getThrow2();
+    return (throw2 !== null && throw1 !== 10 && throw1 + throw2 === 10);
   }
+  
   getFrameBasePoints() {
-    return this.throw1 + (this.throw2 === null) ? 0 : this.throw2;
+    const throw1 = this.getThrow1();
+    let throw2 = this.getThrow2();
+    if (throw2 === null) throw2 = 0;
+    return throw1 + throw2;
   }
 
   getFrameExtraPoints() {
-    if (this.isStrike) {
+    if (this.frameIsStrike()) {
       switch (this.frameNumber) {
-      case '1':
+      case 1:
         return this.pointsArr[2] + (this.pointsArr[2] === 10) ? this.pointsArr[4] : this.pointsArr[3];
-      case '2':
+      case 2:
         return this.pointsArr[4] + (this.pointsArr[4] === 10) ? this.pointsArr[6] : this.pointsArr[5];
-      case '3':
+      case 3:
         return this.pointsArr[6] + (this.pointsArr[6] === 10) ? this.pointsArr[8] : this.pointsArr[7];    
-      case '4':
+      case 4:
         return this.pointsArr[8] + (this.pointsArr[8] === 10) ? this.pointsArr[10] : this.pointsArr[9];   
-      case '5':
+      case 5:
         return this.pointsArr[10] + (this.pointsArr[10] === 10) ? this.pointsArr[12] : this.pointsArr[11];  
-      case '6':
+      case 6:
         return this.pointsArr[12] + (this.pointsArr[12] === 10) ? this.pointsArr[14] : this.pointsArr[13];   
-      case '7':
+      case 7:
         return this.pointsArr[14] + (this.pointsArr[14] === 10) ? this.pointsArr[16] : this.pointsArr[15];     
-      case '8':
+      case 8:
         return this.pointsArr[16] + (this.pointsArr[16] === 10) ? this.pointsArr[18] : this.pointsArr[17];     
-      case '9':
+      case 9:
         return this.pointsArr[18] + (this.pointsArr[18] === 10) ? this.pointsArr[20] : this.pointsArr[19];   
-      case '10':
+      case 10:
         return this.pointsArr[20] + this.pointsArr[21];
       } 
     }
-    else if (this.isSpare) {
+    else if (this.frameIsSpare()) {
       switch (this.frameNumber) {
-      case '1':
+      case 1:
         return this.pointsArr[2];
-      case '2':
+      case 2:
         return this.pointsArr[4];
-      case '3':
+      case 3:
         return this.pointsArr[6];    
-      case '4':
+      case 4:
         return this.pointsArr[8];   
-      case '5':
+      case 5:
         return this.pointsArr[10];   
-      case '6':
+      case 6:
         return this.pointsArr[12];     
-      case '7':
+      case 7:
         return this.pointsArr[14];     
-      case '8':
+      case 8:
         return this.pointsArr[16];      
-      case '9':
+      case 9:
         return this.pointsArr[18];   
-      case '10':
+      case 10:
         return this.pointsArr[20];
       }
     }
     else return 0;
   }
+
+  getFrameTotalPoints() {
+    return this.getFrameBasePoints() + this.getFrameExtraPoints();
+  }
 }
+
+console.log(`\n ... frame information ... \n`);
+const joesFrame10 = new BowlingFrame('joe', roll7AllSpares, 10);
+console.log({joesFrame10});
+console.log('throw1: ', joesFrame10.getThrow1());
+console.log('throw2: ', joesFrame10.getThrow2());
+console.log('strike? ', joesFrame10.frameIsStrike());
+console.log('spare? ', joesFrame10.frameIsSpare());
+console.log('frame base points: ', joesFrame10.getFrameBasePoints());
+console.log('frame extra points: ', joesFrame10.getFrameExtraPoints());
+console.log('frame total points: ', joesFrame10.getFrameTotalPoints());
+console.log('game total points: ', joesFrame10.getTotalPoints()); // inherited from BowlingSummary prototype chain
+console.log('game total base points: ', joesFrame10.getRegularPoints()); // inherited from BowlingSummary prototype chain
+console.log('game total extra points: ', joesFrame10.getExtraPoints()); // inherited from BowlingSummary prototype chain
+
+console.log(`\n ... \n`);
+const annesFrame10 = new BowlingFrame('anne', rolls6Score300PerfectGame, 10);
+console.log({annesFrame10});
+console.log('throw1: ', annesFrame10.getThrow1());
+console.log('throw2: ', annesFrame10.getThrow2());
+console.log('strike? ', annesFrame10.frameIsStrike());
+console.log('spare? ', annesFrame10.frameIsSpare());
+console.log('frame base points: ', annesFrame10.getFrameBasePoints());
+console.log('frame extra points: ', annesFrame10.getFrameExtraPoints());
+console.log('frame total points: ', annesFrame10.getFrameTotalPoints());
+console.log('game total points: ', annesFrame10.getTotalPoints()); // inherited from BowlingSummary prototype chain
+console.log('game total base points: ', annesFrame10.getRegularPoints()); // inherited from BowlingSummary prototype chain
+console.log('game total extra points: ', annesFrame10.getExtraPoints()); // inherited from BowlingSummary prototype chain
+
+console.log(`\n ... \n`);
+const jillsFrame10 = new BowlingFrame('jill', noSparesOrStrikes, 10);
+console.log({jillsFrame10});
+console.log('throw1: ', jillsFrame10.getThrow1());
+console.log('throw2: ', jillsFrame10.getThrow2());
+console.log('strike? ', jillsFrame10.frameIsStrike());
+console.log('spare? ', jillsFrame10.frameIsSpare());
+console.log('frame base points: ', jillsFrame10.getFrameBasePoints());
+console.log('frame extra points: ', jillsFrame10.getFrameExtraPoints());
+console.log('frame total points: ', jillsFrame10.getFrameTotalPoints());
+console.log('game total points: ', jillsFrame10.getTotalPoints()); // inherited from BowlingSummary prototype chain
+console.log('game total base points: ', jillsFrame10.getRegularPoints()); // inherited from BowlingSummary prototype chain
+console.log('game total extra points: ', jillsFrame10.getExtraPoints()); // inherited from BowlingSummary prototype chain
+
+
 
 
