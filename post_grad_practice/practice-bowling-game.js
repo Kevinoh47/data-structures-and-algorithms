@@ -1,7 +1,3 @@
-/* eslint-disable brace-style */
-/* eslint-disable strict */
-/* eslint-disable no-console */
-
 'use strict';
 
 /**
@@ -32,9 +28,14 @@
  * 5) consecutive spare + spare, strike + strike, strike + spare.
  * 6) Bonus rolls.
  * 7) Perfect game.
+ * 
+ * Note that the points array must follow a strike with a NULL, eg [10, null...]
  */
 
-
+/**
+ * computeBowlingScore()
+ * @param {*} arr 
+ */
 const computeBowlingScore = (arr) => {
   const output = arr.reduce((accum, curr, idx, arr) => {
     if (idx <= 19) {
@@ -65,9 +66,8 @@ const computeBowlingScore = (arr) => {
 };
 
 /**
- * Let's try a class-based solution
+ * Bowling Summary class
  */
-
 class BowlingSummary {
   constructor(bowler, pointsArr) {
     this.bowler = bowler;
@@ -87,7 +87,7 @@ class BowlingSummary {
 
   getExtraPoints() {
     const results = this.pointsArr.reduce((prev, curr, idx, arr) => {
-      // calculate Extra Points from the 1st throw per frame. For strikes, the following throw must be null in the arr.
+      // calculate Extra Points from the 1st throw per frame. For strikes, the following throw must be NULL in the arr.
       if (idx % 2 === 0 && idx <= 18) {
         
         const currVal = (curr === null) ? 0 : curr;
@@ -124,6 +124,9 @@ class BowlingSummary {
   }
 }
 
+/**
+ * BowlingFrame class extends BowlingSummary class
+ */
 class BowlingFrame extends BowlingSummary {
   constructor(bowler, pointsArr, frameNumber) {
     super(bowler, pointsArr);
