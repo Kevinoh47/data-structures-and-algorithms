@@ -157,3 +157,208 @@ console.log('key value for d should be 7: ' , myCache.getValueFromKey('d'));
 // * 
 // */
 
+// class LRUCacheLeetCode {
+//   constructor(capacity){
+//     this.capacity = capacity;
+//     this.cache = {};
+//     this.cacheOrder = [];
+//   }
+  
+//   get(key) {
+//     if (this.cache[key]) {
+//       this._maintainOrder(key);
+//       return this.cache[key];
+//     }
+//     return  -1;
+//   }
+
+//   put(key, value) {
+//     // value will always be positive.
+//     if (!value || value <= 0) { return; }
+//     this._maintainOrder(key);
+//     this.cache[key] = value;
+//   }
+  
+//   _maintainOrder(key) {
+      // const keyIndex = this.cacheOrder.indexOf(key);
+      // const orderLen = this.cacheOrder.length;
+
+      // if(keyIndex > -1) {
+      //   this.cacheOrder.splice(keyIndex,1);
+      // } 
+
+      // if(orderLen === this.capacity){
+
+      //   // new key
+      //   if (keyIndex === -1) {
+      //     const oldestKey = this.cacheOrder[0];
+      //     delete this.cache[oldestKey];
+      //     this.cacheOrder.shift();
+      //   }
+      // }
+      // this.cacheOrder.push(key);
+// }
+
+// console.log('cache should be 1,2:' , myLeetCodeCache.cache);
+// console.log('cacheOrder should now be 1,2: ', myLeetCodeCache.cacheOrder);
+// console.log('get 1 returns 1: ', myLeetCodeCache.get(1));
+// console.log('cacheOrder should now be changed to 2, 1: ', myLeetCodeCache.cacheOrder);
+// console.log('but cache should still be 1,2:' , myLeetCodeCache.cache);
+// myLeetCodeCache.put(3,3);
+// console.log('after adding 3, cacheOrder should now be 1,3: ', myLeetCodeCache.cacheOrder);
+// console.log('cache should now be 1, 3: ' , myLeetCodeCache.cache);
+// console.log('getting ejected key 2 now should return -1: ', myLeetCodeCache.get(2));
+
+
+/**
+ * https://leetcode.com/problems/lru-cache/submissions/
+ * Success
+Details
+Runtime: 248 ms, faster than 20.74% of JavaScript online submissions for LRU Cache.
+Memory Usage: 58.6 MB, less than 82.20% of JavaScript online submissions for LRU Cache.
+ */
+
+
+/**
+ * @param {number} capacity
+ */
+var LRUCache2 = function(capacity) {
+  this.capacity = capacity;
+  this.cache = {};
+  this.cacheOrder = [];
+  
+};
+LRUCache2.prototype._maintainOrder=function(key) {
+  const keyIndex = this.cacheOrder.indexOf(key);
+  const orderLen = this.cacheOrder.length;
+
+  if(keyIndex > -1) {
+    this.cacheOrder.splice(keyIndex,1);
+  } 
+
+  if(orderLen === this.capacity){
+
+    // new key
+    if (keyIndex === -1) {
+      const oldestKey = this.cacheOrder[0];
+      delete this.cache[oldestKey];
+      this.cacheOrder.shift();
+    }
+  }
+  this.cacheOrder.push(key);
+};
+/** 
+* @param {number} key
+* @return {number}
+*/
+LRUCache2.prototype.get = function(key) {
+  if (this.cache[key]) {
+    this._maintainOrder(key);
+    return this.cache[key];
+  }
+  return  -1;
+};
+
+/** 
+* @param {number} key 
+* @param {number} value
+* @return {void}
+*/
+LRUCache2.prototype.put = function(key, value) {
+  if (!value || value <= 0) { 
+    console.log(`attempt to put in key ${key} with incorrect value: ${value}`);
+    return; 
+  }
+  this._maintainOrder(key);
+  this.cache[key] = value;
+  console.log(Object.keys(this.cache));
+};
+
+/** 
+* Your LRUCache object will be instantiated and called as such:
+* var obj = new LRUCache(capacity)
+* var param_1 = obj.get(key)
+* obj.put(key,value)
+*/
+
+console.log(`\n ... LeetCode version ... \n`);
+
+const myLeetCodeCache = new LRUCache2(2);
+myLeetCodeCache.put(1,1);
+myLeetCodeCache.put(2,2);
+
+console.log('cache should be 1,2:' , myLeetCodeCache.cache);
+console.log('cacheOrder should now be 1,2: ', myLeetCodeCache.cacheOrder);
+console.log('get 1 returns 1: ', myLeetCodeCache.get(1));
+console.log('cacheOrder should now be changed to 2, 1: ', myLeetCodeCache.cacheOrder);
+console.log('but cache should still be 1,2:' , myLeetCodeCache.cache);
+myLeetCodeCache.put(3,3);
+console.log('after adding 3, cacheOrder should now be 1,3: ', myLeetCodeCache.cacheOrder);
+console.log('cache should now be 1, 3: ' , myLeetCodeCache.cache);
+console.log('getting ejected key 2 now should return -1: ', myLeetCodeCache.get(2));
+
+myLeetCodeCache.put(47);
+myLeetCodeCache.put(48,0);
+myLeetCodeCache.put(49,-1);
+
+const mLCC2 = new LRUCache2(10);
+
+// the below test failed until i fixed bug in _maintainOrder:
+//"put","put","put","put","put"
+//[10,13],[3,17],[6,11],[10,5],[9,10]
+//"get",
+//13
+//expected: -1;
+//put
+//[2,19]
+//"get","get"
+//[2],[3]
+//expected: ...
+//put
+//[5,25]
+//get
+//8
+//"put","put","put",
+//[9,22],[5,5],[1,30]
+//get
+//11
+//put
+//[9,12]
+//"get","get","get","get"
+//[7],[5],[8],[9],
+//"put","put"
+//[4,30],[9,3]
+//"get","get","get"
+//[9],[10],[10] -- output: 3,-1,-1 but expected: 3,5,5,
+
+mLCC2.put(10,13);
+mLCC2.put(3,17);
+mLCC2.put(6,11);
+mLCC2.put(10,5);
+mLCC2.put(9,10);
+mLCC2.get(13); //expected -1;
+mLCC2.put(2,19);
+mLCC2.get(2);
+mLCC2.get(3);
+mLCC2.put(5,25);
+mLCC2.get(8);
+mLCC2.put(9,22);
+mLCC2.put(5,5);
+mLCC2.put(1,30);
+mLCC2.get(11);
+mLCC2.put(9,12);
+mLCC2.get(7);
+mLCC2.get(5);
+mLCC2.get(8);
+mLCC2.get(9);
+mLCC2.put(4,30);
+mLCC2.put(9,3);
+mLCC2.get(9);
+console.log('get 10 should return 5 not -1:', mLCC2.get(10));
+console.log('get 10 should return 5 not -1:', mLCC2.get(10));
+console.log(mLCC2.cache);
+
+
+
+
+
