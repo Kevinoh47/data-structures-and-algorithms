@@ -56,33 +56,26 @@ class LRUCache {
     this.usedOrder = []; 
   }
 
-  _moveKeyToLatest(key) {
-    const keyIndex = this.usedOrder.indexOf(key);
-    const newUsedOrder = this.usedOrder.slice(keyIndex, keyIndex+1);
-    this.usedOrder = [...newUsedOrder, key];
+  _setKeyToLatest(key) {
+    const keyIndex = (this.usedOrder.indexOf(key) >= 0) ? this.usedOrder.indexOf(key) : null;
 
+    if (keyIndex !== null) {
+      this.usedOrder.splice(keyIndex, 1);
+    }
+    this.usedOrder.push(key);
   }
 
   // really an "upsert"
   insertKeyValuePair(key, value) {
-    // key already exists
-    if (this.cache.key) {
-      // find key in usedOrder Array, slice it out.
-      // const keyIndex = this.usedOrder.indexOf(key);
-      // const newUsedOrder = this.usedOrder.slice(keyIndex, keyIndex+1);
-      // this.usedOrder = newUsedOrder;
 
-      this._moveKeyToLatest(key);
-    }
-    else {
-      // a new key added to the cache below capacity
-      if (this.usedOrder.length === this.maxSize){
-        this.usedOrder.shift();
-      }
+    if (!this.cache[key] && this.usedOrder.length === this.maxSize){
+      const oldestKey = this.usedOrder[0];
+      delete this.cache[oldestKey];
+      this.usedOrder.shift();
     }
 
-    this.cache[key] = value;
-    //this.usedOrder.push(key); // always push key (whether new or updated) to the end of the Order list.
+    this.cache[key] = value; //insert or update
+    this._setKeyToLatest(key);
   }
 
   getMostRecentKey() {
@@ -90,15 +83,49 @@ class LRUCache {
   }
 
   getValueFromKey(key) {
-    // if key exists, update the cache access list
     if (this.cache[key]) {
-      this._moveKeyToLatest(key);
+      this._setKeyToLatest(key);
     }
     return (this.cache[key]) ? this.cache[key] : null;
   }
 
-
 }
+
+const myCache = new LRUCache(3);
+myCache.insertKeyValuePair('a',1);
+myCache.insertKeyValuePair('b',2);
+myCache.insertKeyValuePair('c',3);
+myCache.insertKeyValuePair('d',4);
+console.log({myCache});
+console.log('used order should be b, c, d: ', myCache.usedOrder);
+console.log('most recent key should be d: ' , myCache.getMostRecentKey());
+console.log('key value for b should be 2: ' , myCache.getValueFromKey('b'));
+console.log('most recent key should now be b:' , myCache.getMostRecentKey());
+console.log('used order should now be c, d, b: ', myCache.usedOrder);
+
+console.log(`\n ... now inserting key a back again with a value of 5 ... \n`);
+
+myCache.insertKeyValuePair('a', 5);
+//console.log({myCache});
+console.log('most recent key should now be a:' , myCache.getMostRecentKey());
+console.log('used order should now be d, b, a: ', myCache.usedOrder);
+console.log('key value for a should be 5: ' , myCache.getValueFromKey('a'));
+
+
+console.log(`\n ... now updating a with a new value of 6 \n`);
+
+myCache.insertKeyValuePair('a', 6);
+console.log('most recent key should now be a:' , myCache.getMostRecentKey());
+console.log('used order should now be d, b, a: ', myCache.usedOrder);
+console.log('key value for a should be 6: ' , myCache.getValueFromKey('a'));
+
+console.log(`\n ... now updating d with a new value of 7 \n`);
+
+myCache.insertKeyValuePair('d', 7);
+console.log('most recent key should now be d:' , myCache.getMostRecentKey());
+console.log('used order should now be b, a, d: ', myCache.usedOrder);
+console.log('key value for d should be 7: ' , myCache.getValueFromKey('d'));
+
 
 /**
  * https://leetcode.com/problems/lru-cache/
