@@ -145,74 +145,110 @@ console.log('key value for d should be 7: ' , myCache.getValueFromKey('d'));
 
   // LRUCache cache = new LRUCache( 2) /* capacity */ 
 
-  // // cache.put(1, 1);
-  // // cache.put(2, 2);
-  // // cache.get(1);       // returns 1
-  // // cache.put(3, 3);    // evicts key 2
-  // // cache.get(2);       // returns -1 (not found)
-  // // cache.put(4, 4);    // evicts key 1
-  // // cache.get(1);       // returns -1 (not found)
-  // // cache.get(3);       // returns 3
-  // // cache.get(4);       // returns 4
+  // cache.put(1, 1);
+  // cache.put(2, 2);
+  // cache.get(1);       // returns 1
+  // cache.put(3, 3);    // evicts key 2
+  // cache.get(2);       // returns -1 (not found)
+  // cache.put(4, 4);    // evicts key 1
+  // cache.get(1);       // returns -1 (not found)
+  // cache.get(3);       // returns 3
+  // cache.get(4);       // returns 4
 // * 
 // */
 
-// class LRUCacheLeetCode {
-//   constructor(capacity){
-//     this.capacity = capacity;
-//     this.cache = {};
-//     this.cacheOrder = [];
-//   }
+class LRUCacheLeetCode {
+  constructor(capacity){
+    this.capacity = capacity;
+    this.cache = {};
+    this.cacheOrder = [];
+  }
   
-//   get(key) {
-//     if (this.cache[key]) {
-//       this._maintainOrder(key);
-//       return this.cache[key];
-//     }
-//     return  -1;
-//   }
+  get(key) {
+    if (this.cache[key]) {
+      this._maintainOrder(key);
+      return this.cache[key];
+    }
+    return  -1;
+  }
 
-//   put(key, value) {
-//     // value will always be positive.
-//     if (!value || value <= 0) { return; }
-//     this._maintainOrder(key);
-//     this.cache[key] = value;
-//   }
+  put(key, value) {
+    // value will always be positive.
+    if (!value || value <= 0) { return; }
+    this._maintainOrder(key);
+    this.cache[key] = value;
+  }
   
-//   _maintainOrder(key) {
-      // const keyIndex = this.cacheOrder.indexOf(key);
-      // const orderLen = this.cacheOrder.length;
+  _maintainOrder(key) {
+    const keyIndex = this.cacheOrder.indexOf(key);
+    const orderLen = this.cacheOrder.length;
 
-      // if(keyIndex > -1) {
-      //   this.cacheOrder.splice(keyIndex,1);
-      // } 
+    if(keyIndex > -1) {
+      this.cacheOrder.splice(keyIndex,1);
+    } 
 
-      // if(orderLen === this.capacity){
+    if(orderLen === this.capacity){
 
-      //   // new key
-      //   if (keyIndex === -1) {
-      //     const oldestKey = this.cacheOrder[0];
-      //     delete this.cache[oldestKey];
-      //     this.cacheOrder.shift();
-      //   }
-      // }
-      // this.cacheOrder.push(key);
-// }
+      // new key
+      if (keyIndex === -1) {
+        const oldestKey = this.cacheOrder[0];
+        delete this.cache[oldestKey];
+        this.cacheOrder.shift();
+      }
+    }
+    this.cacheOrder.push(key);
+  }
+}
 
-// console.log('cache should be 1,2:' , myLeetCodeCache.cache);
-// console.log('cacheOrder should now be 1,2: ', myLeetCodeCache.cacheOrder);
-// console.log('get 1 returns 1: ', myLeetCodeCache.get(1));
-// console.log('cacheOrder should now be changed to 2, 1: ', myLeetCodeCache.cacheOrder);
-// console.log('but cache should still be 1,2:' , myLeetCodeCache.cache);
-// myLeetCodeCache.put(3,3);
-// console.log('after adding 3, cacheOrder should now be 1,3: ', myLeetCodeCache.cacheOrder);
-// console.log('cache should now be 1, 3: ' , myLeetCodeCache.cache);
-// console.log('getting ejected key 2 now should return -1: ', myLeetCodeCache.get(2));
+console.log(`\n ... second version, for leetcode \n`);
 
+const myLeetCodeCacheClass = new LRUCacheLeetCode(2);
+myLeetCodeCacheClass.put(1,1);
+myLeetCodeCacheClass.put(2,2);
+
+console.log('cache should be 1,2:' , myLeetCodeCacheClass.cache);
+console.log('cacheOrder should now be 1,2: ', myLeetCodeCacheClass.cacheOrder);
+console.log('get 1 returns 1: ', myLeetCodeCacheClass.get(1));
+console.log('cacheOrder should now be changed to 2, 1: ', myLeetCodeCacheClass.cacheOrder);
+console.log('but cache should still be 1,2:' , myLeetCodeCacheClass.cache);
+myLeetCodeCacheClass.put(3,3);
+console.log('after adding 3, cacheOrder should now be 1,3: ', myLeetCodeCacheClass.cacheOrder);
+console.log('cache should now be 1, 3: ' , myLeetCodeCacheClass.cache);
+console.log('getting ejected key 2 now should return -1: ', myLeetCodeCacheClass.get(2));
+
+// for failed leet code test -- bug fixed in _maintainOrder().
+const mLCC = new LRUCacheLeetCode(10);
+mLCC.put(10,13);
+mLCC.put(3,17);
+mLCC.put(6,11);
+mLCC.put(10,5);
+mLCC.put(9,10);
+mLCC.get(13); //expected -1;
+mLCC.put(2,19);
+mLCC.get(2);
+mLCC.get(3);
+mLCC.put(5,25);
+mLCC.get(8);
+mLCC.put(9,22);
+mLCC.put(5,5);
+mLCC.put(1,30);
+mLCC.get(11);
+mLCC.put(9,12);
+mLCC.get(7);
+mLCC.get(5);
+mLCC.get(8);
+mLCC.get(9);
+mLCC.put(4,30);
+mLCC.put(9,3);
+mLCC.get(9);
+console.log('get 10 should return 5 not -1:', mLCC.get(10));
+console.log('get 10 should return 5 not -1:', mLCC.get(10));
+console.log(mLCC.cache);
 
 /**
  * https://leetcode.com/problems/lru-cache/submissions/
  * Success
+ * The following version is created per leet code template.
 Details
 Runtime: 248 ms, faster than 20.74% of JavaScript online submissions for LRU Cache.
 Memory Usage: 58.6 MB, less than 82.20% of JavaScript online submissions for LRU Cache.
@@ -232,6 +268,7 @@ LRUCache2.prototype._maintainOrder=function(key) {
   const keyIndex = this.cacheOrder.indexOf(key);
   const orderLen = this.cacheOrder.length;
 
+  // if key exists, we splice out the current key regardless. We could refactor to not do this if it is already in last place, bue we would also have to have logic for the .push() below.
   if(keyIndex > -1) {
     this.cacheOrder.splice(keyIndex,1);
   } 
@@ -247,6 +284,7 @@ LRUCache2.prototype._maintainOrder=function(key) {
   }
   this.cacheOrder.push(key);
 };
+
 /** 
 * @param {number} key
 * @return {number}
@@ -281,29 +319,32 @@ LRUCache2.prototype.put = function(key, value) {
 * obj.put(key,value)
 */
 
-console.log(`\n ... LeetCode version ... \n`);
+console.log(`\n ... LeetCode version, using LeetCode template ... \n`);
 
-const myLeetCodeCache = new LRUCache2(2);
-myLeetCodeCache.put(1,1);
-myLeetCodeCache.put(2,2);
+const mLCC1 = new LRUCache2(2);
+mLCC1.put(1,1);
+mLCC1.put(2,2);
 
-console.log('cache should be 1,2:' , myLeetCodeCache.cache);
-console.log('cacheOrder should now be 1,2: ', myLeetCodeCache.cacheOrder);
-console.log('get 1 returns 1: ', myLeetCodeCache.get(1));
-console.log('cacheOrder should now be changed to 2, 1: ', myLeetCodeCache.cacheOrder);
-console.log('but cache should still be 1,2:' , myLeetCodeCache.cache);
-myLeetCodeCache.put(3,3);
-console.log('after adding 3, cacheOrder should now be 1,3: ', myLeetCodeCache.cacheOrder);
-console.log('cache should now be 1, 3: ' , myLeetCodeCache.cache);
-console.log('getting ejected key 2 now should return -1: ', myLeetCodeCache.get(2));
+console.log('cache should be 1,2:' , mLCC1.cache);
+console.log('cacheOrder should now be 1,2: ', mLCC1.cacheOrder);
+console.log('get 1 returns 1: ', mLCC1.get(1));
+console.log('cacheOrder should now be changed to 2, 1: ', mLCC1.cacheOrder);
+console.log('but cache should still be 1,2:' , mLCC1.cache);
+mLCC1.put(3,3);
+console.log('after adding 3, cacheOrder should now be 1,3: ', mLCC1.cacheOrder);
+console.log('cache should now be 1, 3: ' , mLCC1.cache);
+console.log('getting ejected key 2 now should return -1: ', mLCC1.get(2));
 
-myLeetCodeCache.put(47);
-myLeetCodeCache.put(48,0);
-myLeetCodeCache.put(49,-1);
+// test bad input:
+mLCC1.put(47);
+mLCC1.put(48,0);
+mLCC1.put(49,-1);
 
+// for failed leetcode test:
 const mLCC2 = new LRUCache2(10);
 
 // the below test failed until i fixed bug in _maintainOrder:
+// documenting the inputs, outputs, and expecteds on the leetcode test up to incorrect values.
 //"put","put","put","put","put"
 //[10,13],[3,17],[6,11],[10,5],[9,10]
 //"get",
