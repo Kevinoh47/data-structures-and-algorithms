@@ -1845,6 +1845,12 @@ Note:
 Details
 Runtime: 56 ms, faster than 94.18% of JavaScript online submissions for Most Common Word.
 Memory Usage: 36.8 MB, less than 31.62% of JavaScript online submissions for Most Common Word.
+
+I noticed in the discussion that the same test case (the second one) below that tripped me up also tripped up a lot of others.
+
+Here is an elegant solution not far from mine that apparently fails that test as well... 
+https://leetcode.com/problems/most-common-word/discuss/124044/JavaScript-solution
+
  * 
  * 
  * @param {*} paragraph 
@@ -1859,11 +1865,13 @@ let mostCommonWord = function(paragraph, banned) {
   const paraArr = filteredPara.split(' ');
 
   let wordCount = new Set();
-  let bannedSet = new Set();
 
-  banned.forEach(e => {
-    bannedSet[e]=1;
-  });
+  // let bannedSet = new Set();
+  // banned.forEach(e => {
+  //   bannedSet[e]=1;
+  // });
+  let bannedSet = new Set(banned);
+
 
   paraArr.forEach((e) => {
     // test that e is not empty and that it is not in the bannedSet
@@ -1905,3 +1913,35 @@ banned = ["bob", "hit"];
 
 // expected: ball
 console.log(mostCommonWord(paragraph, banned));
+
+console.log('\n ... Move Zeroes ... \n');
+
+/***
+ *  https://leetcode.com/problems/move-zeroes/
+ * 
+ */
+
+/**
+ * @param {number[]} nums
+ * @return {void} Do not return anything, modify nums in-place instead.
+ */
+var moveZeroes = function(nums) {
+  let zeroCount = 0;
+  nums.forEach((elem, idx, nums) => {
+    if(elem === 0) {
+      zeroCount++;
+      nums.splice(idx,1);
+    }
+  });
+
+  while (zeroCount > 0) {
+    nums.push(0);
+  }
+
+  return nums;
+};
+
+
+
+let myInput = [0,1,0,3,12];
+console.log(moveZeroes(myInput));
