@@ -1914,34 +1914,3 @@ banned = ["bob", "hit"];
 // expected: ball
 console.log(mostCommonWord(paragraph, banned));
 
-console.log('\n ... Move Zeroes ... \n');
-
-/***
- *  https://leetcode.com/problems/move-zeroes/
- * 
- */
-
-/**
- * @param {number[]} nums
- * @return {void} Do not return anything, modify nums in-place instead.
- */
-var moveZeroes = function(nums) {
-  let zeroCount = 0;
-  nums.forEach((elem, idx, nums) => {
-    if(elem === 0) {
-      zeroCount++;
-      nums.splice(idx,1);
-    }
-  });
-
-  while (zeroCount > 0) {
-    nums.push(0);
-  }
-
-  return nums;
-};
-
-
-
-let myInput = [0,1,0,3,12];
-console.log(moveZeroes(myInput));
