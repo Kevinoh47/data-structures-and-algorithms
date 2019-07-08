@@ -303,4 +303,291 @@ console.log(compress(chars));
 
 
 
- 
+/**
+* Attempting to do this in O(1) extra space
+*/
+console.log(`\n ... leetcode string compression 2... \n`);
+var compress2 = function(chars) {
+  
+  let currCount = 1;
+
+  for (let i=0; i < chars.length; i++) {
+    const prevIdx = i-1;
+    const currVal = chars[i];
+    const prevVal = (chars[prevIdx]) ? chars[prevIdx] : null;
+
+    // count up all the same values in a row
+    if (prevVal !== null && prevVal === currVal) {
+      currCount++;
+    }
+    // when we switch values and count is greater than one, replace last value with count
+    if (currCount > 1 && prevVal !== null && prevVal !== currVal) {
+      chars.splice(prevIdx,1,currCount.toString());
+      currCount=1;
+    }
+    // for last element in array, if count > 1 replace last element with count
+    if (currCount > 1 && i === chars.length -1) {
+      chars.splice(i,1,currCount.toString());
+    }
+  }
+
+  //now compress the string:
+  let lastCharIdx = 0;
+  for (let j = 0; j < chars.length; j++) {
+
+    const curr = chars[j];
+    const prev = (chars[j-1]) ? chars[j-1] : null;
+
+    // find where current char starts
+    if(isNaN(parseInt(curr)) && prev !== null && prev !== curr) {
+      lastCharIdx = j;
+    }
+    // if current is number, delete any elements between the first instance of the char and the number
+    if (!isNaN(parseInt(curr))) {
+
+      const charCountIdx = lastCharIdx+1;
+      const deleteCount = j-charCountIdx;
+
+      chars.splice(charCountIdx, deleteCount);
+      
+      // reset current index to account for deleted elements:
+      j -= deleteCount;
+
+      // manage for numbers greater than a single digit
+      if (parseInt(curr) > 9) {
+        const countArr = curr.toString().split('');
+        
+        for (let k = 0; k < countArr.length; k++) {
+          // replace the first one
+          if (k === 0) {
+            chars.splice(j+k, 1, countArr[k]);
+          } 
+          // insert subsequent digits 
+          else {
+            chars.splice(j+k, 0, countArr[k]);
+          }
+        }
+        // reset current index to account for added elements:
+        j += countArr.length-1; 
+      }
+    }
+  }
+  return chars;
+};
+
+// chars = ['a','a','b','b','c','c','c'];
+// console.log({chars});
+// console.log(compress2(chars));
+// console.log(`\n ... \n`);
+// chars = ['a'];
+// console.log({chars});
+// console.log(compress2(chars));
+// console.log(`\n ... \n`);
+// chars = ['a','b','b','b','b','b','b','b','b','b','b','b','b'];
+// console.log({chars});
+// console.log(compress2(chars));
+// console.log(`\n ... \n`);
+
+// bug:
+// input
+// ["a","a","a","b","b","a","a"]
+// Output
+// ["a","2","a","2"]
+// Expected
+// ["a","3","b","2","a","2"]
+
+// chars = ['a','a','a','b','b','a','a'];
+// console.log({chars});
+// console.log(compress2(chars));
+// console.log(`\n ... \n`);
+// bug:
+// Input
+// ["a","b","c","d","e","f","g","g","g","g","g","g","g","g","g","g","g","g","a","b","c"]
+// Output
+// ["a","b","c","d","e","f","g","1","2","b","c"]
+// Expected
+// ["a","b","c","d","e","f","g","1","2","a","b","c"]
+
+// chars = ["a","b","c","d","e","f","g","g","g","g","g","g","g","g","g","g","g","g","a","b","c"];
+// console.log({chars});
+// console.log(compress2(chars));
+// console.log(`\n ... \n`);
+
+// bug:
+// well mine doesn't work if there are NUMBERS in the input....
+// Not gonna solve this one right now...
+// one possible approach: update counts as real numbers. Then on final pass, stringify them. This might work because the input for this bug is all stringified chars. 
+// or a better approach may be:
+// 1) for every char with count > 1, splice it out and increment the count.
+// 2) when we get to the next char, splice in the count... managing also, of course, for double digit counts...
+
+// Wrong Answer
+// Details
+// Input
+// ["b","l","l","l","l","l","l","4","4","W","W","&","d","d","d","@","D","D",".",".",".","8","8","8","U","V",">","J","J","k","H","H","=","l","[","[","[","[","[","[","[","a","a","'","<","[","[","y","V","l","l","'","$","E","`","v","k","E","E","t","t","t","t","t","=","=","0","C","a","l","l","l","r","R","M","M","c","c","c","A","A","S","9","9","9","9",")",")","\\","s","\\","\\","y","W","W","W","J","J","J","J","6","6","<","<","E","u","e","e","e","e","e","e","e","e","e","9","9","9","9","R","8","?","F","3","&","&","&","&","f","%","%","2","2","2",")",")",")","J","p","|","D","D","D","s","t","V","V","?","^","^","S","3","3","3","3","h","*","|","|","b","b","a","a","a","r","r","r","r","J",".","^","^","~","g",":",":",":","(","4","4","4","4","w","w","w","w","w","w","w","C","?","=","d","L",":","0","0","c","w","w","w","w","w","w","{","{","t","k","k","k","&","&","&","h","j","j","j","0","3","l",";",";",";",";",";",".",".",".","%","1","1","1","l","9","?","?","?","t",">","E","N","N","@",">",".",".","I","a","a","a","a","B","7","7","{","o","o","-","+","+","+","+","o","o","}","B","B","r","r","r","q","4","4","4","9","W","W","W","W","W","'","'","'","g","J","(","(","(","(","t","t","?",";","g","g","g","0","]","]","]"]
+
+// Output
+// ["b","l","2","W","2","&","d","3","@","D","2",".","3","U","V",">","J","2","k","H","2","=","l","[","7","a","2","'","<","[","2","y","V","l","2","'","$","E","`","v","k","E","2","t","5","=","0","C","a","l","3","r","R","M","2","c","3","A","2","S","4",")","2","\\","s","\\","2","y","W","3","J","2","<","2","E","u","e","4","R","8","?","F","3","&","4","f","%","3",")","3","J","p","|","D","3","s","t","V","2","?","^","2","S","4","h","*","|","2","b","2","a","3","r","4","J",".","^","2","~","g",":","3","(","4","w","7","C","?","=","d","L",":","2","c","w","6","{","2","t","k","3","&","3","h","j","3","l",";","5",".","3","%","3","l","9","?","3","t",">","E","N","2","@",">",".","2","I","a","4","B","2","{","o","2","-","+","4","o","2","}","B","2","r","3","q","9","W","5","'","3","g","J","(","4","t","2","?",";","g","0","]","3"]
+// Expected
+// ["b","l","6","4","2","W","2","&","d","3","@","D","2",".","3","8","3","U","V",">","J","2","k","H","2","=","l","[","7","a","2","'","<","[","2","y","V","l","2","'","$","E","`","v","k","E","2","t","5","=","2","0","C","a","l","3","r","R","M","2","c","3","A","2","S","9","4",")","2","\\","s","\\","2","y","W","3","J","4","6","2","<","2","E","u","e","9","9","4","R","8","?","F","3","&","4","f","%","2","2","3",")","3","J","p","|","D","3","s","t","V","2","?","^","2","S","3","4","h","*","|","2","b","2","a","3","r","4","J",".","^","2","~","g",":","3","(","4","4","w","7","C","?","=","d","L",":","0","2","c","w","6","{","2","t","k","3","&","3","h","j","3","0","3","l",";","5",".","3","%","1","3","l","9","?","3","t",">","E","N","2","@",">",".","2","I","a","4","B","7","2","{","o","2","-","+","4","o","2","}","B","2","r","3","q","4","3","9","W","5","'","3","g","J","(","4","t","2","?",";","g","3","0","]","3"]
+
+console.log(`\n ... leetcode string compression 2... \n`);
+/**
+Success
+Details
+Runtime: 72 ms, faster than 48.75% of JavaScript online submissions for String Compression.
+Memory Usage: 37.7 MB, less than 8.27% of JavaScript online submissions for String Compression.
+ */
+
+var compress3 = function(chars) {
+  
+  let currCount = 1;
+  const multipleDigitsIdxes = [];
+  const singleDigitsIdxes = [];
+
+  for (let i=1; i < chars.length; i++) {
+    const prevIdx = i-1;
+    const currVal = chars[i];
+    const prevVal = chars[prevIdx];
+
+    // count up all the same values in a row
+    if (i > 0 && prevVal === currVal) {
+      currCount++;
+      // remove the current element.
+      chars.splice(i,1);
+      i -= 1; // set index back one
+    }
+    // when we switch values and count is greater than one, splice in the count:
+    if (i > 0 && currCount > 1 && prevVal !== currVal) {
+      chars.splice(i, 0, currCount);
+      if (currCount > 9) {
+        multipleDigitsIdxes.push(i);
+      } else {
+        singleDigitsIdxes.push(i);
+      }
+      currCount=1; // reset currCount
+      i += 1; // sent index forward 1;
+    }
+    // for last element in array, if count > 1 splice in the count
+    if (currCount > 1 &&  i === chars.length-1) {
+      chars.splice(i+1, 0, currCount);
+      if (currCount > 9) {
+        multipleDigitsIdxes.push(i+1);
+      } else {
+        singleDigitsIdxes.push(i+1);
+      }
+      i += 1;
+    }
+  }
+
+  // convert single digit numbers to chars
+  if (singleDigitsIdxes.length) {
+    singleDigitsIdxes.forEach((charsIdx) => {
+      let stringified = chars[charsIdx].toString();
+      chars.splice(charsIdx, 1, stringified);
+    });
+  }
+
+  // convert numbers with multiple digits to multiple single digit chars
+  if (multipleDigitsIdxes.length) {
+    // go backwards, to avoid having to manage changing indexes on subsequent inserts.
+    for (let j = multipleDigitsIdxes.length -1; j >= 0; j--) {
+      let charsIndex = multipleDigitsIdxes[j];
+      let charsVal = chars[charsIndex];
+      let charsValArr = charsVal.toString().split('');
+
+      for (let m = 0; m < charsValArr.length; m++) {
+        let currDigit = charsValArr[m];
+        if (m === 0) {
+          chars.splice(charsIndex, 1, currDigit);
+        }
+        else {
+          chars.splice(charsIndex+1, 0, currDigit);
+        }
+      }
+    }
+  }
+  return chars;
+};
+
+console.log(`\n ... another attempt for O(1) space on compression: \n`);
+chars = ['a','a','b','b','c','c','c'];
+console.log({chars});
+console.log(compress3(chars));
+console.log(`\n ... \n`);
+chars = ['a'];
+console.log({chars});
+console.log(compress3(chars));
+console.log(`\n ... \n`);
+chars = ['a','b','b','b','b','b','b','b','b','b','b','b','b'];
+console.log({chars});
+console.log(compress3(chars));
+console.log(`\n ... \n`);
+
+// bug:
+// input
+// ["a","a","a","b","b","a","a"]
+// Output
+// ["a","2","a","2"]
+// Expected
+// ["a","3","b","2","a","2"]
+
+chars = ['a','a','a','b','b','a','a'];
+console.log({chars});
+console.log(compress3(chars));
+console.log(`\n ... \n`);
+// bug:
+// Input
+// ["a","b","c","d","e","f","g","g","g","g","g","g","g","g","g","g","g","g","a","b","c"]
+// Output
+// ["a","b","c","d","e","f","g","1","2","b","c"]
+// Expected
+// ["a","b","c","d","e","f","g","1","2","a","b","c"]
+
+chars = ["a","b","c","d","e","f","g","g","g","g","g","g","g","g","g","g","g","g","a","b","c"];
+console.log({chars});
+console.log(compress3(chars));
+console.log(`\n ... \n`);
+
+/**
+ * Bug...
+ * Input
+["a","a","a","a","a","a","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","c","c","c","c","c","c","c","c","c","c","c","c","c","c"]
+Output
+["a","6","b","2","1","c",14]
+Expected
+["a","6","b","2","1","c","1","4"]
+ */
+
+ //added 2 more bs
+chars = ["a","a","a","a","a","a","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","c","c","c","c","c","c","c","c","c","c","c","c","c","c"];
+console.log({chars});
+console.log(compress3(chars));
+console.log(`\n ... \n`);
+
+// if (multipleDigitsIdxes.length) {
+
+//   console.log({chars});
+//   console.log({multipleDigitsIdxes});
+
+//   for (let m = 0; m < multipleDigitsIdxes.length; m++ ) {
+//     let countArr = chars[m].toString().split('');
+
+//     console.log('m: ', m, 'chars[m]: ', chars[m], 'countArr: ', countArr);
+
+//     for (let j=0; j < countArr.length; j++) {
+//       let currDigit = countArr[j];
+
+//       console.log('j: ', j, 'currDigit: ', currDigit);
+
+//       if (j === 0) {
+//         chars.splice(m + j, 1, currDigit);
+//       }
+//       if (j > 0) {
+//         chars.splice(m + j, 0, currDigit);
+//       }
+//       m += countArr.length-1; 
+//     }
+//   }
+    
+// }
