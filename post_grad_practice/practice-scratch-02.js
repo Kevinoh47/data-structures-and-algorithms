@@ -230,6 +230,76 @@ numsArr = [0,1,2,2,3,0,4,2];
 console.log( removeElement(numsArr, 2));
 
 
+console.log(`\n ... leetcode string compression ... \n`);
+
+/**
+ * https://leetcode.com/problems/string-compression/submissions/
+ * Success
+Details
+Runtime: 64 ms, faster than 84.40% of JavaScript online submissions for String Compression.
+Memory Usage: 38 MB, less than 5.64% of JavaScript online submissions for String Compression.
+
+ * @param {*} chars 
+ */
+
+var compress = function(chars) {
+
+  let counter = 0, current, compressedArr = [];
+  const maxIdx = chars.length-1;
+
+  chars.map((e,idx) => {
+
+    // set up:
+    if (idx === 0) { current = e; counter = 0; }
+
+    //same value encountered:
+    if (e === current) {
+      counter++;
+    }
+    // new value encountered:
+    else if (e !== current ) {
+
+      compressedArr.push(current);
+
+      // Manage current, before resetting...
+      if (counter > 1) {
+        const counterArr = counter.toString().split('');
+        counterArr.forEach(j=>{compressedArr.push(j);});
+      }
+      // now reset
+      counter = 1;
+      current = e;
+    }
+    
+    // write final value:
+    if (idx === maxIdx) {
+      compressedArr.push(current);
+      if (counter > 1) {
+        const counterArr = counter.toString().split('');
+        counterArr.forEach(j=>{compressedArr.push(j);});
+      }
+    }
+  });
+
+  // sigh... destructuring assignment works here, but not on LeetCode:
+  // chars = [...compressedArr];
+  // to satisfy LeetCode, replace the above single line with the following for loop and while loop:
+  for (let i = 0; i < compressedArr.length; i++) {
+    chars[i] = compressedArr[i];
+  }
+  while (chars.length > compressedArr.length) {
+    chars.pop();
+  }
+  // leetCode wants only chars.length returned, but it is useful here to see both:
+  return { 'len' : chars.length, 'chars': chars};
+};
+
+let chars = ['a','a','b','b','c','c','c'];
+console.log(compress(chars));
+chars = ['a'];
+console.log(compress(chars));
+chars = ['a','b','b','b','b','b','b','b','b','b','b','b','b'];
+console.log(compress(chars));
 
 
 
