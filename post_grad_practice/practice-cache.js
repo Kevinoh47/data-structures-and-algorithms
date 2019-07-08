@@ -252,6 +252,11 @@ console.log(mLCC.cache);
 Details
 Runtime: 248 ms, faster than 20.74% of JavaScript online submissions for LRU Cache.
 Memory Usage: 58.6 MB, less than 82.20% of JavaScript online submissions for LRU Cache.
+
+Note: these solutions from the discussion is very similar to my solution, maybe a bit more concise:
+https://leetcode.com/problems/lru-cache/discuss/45981/Almighty-javascript!-%3A)
+https://leetcode.com/problems/lru-cache/discuss/116201/JavaScript-Solution-Concise
+
  */
 
 

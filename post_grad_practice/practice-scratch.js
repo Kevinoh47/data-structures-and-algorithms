@@ -1716,3 +1716,201 @@ console.log('result shoulb be true: ', myPalindromeTester(myStr));
 
 myStr = 'A man, a planT, a canal. Panama!';
 console.log('result shoulb be false: ',myPalindromeTester(myStr));
+
+console.log('\n ... Most Common Word ... \n');
+
+/**
+ * https://leetcode.com/problems/most-common-word/
+ * 
+ * Given a paragraph and a list of banned words, return the most frequent word that is not in the list of banned words.  It is guaranteed there is at least one word that isn't banned, and that the answer is unique.
+
+Words in the list of banned words are given in lowercase, and free of punctuation.  Words in the paragraph are not case sensitive.  The answer is in lowercase.
+
+Input: 
+paragraph = "Bob hit a ball, the hit BALL flew far after it was hit."
+banned = ["hit"]
+Output: "ball"
+
+Explanation: 
+"hit" occurs 3 times, but it is a banned word.
+"ball" occurs twice (and no other word does), so it is the most frequent non-banned word in the paragraph. 
+Note that words in the paragraph are not case sensitive,
+that punctuation is ignored (even if adjacent to words, such as "ball,"), 
+and that "hit" isn't the answer even though it occurs more because it is banned.
+
+Note:
+
+    1 <= paragraph.length <= 1000.
+    0 <= banned.length <= 100.
+    1 <= banned[i].length <= 10.
+    The answer is unique, and written in lowercase (even if its occurrences in paragraph may have uppercase symbols, and even if it is a proper noun.)
+    paragraph only consists of letters, spaces, or the punctuation symbols !?',;.
+    There are no hyphens or hyphenated words.
+    Words only consist of letters, never apostrophes or other punctuation symbols.
+
+ */
+
+
+// this one failed because not handling spaces and commas correctly in paragraph:
+
+// var mostCommonWord = function(paragraph, banned) {
+//   const stripCharsRE =  /[.,/#!$%^&*;:{}=\-_`~()]/g; //regex
+// const filteredPara = paragraph.replace(stripCharsRE,'').toLowerCase();
+// const paraArr = filteredPara.split(' ');
+// const highestCount = [];
+
+// let wordCount = new Set();
+// let bannedSet = new Set();
+
+// banned.forEach(e => {
+// bannedSet[e]=1;
+// });
+
+// paraArr.forEach((e) => {
+// if (bannedSet[e] === undefined) {
+//   if (wordCount[e]) {
+//     wordCount[e]++;
+//   } else {
+//     wordCount[e] = 1;
+//   }
+//   let updateIndex = wordCount[e];
+//   highestCount.splice(updateIndex, 1, e);
+// }
+// });
+
+// return highestCount[highestCount.length-1];
+// };
+
+
+// Working copy... it now works... but messy
+
+// let mostCommonWord = function(paragraph, banned) {
+//   //const stripCharsRE =  /[.,/#!$%^&*;:{}=\-_`~()]/g; //regex
+//   const stripCharsRE =  /[!?',;.]/g; //regex
+//   //split on space or comma, then join back using a space
+//   let filteredPara = paragraph.split(/[ ,]+/).join(','); //replace spaces with commas
+//   console.log({filteredPara});
+//   filteredPara = filteredPara.replace(stripCharsRE,' ').toLowerCase(); // now replace everything with a space' 
+//   //console.log({filteredPara});
+
+//   const paraArr = filteredPara.split(' ');
+
+//   //console.log({paraArr});
+
+//   //let highestCount = [];
+
+//   let wordCount = new Set();
+//   let bannedSet = new Set();
+
+//   banned.forEach(e => {
+//     bannedSet[e]=1;
+//   });
+
+//   //console.log({bannedSet});
+
+//   paraArr.forEach((e) => {
+//     if (bannedSet[e] === undefined) {
+//       if (wordCount[e]) {
+//         wordCount[e]++;
+//       } else {
+//         wordCount[e] = 1;
+//       }
+//       //let updateIndex = wordCount[e];
+//       //highestCount.splice(updateIndex, 1, e);
+//     }
+//   });
+//   console.log({wordCount});
+//   //console.log({highestCount});
+//   //return highestCount[highestCount.length-1];
+//   let highestCountWord;
+//   let currHighCount = 0;
+
+//   for (let [key, value] of Object.entries(wordCount)) {
+
+    
+//     if (value > currHighCount) {
+//       highestCountWord = key;
+//       currHighCount = value;
+//       console.log(key, value, highestCountWord, currHighCount);
+//     }
+//   }
+//   //return {'word':highestCountWord, 'count': currHighCount };
+//   return highestCountWord;
+// };
+
+// cleaned up:
+/**
+ * https://leetcode.com/problems/most-common-word/submissions/
+ * Success
+Details
+Runtime: 56 ms, faster than 94.18% of JavaScript online submissions for Most Common Word.
+Memory Usage: 36.8 MB, less than 31.62% of JavaScript online submissions for Most Common Word.
+
+I noticed in the discussion that the same test case (the second one) below that tripped me up also tripped up a lot of others.
+
+Here is an elegant solution not far from mine that apparently fails that test as well... 
+https://leetcode.com/problems/most-common-word/discuss/124044/JavaScript-solution
+
+ * 
+ * 
+ * @param {*} paragraph 
+ * @param {*} banned 
+ */
+let mostCommonWord = function(paragraph, banned) {
+  const stripCharsRE =  /[!?',;.]/g; //regex
+  //split on space or comma, then join back using a space
+  let filteredPara = paragraph.split(/[ ,]+/).join(','); //replace spaces with commas
+  filteredPara = filteredPara.replace(stripCharsRE,' ').toLowerCase(); // now replace everything with a space' 
+
+  const paraArr = filteredPara.split(' ');
+
+  let wordCount = new Set();
+
+  // let bannedSet = new Set();
+  // banned.forEach(e => {
+  //   bannedSet[e]=1;
+  // });
+  let bannedSet = new Set(banned);
+
+
+  paraArr.forEach((e) => {
+    // test that e is not empty and that it is not in the bannedSet
+    if (e && bannedSet[e] === undefined) {
+      if (wordCount[e]) {
+        wordCount[e]++;
+      } else {
+        wordCount[e] = 1;
+      }
+    }
+  });
+
+  let highestCountWord;
+  let currHighCount = 0;
+
+  for (let [key, value] of Object.entries(wordCount)) {
+
+    if (value > currHighCount) {
+      highestCountWord = key;
+      currHighCount = value;
+    }
+  }
+  console.log({wordCount});
+  return highestCountWord;
+};
+
+let paragraph = 'Bob hit a ball, the hit BALL flew far after it was hit.';
+let banned = ['hit'];
+// expected: ball
+console.log(mostCommonWord(paragraph, banned));
+
+paragraph = 'a, a, a, a, b,b,b,c, c';
+banned = ['a'];
+// expected: b
+console.log(mostCommonWord(paragraph, banned));
+
+paragraph = 'Bob. hIt, baLl';
+banned = ["bob", "hit"]; 
+
+// expected: ball
+console.log(mostCommonWord(paragraph, banned));
+
