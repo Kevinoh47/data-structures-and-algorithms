@@ -591,3 +591,36 @@ console.log(`\n ... \n`);
 //   }
     
 // }
+
+/**
+ * Interview Cake. 
+ * Store count of every character in a string.
+ * 
+ * use the ascii character as the array index, and the array value is the count.
+ */
+
+const charCounter = str => {
+  const myStrArr = str.split('');
+  const myArr = []; 
+
+  myStrArr.map( e => {
+    const myAscii = e.charCodeAt(0);
+    if (myAscii < 256) {
+      if (myArr[myAscii] === undefined) {
+        myArr[myAscii] = 1;
+      } else {
+        myArr[myAscii]++;
+      }
+    } 
+  });
+
+  myArr.forEach((e, i) => {
+    const myChar = String.fromCharCode(i);
+    console.log(`Character: ${myChar} ASCII code: ${i} Count: ${e}`);
+  });
+};
+
+let myStr = 'the quick brown fox jumped over the lazy dog.';
+console.log(charCounter(myStr));
+
+
