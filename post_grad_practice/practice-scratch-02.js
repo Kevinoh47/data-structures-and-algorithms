@@ -623,4 +623,72 @@ const charCounter = str => {
 let myStr = 'the quick brown fox jumped over the lazy dog.';
 console.log(charCounter(myStr));
 
+console.log(`\n ... binary search ... \n`);
+/**
+ * Binary Search Function
+ */
 
+function binarySearch (target, sortedNums) {
+  let floorIndex = -1, ceilingIndex = sortedNums.length;
+
+  while (floorIndex  + 1 < ceilingIndex) {
+    const distance = ceilingIndex - floorIndex;
+    const halfDistance = Math.floor(distance/2);
+    const guessIndex = floorIndex + halfDistance;
+    const guessVal = sortedNums[guessIndex];
+
+    console.log('floor: ', floorIndex, 'ceiling: ', ceilingIndex, 'guessIdx: ', guessIndex, 'guessVal: ', guessVal);
+
+    if (guessVal === target) { return guessIndex;}
+
+    if (guessVal > target) {
+      ceilingIndex = guessIndex;
+    }
+    else {
+      floorIndex = guessIndex;
+    }
+  }
+  return false;
+}
+
+let mySorted = [-10,0,10,20,30,40,50,60,70,80,90,100,110];
+
+console.log(binarySearch(47, mySorted));
+console.log(`\n ...  ... \n`);
+console.log(binarySearch(40, mySorted));
+
+console.log(`\n ... recursive binary search ... \n`);
+
+function recursiveBinarySearch (target, sortedNums) {
+  let floorIndex = -1, ceilingIndex = sortedNums.length;
+
+  let _recursiveBS = (floor, ceiling) => {
+
+    const middleIdx = Math.floor((ceiling + floor) /2);
+    const guessVal = sortedNums[middleIdx];
+
+    // base conditions:
+    if (guessVal === target) {
+      return middleIdx;
+    }
+    if ( floor + 1 === ceiling) { 
+      return false; 
+    }
+
+    // recursive calls:
+    if (guessVal > target) {
+      return _recursiveBS(floor, middleIdx);
+    }
+    else if (guessVal < target) {
+      return _recursiveBS(middleIdx, ceiling);
+    }
+
+  };
+  const result =  _recursiveBS(floorIndex, ceilingIndex);
+  console.log({result});
+  return result;
+}
+
+console.log(recursiveBinarySearch(47, mySorted));
+console.log(`\n ...  ... \n`);
+console.log(recursiveBinarySearch(40, mySorted));
