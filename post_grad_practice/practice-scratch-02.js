@@ -624,6 +624,7 @@ let myStr = 'the quick brown fox jumped over the lazy dog.';
 console.log(charCounter(myStr));
 
 console.log(`\n ... binary search ... \n`);
+
 /**
  * Binary Search Function
  */
@@ -667,9 +668,9 @@ function recursiveBinarySearch (target, sortedNums) {
     const middleIdx = Math.floor((ceiling + floor) /2);
     const guessVal = sortedNums[middleIdx];
 
-    // base conditions:
+    // base cases:
     if (guessVal === target) {
-      return middleIdx;
+      return middleIdx; //index of target value.
     }
     if ( floor + 1 === ceiling) { 
       return false; 
@@ -692,3 +693,182 @@ function recursiveBinarySearch (target, sortedNums) {
 console.log(recursiveBinarySearch(47, mySorted));
 console.log(`\n ...  ... \n`);
 console.log(recursiveBinarySearch(40, mySorted));
+
+console.log(`\n ...  recursive merge sort ... \n`);
+/**
+ * https://www.interviewcake.com/article/javascript/logarithms?course=fc1&section=algorithmic-thinking
+ * merge sort using recursion
+ * 
+ * So what's our total time cost? O(nlog⁡2n)O(n\log_{2}{n})O(nlog2​n). The log⁡2n\log_{2}{n}log2​n comes from the number of times we have to cut n in half to get down to subarrays of just 1 element (our base case). The additional n comes from the time cost of merging all n items together each time we merge two sorted subarrays. 
+ * 
+ * @param {*} arr 
+ */
+function mergeSort(arrToSort){
+
+  // console.log({arrToSort});
+
+  // base case: when array is to small to sort:
+  if (arrToSort.length < 2) { return arrToSort;}
+
+  // STEP 1. divide array in half.
+  const midIdx = Math.floor(arrToSort.length/2);
+  const left = arrToSort.slice(0,midIdx);
+  const right = arrToSort.slice(midIdx);
+
+  // STEP 2. sort the halves
+  const sortedLeft = mergeSort(left);
+  const sortedRight = mergeSort(right);
+
+  // STEP 3: merge the sorted halves:
+  const sortedArr = [];
+  let currentLeftIdx = 0, currentRightIdx = 0;
+
+  while(sortedArr.length < left.length + right.length) {
+
+    if (currentLeftIdx < left.length && 
+        (currentRightIdx === right.length || 
+          sortedLeft[currentLeftIdx] < sortedRight[currentRightIdx])) {
+      sortedArr.push(sortedLeft[currentLeftIdx]);
+      currentLeftIdx += 1;
+    }
+    else {
+      sortedArr.push(sortedRight[currentRightIdx]);
+      currentRightIdx += 1;
+    }
+    console.log({sortedArr});
+  }
+
+  return sortedArr;
+}
+
+const unsortedArr = [5,9, 2, 1, 7, -47, 18, 32, 31,0];
+console.log(mergeSort(unsortedArr));
+
+console.log(`\n ...  in place vs out of place ... \n`);
+
+/**
+ * two functions to square the ints in the input array.
+ * first is in place (pass by reference) the second is out of place (pass by value)
+ */
+
+let squareArrValsInPlace = arrOfInts => {
+  arrOfInts.forEach((e,i) => {
+    arrOfInts[i] = e * e;
+  });
+};
+
+function squareArrValsOutPlace(arrOfInts) {
+  const squaredArray = [];
+
+  arrOfInts.map((int, index) => {
+    squaredArray[index] = Math.pow(int, 2);
+  });
+
+  return squaredArray;
+}
+
+const myInts = [1,2,3,4,5,6,7,8];
+
+console.log({myInts});
+let doubled = squareArrValsOutPlace(myInts);
+console.log({doubled});
+console.log({myInts});
+squareArrValsInPlace(myInts);
+console.log({myInts});
+
+/**
+ * Merge two pre-sorted arrays
+ */
+console.log(`\n ... merge two sorted arrays ...\n`);
+let mergeSortedArrays = (sorted1, sorted2) => {
+
+  let arr1Idx = 0, arr2Idx = 0;
+  const merged = [];
+
+  // keep looping until both indexes are too long.
+  while(arr1Idx < sorted1.length || arr2Idx < sorted2.length) {
+
+    const sorted1Val = sorted1[arr1Idx];
+    const sorted2Val = sorted2[arr2Idx];
+
+    if (arr1Idx < sorted1.length && arr2Idx === sorted2.length) {
+      merged.push(sorted1[arr1Idx]);
+      arr1Idx++;
+    }
+
+    else if (arr2Idx < sorted2.length && arr1Idx === sorted1.length) {
+      merged.push(sorted2[arr2Idx]);
+      arr2Idx++;
+    }
+
+    else if ( sorted1Val < sorted2Val ) {
+      merged.push(sorted1[arr1Idx]);
+      arr1Idx++;
+    }
+
+    else if ( sorted2Val < sorted1Val ){
+      merged.push(sorted2[arr2Idx]);
+      arr2Idx++;
+    }
+
+    else if ( sorted2Val == sorted1Val ){
+      merged.push(sorted1[arr1Idx]);
+      merged.push(sorted2[arr2Idx]);
+      arr1Idx++;
+      arr2Idx++;
+    }
+  }
+
+  return merged;
+};
+
+const myArray = [3, 4, 6, 10, 11, 15];
+const alicesArray = [1, 5, 8, 12, 14, 19];
+
+const mergedArrs = mergeSortedArrays(myArray, alicesArray);
+console.log({mergedArrs});
+
+const myArray2 = [3, 4, 6, 10, 11, 15];
+const alicesArray2 = [1, 5, 8, 10, 12, 14, 19];
+console.log(`\n ... testing for duplicate value - here we want both ...\n`);
+const mergedArrs2 = mergeSortedArrays(myArray2, alicesArray2);
+console.log({mergedArrs2});
+
+console.log(`\n ... write function that tests for correct ordering ...\n`);
+/**
+ * https://www.interviewcake.com/question/javascript/cafe-order-checker?course=fc1&section=array-and-string-manipulation
+ * 
+ */
+
+
+
+const checkOrderOfServedOrders = (tO,dI,sO) => {
+
+  const expectedOrder =  mergeSortedArrays(tO, dI);
+  console.log({expectedOrder});
+  let orderCorrect = true;
+
+  for (let i = 0; i < expectedOrder.length; i++) {
+    if (expectedOrder[i] !== sO[i]) {
+      orderCorrect = false;
+      return orderCorrect;
+    }
+  }
+  return orderCorrect;
+};
+
+let takeOut = [1,3,5,9];
+let dineIn = [0,2,4,6,7,8,10];
+let servedOrders = [0,1,2,4,3,5,6,7,8,9,10];
+
+console.log(checkOrderOfServedOrders(takeOut, dineIn, servedOrders));
+
+servedOrders = [0,1,2,3,4,5,6,7,8,9,10];
+console.log(checkOrderOfServedOrders(takeOut, dineIn, servedOrders));
+
+
+
+// here is the recursive version from interview cake:
+
+
+
