@@ -840,12 +840,9 @@ console.log(`\n ... write function that tests for correct ordering ...\n`);
  * 
  */
 
-
-
 const checkOrderOfServedOrders = (tO,dI,sO) => {
 
   const expectedOrder =  mergeSortedArrays(tO, dI);
-  console.log({expectedOrder});
   let orderCorrect = true;
 
   for (let i = 0; i < expectedOrder.length; i++) {
@@ -867,8 +864,75 @@ servedOrders = [0,1,2,3,4,5,6,7,8,9,10];
 console.log(checkOrderOfServedOrders(takeOut, dineIn, servedOrders));
 
 
-
+console.log(`\n ... recursive version, but of O(n2) time and space...\n`);
 // here is the recursive version from interview cake:
+// but i don't seem to quite understand what the question is supposed to be, because the second case should fail by my understanding, but it passes. Seems to be just checking that the values match the individual queue ordering, rather than merged array ordering. But when I reread the problem, it still appears to be attempting to make sure ALL orders are in order, not just individual queues (e.g. dineIn, takeOut are returned in order). Because of a comment in the subsequent version, i now believe they just want to check that the ordering is correct per individual queue, not merged queue...
+
+// because of the slices, we are O(n2) for this approach...
+
+function isFirstComeFirstServed(takeOut, dineIn, servedOrders) {
+  
+  //base case:
+  if (servedOrders.length === 0) { return true;}
+
+  // test for whether take out matches. Make sure takeOut still has length.
+  if (takeOut.length && takeOut[0] === servedOrders[0]) {
+    console.log(`take out ... ${takeOut[0]} for servedOrders: ${servedOrders[0]}`);
+    return isFirstComeFirstServed(takeOut.slice(1), dineIn, servedOrders.slice(1));
+  }
+  else if (dineIn.length && dineIn[0] === servedOrders[0]) {
+    console.log(`dine in ... ${dineIn[0]} for servedOrders: ${servedOrders[0]}`);
+    return isFirstComeFirstServed(takeOut, dineIn.slice(1), servedOrders.slice(1));
+  }
+  else {
+    return false;
+  }
+}
+
+console.log(isFirstComeFirstServed(takeOut, dineIn, servedOrders));
+servedOrders = [0,1,2,4,3,5,6,7,8,9,10];
+console.log(isFirstComeFirstServed(takeOut, dineIn, servedOrders));
+
+console.log(`\n ... a more performant version: O(n)...\n`);
+// a version that uses indices to get down to  O(n) ...
+
+function isFirstComeFirstServed2(takeOut, dineIn, servedOrders, servedOrdersIndex, takeOutIndex, dineInIndex) {
+  servedOrdersIndex = (typeof servedOrdersIndex !== 'undefined') ? servedOrdersIndex : 0;
+  takeOutIndex = (typeof takeOutIndex !== 'undefined') ? takeOutIndex : 0;
+  dineInIndex = (typeof dineInIndex !== 'undefined') ? dineInIndex : 0;
+
+  // base case we've hit the end of servedOrders
+  if (servedOrdersIndex === servedOrders.length) {
+    return true;
+  }
+
+  // if we still have orders in takeOut and the current order in takeOut is the same as the current order in servedOrders
+  if ((takeOutIndex < takeOut.length) &&
+          (takeOut[takeOutIndex] === servedOrders[servedOrdersIndex])) {
+    takeOutIndex++;
 
 
+  // if we still have orders in dineIn and the current order in dineIn is the same as the current order in servedOrders
+  } else if ((dineInIndex < dineIn.length) &&
+          (dineIn[dineInIndex] === servedOrders[servedOrdersIndex])) {
+    dineInIndex++;
+
+  // if the current order in servedOrders doesn't match the current order in takeOut or dineIn, then we're not serving in first-come, first-served order.
+  } else {
+    return false;
+  }
+
+  // the current order in servedOrders has now been "accounted for" so move on to the next one
+  servedOrdersIndex++;
+
+  return isFirstComeFirstServed2(takeOut, dineIn, servedOrders, servedOrdersIndex, takeOutIndex, dineInIndex);
+}
+
+console.log(isFirstComeFirstServed2(takeOut, dineIn, servedOrders));
+servedOrders = [0,1,2,3,4,5,6,7,8,9,10];
+console.log(isFirstComeFirstServed2(takeOut, dineIn, servedOrders));
+
+// this should fail:
+servedOrders = [0,1,2,4,5,3,6,7,8,9,10];
+console.log(isFirstComeFirstServed2(takeOut, dineIn, servedOrders));
 
