@@ -1566,7 +1566,7 @@ console.log('\nadding binary 10 with  binary 11 should equal 21:', addBinary(a,b
 
 console.log('\n let\'s refactor... and add binary directly. \n');
 /**
- * 
+ * Add Binary Numbers
  * https://leetcode.com/problems/add-binary/submissions/
  * Success
 Details
