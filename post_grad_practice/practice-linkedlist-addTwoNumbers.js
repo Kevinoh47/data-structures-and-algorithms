@@ -36,6 +36,7 @@ var addTwoNumbers = function(l1, l2) {
     return output;
   };
 
+  // NOTE that l1 and l2 are actually head nodes, rather than list Objects...
   num1 = (l1 && l1.val >= -9 && l1.val <= 9) ? _traverser(l1).reverse() : 0;
   num2 = (l2 && l1.val >= -9 && l1.val <= 9) ? _traverser(l2).reverse() : 0; 
 
@@ -50,7 +51,6 @@ var addTwoNumbers = function(l1, l2) {
   console.log({myBigSum});
   let myBigSumStr = `${myBigSum}`;
   console.log({myBigSumStr});
-  // add the two numbers, then convert to string, then an array, then reverse
   //mySum = JSON.stringify(n1 + n2).split('').reverse();
   mySum = myBigSumStr.split('').reverse();
 
@@ -61,7 +61,6 @@ var addTwoNumbers = function(l1, l2) {
   // once nodes are all created, add next:
   for (let i = 0; i < mySum.length; i++) {
     mySumNodes[i].next = (mySumNodes[i+1]) ? mySumNodes[i+1] : null;
-
   }
 
   // return head of sum list

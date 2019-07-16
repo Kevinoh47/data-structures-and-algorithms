@@ -34,6 +34,18 @@ let result2 = myHashTable2.contains('Aaron');
 console.log({myValContained});
 console.log({myValFound});
 console.log({myKeyIndex});
+console.log({myHashTable1});
+console.log('hash1 map: ', myHashTable1.map);
+console.log('hash1 map[0]: ', myHashTable1.map[0]);
+console.log('hash1 map[5]: ', myHashTable1.map[5]);
+console.log('hash1 hash keys: ', Object.keys(myHashTable1.map));
+console.log({myHashTable2});
+console.log('hash2 hash keys: ', Object.keys(myHashTable2.map));
+console.log('hash2 hash entries: ', Object.entries(myHashTable2.map));
+console.log('hash2 hash values: ', Object.values(myHashTable2.map));
+
+
+console.log(`\n ... hash left join ... \n`);
 
 
 // hash left join
