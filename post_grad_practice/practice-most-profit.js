@@ -13,10 +13,13 @@
  */
 
 let prices = [45, 50, 55, 60, 60, 65, 60, 40, 60, 70, 70, 65];
+let sinkingPrices = [100, 95, 90, 80, 70, 50, 20, 0];
+let sinkingPrices2 = [100, 50, 50, 45, 40, 30, 20, 0];
+let sinkingPrices3 = [100, 50, 50, 51, 40, 30, 20, 0];
 
 let bestProfitForPurchaseAndSale = prices => {
 
-  let largestDelta = 5; // first two positions
+  let largestDelta = prices[1] - prices[0];// first two positions
   let bestBuyIdx = 0;
   let bestSellIdx = 1;
 
@@ -32,6 +35,7 @@ let bestProfitForPurchaseAndSale = prices => {
       const currDeltaStart = prices[i];
       const currDeltaEnd = prices[j];
       const currentDelta = currDeltaEnd - currDeltaStart;
+
       if (currentDelta > largestDelta) {
         largestDelta = currentDelta;
         bestBuyIdx = i;
@@ -42,4 +46,7 @@ let bestProfitForPurchaseAndSale = prices => {
   return {largestProfit:largestDelta, buyIdx:bestBuyIdx, sellIdx:bestSellIdx, buyPrice: prices[bestBuyIdx], sellPrice: prices[bestSellIdx]};
 };
 
-console.log(bestProfitForPurchaseAndSale(prices));
+console.log(bestProfitForPurchaseAndSale(prices)); // expecting 30
+console.log(bestProfitForPurchaseAndSale(sinkingPrices)); // expecting -5
+console.log(bestProfitForPurchaseAndSale(sinkingPrices2)); // expecting 0
+console.log(bestProfitForPurchaseAndSale(sinkingPrices3)); // expecting 1

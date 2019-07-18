@@ -1584,6 +1584,7 @@ let addBinary2 = (a,b) => {
   let maxIndex = (aArr.length > bArr.length) ? aArr.length - 1 : bArr.length -1;
   let carry = 0, output = [];
 
+  // make sure the arrays are the same length:
   while(aArr.length-1 < maxIndex) {
     aArr.unshift(0);
   }
@@ -1607,6 +1608,8 @@ let addBinary2 = (a,b) => {
   }
   // if carry is left over we need to push one more place
   if (carry === 1) {output.push(1);}
+
+  // since we have been pushing the output, we need to reverse it. We could have used unshift instead of push above.
   output.reverse();
 
   return output.join('');

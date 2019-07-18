@@ -626,7 +626,7 @@ console.log(charCounter(myStr));
 console.log(`\n ... binary search ... \n`);
 
 /**
- * Binary Search Function
+ * Binary Search Function for sorted array.
  */
 
 function binarySearch (target, sortedNums) {
