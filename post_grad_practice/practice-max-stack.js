@@ -1,5 +1,12 @@
 /**
  * https://leetcode.com/problems/max-stack/
+ * 
+ * Success
+Details
+Runtime: 172 ms, faster than 28.00% of JavaScript online submissions for Max Stack.
+Memory Usage: 43.1 MB, less than 100.00% of JavaScript online submissions for Max Stack.
+
+
  */
 
 /**
@@ -23,25 +30,17 @@ var MaxStack = function() {
     //   }
     // });
 
-    // old school:
+    // old school (LeetCode doesn't seem to support forEach ????):
     for (let i = 0; i < this.myStack.length; i++) {
       let myVal = this.myStack[i];
       if (myVal >= currMax) {
         currMax = myVal;
         currMaxIndex = i;
       }
-  }
-
-  
-    // console.log({currMax});
-    // console.log({currMaxIndex});
+    }
 
     this.maxVal = currMax;
     this.maxValIndex = currMaxIndex;
-
-    // console.log({newMaxVal:this.maxVal});
-    // console.log({newMaxValIdx:this.maxValIndex});
-
   };
 };
 
@@ -53,7 +52,7 @@ MaxStack.prototype.push = function(x) {
   this.myStack.push(x);
 
   // use >= because if equal we want popMax to remove the last one
-  if (x >= this.maxVal) {
+  if (x >= this.maxVal || this.maxVal === undefined || this.maxVal === null) {
     this.maxVal = x;
     this.maxValIndex = this.myStack.length-1;
   }
@@ -85,6 +84,10 @@ MaxStack.prototype.top = function() {
  * @return {number}
  */
 MaxStack.prototype.peekMax = function() {
+
+  console.log(this.myStack);
+  console.log(this.maxVal);
+
   return this.maxVal;
 };
 
@@ -95,13 +98,9 @@ MaxStack.prototype.popMax = function() {
 
   if (this.myStack.length === 0) {return null;}
 
-  // console.log('pre popMax stack: ', this.myStack);
-
   const popMaxVal = this.myStack.splice(this.maxValIndex, 1);
 
   this._setNewMax();
-
-  // console.log('poppedMax: ', popMaxVal[0], 'currentStack: ', this.myStack);
 
   return popMaxVal[0];
 };
@@ -131,3 +130,77 @@ const pop1 = myMaxStack.pop(); // -> 1
 const top3 = myMaxStack.top(); // -> 5
 
 console.log({top1: top1, popMax1: popMax1, top2: top2, peekMax1: peekMax1, pop1, top3:top3});
+
+
+/**
+ * originally failed this test:
+ * 
+ * Input
+["MaxStack",
+"push",
+"popMax",
+"push",
+"push",
+"popMax",
+"pop",
+"push",
+"push",
+"peekMax",
+"popMax",
+"push",
+"pop",
+"push",
+"push"]
+
+[[],
+[74],
+[],
+[89],
+[67],
+[],
+[],
+[61],
+[-77],
+[],
+[],
+[81],
+[],
+[-71],
+[32]]
+
+output
+[null,null,74,null,null,89,67,null,null,undefined,61,null,81,null,null]
+
+expected
+[null,null,74,null,null,89,67,null,null,61,61,null,81,null,null]
+ */
+
+const step0_maxStack2 = new MaxStack();
+let step1 = step0_maxStack2.push(74);
+let step2 = step0_maxStack2.popMax();  //74
+let step3 = step0_maxStack2.push(89);
+let step4 = step0_maxStack2.push(67);
+let step5 = step0_maxStack2.popMax(); // 89
+let step6 = step0_maxStack2.pop();  //67
+let step7 = step0_maxStack2.push(61);
+let step8 = step0_maxStack2.push(-77);
+let step9 = step0_maxStack2.peekMax(); // should be 61 but is undefined
+let step10 = step0_maxStack2.popMax();
+let step11 = step0_maxStack2.push(81);
+let step12 = step0_maxStack2.pop();
+let step13 = step0_maxStack2.push(-71);
+let step14 = step0_maxStack2.push(32);
+
+console.log(`\n .... \n`);
+
+console.log(step1, step2,step3,step4,step5,step6,step7,step8,step9,step10,step11,step12,step13,step14);
+
+// originally failed this test as well:
+const step0_maxStack3 = new MaxStack();
+step1 = step0_maxStack3.push(-23);
+step2 = step0_maxStack3.peekMax();  // -23
+
+
+console.log(`\n .... \n`);
+
+console.log(step1, step2, step3);
