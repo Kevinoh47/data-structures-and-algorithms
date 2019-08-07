@@ -85,8 +85,8 @@ MaxStack.prototype.top = function() {
  */
 MaxStack.prototype.peekMax = function() {
 
-  console.log(this.myStack);
-  console.log(this.maxVal);
+  // one LeetCode solution that did not track maxVal, did this, which is nice:
+  // return Math.max(...this.stack);
 
   return this.maxVal;
 };
@@ -204,3 +204,14 @@ step2 = step0_maxStack3.peekMax();  // -23
 console.log(`\n .... \n`);
 
 console.log(step1, step2, step3);
+
+/**
+ * MySQL select second highest salary from Employee table:
+ * https://leetcode.com/problems/second-highest-salary/
+ * 
+ * 
+ * SELECT MAX(a.Salary) as SecondHighestSalary 
+FROM Employee as a
+WHERE a.Salary < (SELECT MAX(Salary) from Employee)
+ * 
+ */
