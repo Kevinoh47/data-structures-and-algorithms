@@ -2,6 +2,7 @@
 
 /**
  * Score a Bowling Game
+ * Interview question for McGraw Hill Education
  * 10 frames
  * two rolls per frame
  * per frame: 2,3 = 5
@@ -77,6 +78,7 @@ class BowlingSummary {
   getRegularPoints(){
     const results = this.pointsArr.reduce((prev, curr, idx) => {
       if (idx < 20) {
+        // after a strike, the next value in the array is null, which we treat as 0 here.
         const currVal = (curr === null) ? 0 : curr;
         return prev + currVal;
       } 
@@ -86,6 +88,7 @@ class BowlingSummary {
   }
 
   getExtraPoints() {
+    // NOTE: prev = the sum up until this iteration.
     const results = this.pointsArr.reduce((prev, curr, idx, arr) => {
       // calculate Extra Points from the 1st throw per frame. For strikes, the following throw must be NULL in the arr.
       if (idx % 2 === 0 && idx <= 18) {

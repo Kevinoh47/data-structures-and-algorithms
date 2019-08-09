@@ -18,6 +18,8 @@ Input: 1->2->4, 1->3->4
 Output: 1->1->2->3->4->4
  */
 
+
+ // TODO This one can't be right. See comments for versions below. This one merges linked lists, but doesn't preserve order. 
 'use strict';
 
 const LinkedList = require('../linked-list');
@@ -192,6 +194,32 @@ var mergeTwoOrderedLists = function(l1, l2) {
   }
 };
 
+/**
+ * type it out again:
+ */
+
+console.log(`\n .... recursive version from leet code solution ... \n`);
+
+let mergeTwoOrderedLists2 = (l1Node, l2Node) => {
+  if (l1Node === null &&  l2Node !== null) {return l2Node; }
+  else if (l2Node === null && l1Node !== null) {return l1Node; }
+  else if (l2Node === null && l1Node === null) {return null; }
+  else if (l1Node < l2Node) {
+    l1Node.next = mergeTwoOrderedLists2(l1Node.next, l2Node);
+    return l1Node;
+  }
+  else {
+    l2Node.next = mergeTwoOrderedLists2(l1Node, l2Node.next);
+    return l2Node;
+  }
+};
+
+let output = mergeTwoOrderedLists2(myList1Node1, myList2Node1);
+
+console.log({output});
+
+// TODO Fix. The merge doesn't seem to work...
+// leetCodeListIterator(output);
 
 
 

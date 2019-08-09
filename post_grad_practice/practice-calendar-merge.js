@@ -1,6 +1,21 @@
 /**
  * https://www.interviewcake.com/question/javascript/merging-ranges?course=fc1&section=array-and-string-manipulation
  * On this one, several of my approaches were close, but I never got it just right. Finally had to look at the solution.
+ * 
+ * 
+ * NOTE from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
+  So, the compare function has the following form:
+
+  function compare(a, b) {
+    if (a is less than b by some ordering criterion) {
+      return -1;
+    }
+    if (a is greater than b by the ordering criterion) {
+      return 1;
+    }
+    // a must be equal to b
+    return 0;
+  }
  */
 'use strict';
 
@@ -9,7 +24,7 @@ function mergeRanges(meetings) {
   // Create a deep copy of the meetings array
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Deep_Clone
   // const meetingsCopy = JSON.parse(JSON.stringify(meetings));
-  const meetingsCopy = [...meetings];
+  const meetingsCopy = [...meetings];  //alternate syntax = meetings.slice();
 
   // Sort by start time
   const sortedMeetings = meetingsCopy.sort((a,b) => {

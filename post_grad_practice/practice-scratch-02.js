@@ -303,4 +303,636 @@ console.log(compress(chars));
 
 
 
- 
+/**
+* Attempting to do this in O(1) extra space
+*/
+console.log(`\n ... leetcode string compression 2... \n`);
+var compress2 = function(chars) {
+  
+  let currCount = 1;
+
+  for (let i=0; i < chars.length; i++) {
+    const prevIdx = i-1;
+    const currVal = chars[i];
+    const prevVal = (chars[prevIdx]) ? chars[prevIdx] : null;
+
+    // count up all the same values in a row
+    if (prevVal !== null && prevVal === currVal) {
+      currCount++;
+    }
+    // when we switch values and count is greater than one, replace last value with count
+    if (currCount > 1 && prevVal !== null && prevVal !== currVal) {
+      chars.splice(prevIdx,1,currCount.toString());
+      currCount=1;
+    }
+    // for last element in array, if count > 1 replace last element with count
+    if (currCount > 1 && i === chars.length -1) {
+      chars.splice(i,1,currCount.toString());
+    }
+  }
+
+  //now compress the string:
+  let lastCharIdx = 0;
+  for (let j = 0; j < chars.length; j++) {
+
+    const curr = chars[j];
+    const prev = (chars[j-1]) ? chars[j-1] : null;
+
+    // find where current char starts
+    if(isNaN(parseInt(curr)) && prev !== null && prev !== curr) {
+      lastCharIdx = j;
+    }
+    // if current is number, delete any elements between the first instance of the char and the number
+    if (!isNaN(parseInt(curr))) {
+
+      const charCountIdx = lastCharIdx+1;
+      const deleteCount = j-charCountIdx;
+
+      chars.splice(charCountIdx, deleteCount);
+      
+      // reset current index to account for deleted elements:
+      j -= deleteCount;
+
+      // manage for numbers greater than a single digit
+      if (parseInt(curr) > 9) {
+        const countArr = curr.toString().split('');
+        
+        for (let k = 0; k < countArr.length; k++) {
+          // replace the first one
+          if (k === 0) {
+            chars.splice(j+k, 1, countArr[k]);
+          } 
+          // insert subsequent digits 
+          else {
+            chars.splice(j+k, 0, countArr[k]);
+          }
+        }
+        // reset current index to account for added elements:
+        j += countArr.length-1; 
+      }
+    }
+  }
+  return chars;
+};
+
+// chars = ['a','a','b','b','c','c','c'];
+// console.log({chars});
+// console.log(compress2(chars));
+// console.log(`\n ... \n`);
+// chars = ['a'];
+// console.log({chars});
+// console.log(compress2(chars));
+// console.log(`\n ... \n`);
+// chars = ['a','b','b','b','b','b','b','b','b','b','b','b','b'];
+// console.log({chars});
+// console.log(compress2(chars));
+// console.log(`\n ... \n`);
+
+// bug:
+// input
+// ["a","a","a","b","b","a","a"]
+// Output
+// ["a","2","a","2"]
+// Expected
+// ["a","3","b","2","a","2"]
+
+// chars = ['a','a','a','b','b','a','a'];
+// console.log({chars});
+// console.log(compress2(chars));
+// console.log(`\n ... \n`);
+// bug:
+// Input
+// ["a","b","c","d","e","f","g","g","g","g","g","g","g","g","g","g","g","g","a","b","c"]
+// Output
+// ["a","b","c","d","e","f","g","1","2","b","c"]
+// Expected
+// ["a","b","c","d","e","f","g","1","2","a","b","c"]
+
+// chars = ["a","b","c","d","e","f","g","g","g","g","g","g","g","g","g","g","g","g","a","b","c"];
+// console.log({chars});
+// console.log(compress2(chars));
+// console.log(`\n ... \n`);
+
+// bug:
+// well mine doesn't work if there are NUMBERS in the input....
+// Not gonna solve this one right now...
+// one possible approach: update counts as real numbers. Then on final pass, stringify them. This might work because the input for this bug is all stringified chars. 
+// or a better approach may be:
+// 1) for every char with count > 1, splice it out and increment the count.
+// 2) when we get to the next char, splice in the count... managing also, of course, for double digit counts...
+
+// Wrong Answer
+// Details
+// Input
+// ["b","l","l","l","l","l","l","4","4","W","W","&","d","d","d","@","D","D",".",".",".","8","8","8","U","V",">","J","J","k","H","H","=","l","[","[","[","[","[","[","[","a","a","'","<","[","[","y","V","l","l","'","$","E","`","v","k","E","E","t","t","t","t","t","=","=","0","C","a","l","l","l","r","R","M","M","c","c","c","A","A","S","9","9","9","9",")",")","\\","s","\\","\\","y","W","W","W","J","J","J","J","6","6","<","<","E","u","e","e","e","e","e","e","e","e","e","9","9","9","9","R","8","?","F","3","&","&","&","&","f","%","%","2","2","2",")",")",")","J","p","|","D","D","D","s","t","V","V","?","^","^","S","3","3","3","3","h","*","|","|","b","b","a","a","a","r","r","r","r","J",".","^","^","~","g",":",":",":","(","4","4","4","4","w","w","w","w","w","w","w","C","?","=","d","L",":","0","0","c","w","w","w","w","w","w","{","{","t","k","k","k","&","&","&","h","j","j","j","0","3","l",";",";",";",";",";",".",".",".","%","1","1","1","l","9","?","?","?","t",">","E","N","N","@",">",".",".","I","a","a","a","a","B","7","7","{","o","o","-","+","+","+","+","o","o","}","B","B","r","r","r","q","4","4","4","9","W","W","W","W","W","'","'","'","g","J","(","(","(","(","t","t","?",";","g","g","g","0","]","]","]"]
+
+// Output
+// ["b","l","2","W","2","&","d","3","@","D","2",".","3","U","V",">","J","2","k","H","2","=","l","[","7","a","2","'","<","[","2","y","V","l","2","'","$","E","`","v","k","E","2","t","5","=","0","C","a","l","3","r","R","M","2","c","3","A","2","S","4",")","2","\\","s","\\","2","y","W","3","J","2","<","2","E","u","e","4","R","8","?","F","3","&","4","f","%","3",")","3","J","p","|","D","3","s","t","V","2","?","^","2","S","4","h","*","|","2","b","2","a","3","r","4","J",".","^","2","~","g",":","3","(","4","w","7","C","?","=","d","L",":","2","c","w","6","{","2","t","k","3","&","3","h","j","3","l",";","5",".","3","%","3","l","9","?","3","t",">","E","N","2","@",">",".","2","I","a","4","B","2","{","o","2","-","+","4","o","2","}","B","2","r","3","q","9","W","5","'","3","g","J","(","4","t","2","?",";","g","0","]","3"]
+// Expected
+// ["b","l","6","4","2","W","2","&","d","3","@","D","2",".","3","8","3","U","V",">","J","2","k","H","2","=","l","[","7","a","2","'","<","[","2","y","V","l","2","'","$","E","`","v","k","E","2","t","5","=","2","0","C","a","l","3","r","R","M","2","c","3","A","2","S","9","4",")","2","\\","s","\\","2","y","W","3","J","4","6","2","<","2","E","u","e","9","9","4","R","8","?","F","3","&","4","f","%","2","2","3",")","3","J","p","|","D","3","s","t","V","2","?","^","2","S","3","4","h","*","|","2","b","2","a","3","r","4","J",".","^","2","~","g",":","3","(","4","4","w","7","C","?","=","d","L",":","0","2","c","w","6","{","2","t","k","3","&","3","h","j","3","0","3","l",";","5",".","3","%","1","3","l","9","?","3","t",">","E","N","2","@",">",".","2","I","a","4","B","7","2","{","o","2","-","+","4","o","2","}","B","2","r","3","q","4","3","9","W","5","'","3","g","J","(","4","t","2","?",";","g","3","0","]","3"]
+
+console.log(`\n ... leetcode string compression 2... \n`);
+/**
+Success
+Details
+Runtime: 72 ms, faster than 48.75% of JavaScript online submissions for String Compression.
+Memory Usage: 37.7 MB, less than 8.27% of JavaScript online submissions for String Compression.
+ */
+
+var compress3 = function(chars) {
+  
+  let currCount = 1;
+  const multipleDigitsIdxes = [];
+  const singleDigitsIdxes = [];
+
+  for (let i=1; i < chars.length; i++) {
+    const prevIdx = i-1;
+    const currVal = chars[i];
+    const prevVal = chars[prevIdx];
+
+    // count up all the same values in a row
+    if (i > 0 && prevVal === currVal) {
+      currCount++;
+      // remove the current element.
+      chars.splice(i,1);
+      i -= 1; // set index back one
+    }
+    // when we switch values and count is greater than one, splice in the count:
+    if (i > 0 && currCount > 1 && prevVal !== currVal) {
+      chars.splice(i, 0, currCount);
+      if (currCount > 9) {
+        multipleDigitsIdxes.push(i);
+      } else {
+        singleDigitsIdxes.push(i);
+      }
+      currCount=1; // reset currCount
+      i += 1; // sent index forward 1;
+    }
+    // for last element in array, if count > 1 splice in the count
+    if (currCount > 1 &&  i === chars.length-1) {
+      chars.splice(i+1, 0, currCount);
+      if (currCount > 9) {
+        multipleDigitsIdxes.push(i+1);
+      } else {
+        singleDigitsIdxes.push(i+1);
+      }
+      i += 1;
+    }
+  }
+
+  // convert single digit numbers to chars
+  if (singleDigitsIdxes.length) {
+    singleDigitsIdxes.forEach((charsIdx) => {
+      let stringified = chars[charsIdx].toString();
+      chars.splice(charsIdx, 1, stringified);
+    });
+  }
+
+  // convert numbers with multiple digits to multiple single digit chars
+  if (multipleDigitsIdxes.length) {
+    // go backwards, to avoid having to manage changing indexes on subsequent inserts.
+    for (let j = multipleDigitsIdxes.length -1; j >= 0; j--) {
+      let charsIndex = multipleDigitsIdxes[j];
+      let charsVal = chars[charsIndex];
+      let charsValArr = charsVal.toString().split('');
+
+      for (let m = 0; m < charsValArr.length; m++) {
+        let currDigit = charsValArr[m];
+        if (m === 0) {
+          chars.splice(charsIndex, 1, currDigit);
+        }
+        else {
+          chars.splice(charsIndex+1, 0, currDigit);
+        }
+      }
+    }
+  }
+  return chars;
+};
+
+console.log(`\n ... another attempt for O(1) space on compression: \n`);
+chars = ['a','a','b','b','c','c','c'];
+console.log({chars});
+console.log(compress3(chars));
+console.log(`\n ... \n`);
+chars = ['a'];
+console.log({chars});
+console.log(compress3(chars));
+console.log(`\n ... \n`);
+chars = ['a','b','b','b','b','b','b','b','b','b','b','b','b'];
+console.log({chars});
+console.log(compress3(chars));
+console.log(`\n ... \n`);
+
+// bug:
+// input
+// ["a","a","a","b","b","a","a"]
+// Output
+// ["a","2","a","2"]
+// Expected
+// ["a","3","b","2","a","2"]
+
+chars = ['a','a','a','b','b','a','a'];
+console.log({chars});
+console.log(compress3(chars));
+console.log(`\n ... \n`);
+// bug:
+// Input
+// ["a","b","c","d","e","f","g","g","g","g","g","g","g","g","g","g","g","g","a","b","c"]
+// Output
+// ["a","b","c","d","e","f","g","1","2","b","c"]
+// Expected
+// ["a","b","c","d","e","f","g","1","2","a","b","c"]
+
+chars = ["a","b","c","d","e","f","g","g","g","g","g","g","g","g","g","g","g","g","a","b","c"];
+console.log({chars});
+console.log(compress3(chars));
+console.log(`\n ... \n`);
+
+/**
+ * Bug...
+ * Input
+["a","a","a","a","a","a","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","c","c","c","c","c","c","c","c","c","c","c","c","c","c"]
+Output
+["a","6","b","2","1","c",14]
+Expected
+["a","6","b","2","1","c","1","4"]
+ */
+
+ //added 2 more bs
+chars = ["a","a","a","a","a","a","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","b","c","c","c","c","c","c","c","c","c","c","c","c","c","c"];
+console.log({chars});
+console.log(compress3(chars));
+console.log(`\n ... \n`);
+
+// if (multipleDigitsIdxes.length) {
+
+//   console.log({chars});
+//   console.log({multipleDigitsIdxes});
+
+//   for (let m = 0; m < multipleDigitsIdxes.length; m++ ) {
+//     let countArr = chars[m].toString().split('');
+
+//     console.log('m: ', m, 'chars[m]: ', chars[m], 'countArr: ', countArr);
+
+//     for (let j=0; j < countArr.length; j++) {
+//       let currDigit = countArr[j];
+
+//       console.log('j: ', j, 'currDigit: ', currDigit);
+
+//       if (j === 0) {
+//         chars.splice(m + j, 1, currDigit);
+//       }
+//       if (j > 0) {
+//         chars.splice(m + j, 0, currDigit);
+//       }
+//       m += countArr.length-1; 
+//     }
+//   }
+    
+// }
+
+/**
+ * Interview Cake. 
+ * Store count of every character in a string.
+ * 
+ * use the ascii character as the array index, and the array value is the count.
+ */
+
+const charCounter = str => {
+  const myStrArr = str.split('');
+  const myArr = []; 
+
+  myStrArr.map( e => {
+    const myAscii = e.charCodeAt(0);
+    if (myAscii < 256) {
+      if (myArr[myAscii] === undefined) {
+        myArr[myAscii] = 1;
+      } else {
+        myArr[myAscii]++;
+      }
+    } 
+  });
+
+  myArr.forEach((e, i) => {
+    const myChar = String.fromCharCode(i);
+    console.log(`Character: ${myChar} ASCII code: ${i} Count: ${e}`);
+  });
+};
+
+let myStr = 'the quick brown fox jumped over the lazy dog.';
+console.log(charCounter(myStr));
+
+console.log(`\n ... binary search ... \n`);
+
+/**
+ * Binary Search Function for sorted array.
+ */
+
+function binarySearch (target, sortedNums) {
+  let floorIndex = -1, ceilingIndex = sortedNums.length;
+
+  while (floorIndex  + 1 < ceilingIndex) {
+    const distance = ceilingIndex - floorIndex;
+    const halfDistance = Math.floor(distance/2);
+    const guessIndex = floorIndex + halfDistance;
+    const guessVal = sortedNums[guessIndex];
+
+    console.log('floor: ', floorIndex, 'ceiling: ', ceilingIndex, 'guessIdx: ', guessIndex, 'guessVal: ', guessVal);
+
+    if (guessVal === target) { return guessIndex;}
+
+    if (guessVal > target) {
+      ceilingIndex = guessIndex;
+    }
+    else {
+      floorIndex = guessIndex;
+    }
+  }
+  return false;
+}
+
+let mySorted = [-10,0,10,20,30,40,50,60,70,80,90,100,110];
+
+console.log(binarySearch(47, mySorted));
+console.log(`\n ...  ... \n`);
+console.log(binarySearch(40, mySorted));
+
+console.log(`\n ... recursive binary search ... \n`);
+
+function recursiveBinarySearch (target, sortedNums) {
+  let floorIndex = -1, ceilingIndex = sortedNums.length;
+
+  let _recursiveBS = (floor, ceiling) => {
+
+    const middleIdx = Math.floor((ceiling + floor) /2);
+    const guessVal = sortedNums[middleIdx];
+
+    // base cases:
+    if (guessVal === target) {
+      return middleIdx; //index of target value.
+    }
+    if ( floor + 1 === ceiling) { 
+      return false; 
+    }
+
+    // recursive calls:
+    if (guessVal > target) {
+      return _recursiveBS(floor, middleIdx);
+    }
+    else if (guessVal < target) {
+      return _recursiveBS(middleIdx, ceiling);
+    }
+
+  };
+  const result =  _recursiveBS(floorIndex, ceilingIndex);
+  console.log({result});
+  return result;
+}
+
+console.log(recursiveBinarySearch(47, mySorted));
+console.log(`\n ...  ... \n`);
+console.log(recursiveBinarySearch(40, mySorted));
+
+console.log(`\n ...  recursive merge sort ... \n`);
+/**
+ * https://www.interviewcake.com/article/javascript/logarithms?course=fc1&section=algorithmic-thinking
+ * merge sort using recursion
+ * 
+ * So what's our total time cost? O(nlog⁡2n)O(n\log_{2}{n})O(nlog2​n). The log⁡2n\log_{2}{n}log2​n comes from the number of times we have to cut n in half to get down to subarrays of just 1 element (our base case). The additional n comes from the time cost of merging all n items together each time we merge two sorted subarrays. 
+ * 
+ * @param {*} arr 
+ */
+function mergeSort(arrToSort){
+
+  // console.log({arrToSort});
+
+  // base case: when array is to small to sort:
+  if (arrToSort.length < 2) { return arrToSort;}
+
+  // STEP 1. divide array in half.
+  const midIdx = Math.floor(arrToSort.length/2);
+  const left = arrToSort.slice(0,midIdx);
+  const right = arrToSort.slice(midIdx);
+
+  // STEP 2. sort the halves
+  const sortedLeft = mergeSort(left);
+  const sortedRight = mergeSort(right);
+
+  // STEP 3: merge the sorted halves:
+  const sortedArr = [];
+  let currentLeftIdx = 0, currentRightIdx = 0;
+
+  while(sortedArr.length < left.length + right.length) {
+
+    if (currentLeftIdx < left.length && 
+        (currentRightIdx === right.length || 
+          sortedLeft[currentLeftIdx] < sortedRight[currentRightIdx])) {
+      sortedArr.push(sortedLeft[currentLeftIdx]);
+      currentLeftIdx += 1;
+    }
+    else {
+      sortedArr.push(sortedRight[currentRightIdx]);
+      currentRightIdx += 1;
+    }
+    console.log({sortedArr});
+  }
+
+  return sortedArr;
+}
+
+const unsortedArr = [5,9, 2, 1, 7, -47, 18, 32, 31,0];
+console.log(mergeSort(unsortedArr));
+
+console.log(`\n ...  in place vs out of place ... \n`);
+
+/**
+ * two functions to square the ints in the input array.
+ * first is in place (pass by reference) the second is out of place (pass by value)
+ */
+
+let squareArrValsInPlace = arrOfInts => {
+  arrOfInts.forEach((e,i) => {
+    arrOfInts[i] = e * e;
+  });
+};
+
+function squareArrValsOutPlace(arrOfInts) {
+  const squaredArray = [];
+
+  arrOfInts.map((int, index) => {
+    squaredArray[index] = Math.pow(int, 2);
+  });
+
+  return squaredArray;
+}
+
+const myInts = [1,2,3,4,5,6,7,8];
+
+console.log({myInts});
+let doubled = squareArrValsOutPlace(myInts);
+console.log({doubled});
+console.log({myInts});
+squareArrValsInPlace(myInts);
+console.log({myInts});
+
+/**
+ * Merge two pre-sorted arrays
+ */
+console.log(`\n ... merge two sorted arrays ...\n`);
+let mergeSortedArrays = (sorted1, sorted2) => {
+
+  let arr1Idx = 0, arr2Idx = 0;
+  const merged = [];
+
+  // keep looping until both indexes are too long.
+  while(arr1Idx < sorted1.length || arr2Idx < sorted2.length) {
+
+    const sorted1Val = sorted1[arr1Idx];
+    const sorted2Val = sorted2[arr2Idx];
+
+    if (arr1Idx < sorted1.length && arr2Idx === sorted2.length) {
+      merged.push(sorted1[arr1Idx]);
+      arr1Idx++;
+    }
+
+    else if (arr2Idx < sorted2.length && arr1Idx === sorted1.length) {
+      merged.push(sorted2[arr2Idx]);
+      arr2Idx++;
+    }
+
+    else if ( sorted1Val < sorted2Val ) {
+      merged.push(sorted1[arr1Idx]);
+      arr1Idx++;
+    }
+
+    else if ( sorted2Val < sorted1Val ){
+      merged.push(sorted2[arr2Idx]);
+      arr2Idx++;
+    }
+
+    else if ( sorted2Val == sorted1Val ){
+      merged.push(sorted1[arr1Idx]);
+      merged.push(sorted2[arr2Idx]);
+      arr1Idx++;
+      arr2Idx++;
+    }
+  }
+
+  return merged;
+};
+
+const myArray = [3, 4, 6, 10, 11, 15];
+const alicesArray = [1, 5, 8, 12, 14, 19];
+
+const mergedArrs = mergeSortedArrays(myArray, alicesArray);
+console.log({mergedArrs});
+
+const myArray2 = [3, 4, 6, 10, 11, 15];
+const alicesArray2 = [1, 5, 8, 10, 12, 14, 19];
+console.log(`\n ... testing for duplicate value - here we want both ...\n`);
+const mergedArrs2 = mergeSortedArrays(myArray2, alicesArray2);
+console.log({mergedArrs2});
+
+console.log(`\n ... write function that tests for correct ordering ...\n`);
+/**
+ * https://www.interviewcake.com/question/javascript/cafe-order-checker?course=fc1&section=array-and-string-manipulation
+ * 
+ */
+
+const checkOrderOfServedOrders = (tO,dI,sO) => {
+
+  const expectedOrder =  mergeSortedArrays(tO, dI);
+  let orderCorrect = true;
+
+  for (let i = 0; i < expectedOrder.length; i++) {
+    if (expectedOrder[i] !== sO[i]) {
+      orderCorrect = false;
+      return orderCorrect;
+    }
+  }
+  return orderCorrect;
+};
+
+let takeOut = [1,3,5,9];
+let dineIn = [0,2,4,6,7,8,10];
+let servedOrders = [0,1,2,4,3,5,6,7,8,9,10];
+
+console.log(checkOrderOfServedOrders(takeOut, dineIn, servedOrders));
+
+servedOrders = [0,1,2,3,4,5,6,7,8,9,10];
+console.log(checkOrderOfServedOrders(takeOut, dineIn, servedOrders));
+
+
+console.log(`\n ... recursive version, but of O(n2) time and space...\n`);
+// here is the recursive version from interview cake:
+// but i don't seem to quite understand what the question is supposed to be, because the second case should fail by my understanding, but it passes. Seems to be just checking that the values match the individual queue ordering, rather than merged array ordering. But when I reread the problem, it still appears to be attempting to make sure ALL orders are in order, not just individual queues (e.g. dineIn, takeOut are returned in order). Because of a comment in the subsequent version, i now believe they just want to check that the ordering is correct per individual queue, not merged queue...
+
+// because of the slices, we are O(n2) for this approach...
+
+function isFirstComeFirstServed(takeOut, dineIn, servedOrders) {
+  
+  //base case:
+  if (servedOrders.length === 0) { return true;}
+
+  // test for whether take out matches. Make sure takeOut still has length.
+  if (takeOut.length && takeOut[0] === servedOrders[0]) {
+    console.log(`take out ... ${takeOut[0]} for servedOrders: ${servedOrders[0]}`);
+    return isFirstComeFirstServed(takeOut.slice(1), dineIn, servedOrders.slice(1));
+  }
+  else if (dineIn.length && dineIn[0] === servedOrders[0]) {
+    console.log(`dine in ... ${dineIn[0]} for servedOrders: ${servedOrders[0]}`);
+    return isFirstComeFirstServed(takeOut, dineIn.slice(1), servedOrders.slice(1));
+  }
+  else {
+    return false;
+  }
+}
+
+console.log(isFirstComeFirstServed(takeOut, dineIn, servedOrders));
+servedOrders = [0,1,2,4,3,5,6,7,8,9,10];
+console.log(isFirstComeFirstServed(takeOut, dineIn, servedOrders));
+
+console.log(`\n ... a more performant version: O(n)...\n`);
+// a version that uses indices to get down to  O(n) ...
+
+function isFirstComeFirstServed2(takeOut, dineIn, servedOrders, servedOrdersIndex, takeOutIndex, dineInIndex) {
+  servedOrdersIndex = (typeof servedOrdersIndex !== 'undefined') ? servedOrdersIndex : 0;
+  takeOutIndex = (typeof takeOutIndex !== 'undefined') ? takeOutIndex : 0;
+  dineInIndex = (typeof dineInIndex !== 'undefined') ? dineInIndex : 0;
+
+  // base case we've hit the end of servedOrders
+  if (servedOrdersIndex === servedOrders.length) {
+    return true;
+  }
+
+  // if we still have orders in takeOut and the current order in takeOut is the same as the current order in servedOrders
+  if ((takeOutIndex < takeOut.length) &&
+          (takeOut[takeOutIndex] === servedOrders[servedOrdersIndex])) {
+    takeOutIndex++;
+
+
+  // if we still have orders in dineIn and the current order in dineIn is the same as the current order in servedOrders
+  } else if ((dineInIndex < dineIn.length) &&
+          (dineIn[dineInIndex] === servedOrders[servedOrdersIndex])) {
+    dineInIndex++;
+
+  // if the current order in servedOrders doesn't match the current order in takeOut or dineIn, then we're not serving in first-come, first-served order.
+  } else {
+    return false;
+  }
+
+  // the current order in servedOrders has now been "accounted for" so move on to the next one
+  servedOrdersIndex++;
+
+  return isFirstComeFirstServed2(takeOut, dineIn, servedOrders, servedOrdersIndex, takeOutIndex, dineInIndex);
+}
+
+console.log(isFirstComeFirstServed2(takeOut, dineIn, servedOrders));
+servedOrders = [0,1,2,3,4,5,6,7,8,9,10];
+console.log(isFirstComeFirstServed2(takeOut, dineIn, servedOrders));
+
+// this should fail:
+servedOrders = [0,1,2,4,5,3,6,7,8,9,10];
+console.log(isFirstComeFirstServed2(takeOut, dineIn, servedOrders));
+
