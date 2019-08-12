@@ -149,6 +149,8 @@ console.log('expect false: ', hasPalindromePermutation(str));
  * The final map we return should be the only data structure whose length is tied to n. 
  * 
  * We should only iterate through our input string once. 
+ * 
+ * From reading the notes, it appears they want to split words on hyphens and em-dashes as well
  */
 
 
@@ -204,7 +206,8 @@ function wordCount(str) {
 
   const wordMap = new Map();
 
-  str.toLowerCase().split(' ').map(e => {
+  // split on space, em-dash or hypen
+  str.toLowerCase().split(/\s|--|-/).map(e => {
     const currWord = _wordFix(e);
     wordMap[currWord] = (wordMap[currWord]) ? wordMap[currWord] + 1 : 1;
   });
@@ -215,5 +218,43 @@ function wordCount(str) {
 
 console.log(`\n ... word count: ....`);
 
-str = 'The quick, brown fox jumped over the lazy dog dog Dog Lazy DOG!';
+str = 'The quick, brown fox jumped over the lazy dog dog Dog Lazy DOG oh-boy em--dash!';
 console.log(wordCount(str));
+
+/**
+ * The solution on Interview Cake is way too involved, but we can practice adapting the above into a class-based solution somewhat like theirs:
+ */
+
+class WordCloud {
+  constructor(inputStr) {
+    this.wordMap = new Map();
+    this.populateWordMap(inputStr);
+  }
+
+  populateWordMap(inputStr) {
+    function _isLCLetter(char) {
+      return 'abcdefghijklmnopqrstuvwxyz'.indexOf(char) >= 0;
+    }
+  
+    function _wordFix(word) {
+      let currWord = ''; 
+      for (let char of word) {
+        if (_isLCLetter(char)) {
+          currWord = currWord + char;
+        }
+      }
+      return currWord;
+    }
+
+    // the input for split is a regex. split on space, em-dash or hypen
+    inputStr.toLowerCase().split(/\s|--|-/).map(e => {
+      const currWord = _wordFix(e);
+      this.wordMap[currWord] = (this.wordMap[currWord]) ? this.wordMap[currWord] + 1 : 1;
+    });
+  }
+}
+
+console.log(`\n ... word count (class version): ....`);
+
+let myWordCloud = new WordCloud(str);
+console.log('my class instance: ', myWordCloud);
