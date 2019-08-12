@@ -258,3 +258,80 @@ console.log(`\n ... word count (class version): ....`);
 
 let myWordCloud = new WordCloud(str);
 console.log('my class instance: ', myWordCloud);
+
+
+/**
+ * sort scores
+ */
+
+function sortScores(scores) {
+  scores.sort((a,b) => {
+    if (a >= b) {return -1;}
+    else {return 1;}
+  });
+  return scores;
+}
+
+function sortScores2(scores) {
+  scores.sort((a,b) => {
+    return b - a;
+  });
+  return scores;
+}
+
+function sortScores3(scores) {
+  scores.sort((a,b) => b - a );
+  return scores;
+}
+
+console.log(`\n ... sorted game scores: ....`);
+console.log(sortScores([47, 32, 99, 89, 44, 22, 77]));
+console.log(sortScores2([47, 32, 99, 89, 44, 22, 77]));
+console.log(sortScores3([47, 32, 99, 89, 44, 22, 77]));
+
+/**
+ * sort game scores
+ * the following solution does not keep track of multiple same values:
+ * "Multiple players can have the same score! If 10 people got a score of 90, the number 90 should appear 10 times in our output array. "
+ */
+
+function sortGameScores (maxPoints, scores) {
+  let results = new Array(maxPoints);
+
+  // use the indices of results for game score values.
+  scores.forEach(e => results[e] = e);
+
+  let finalResults = results.filter((e,i) => {
+    // .filter() is only called on assigned elements of the array
+    return i; 
+  });
+
+  return finalResults.reverse();
+}
+
+console.log(sortGameScores(100, [47, 32, 99, 89, 44, 22, 77]));
+
+/**
+ * sort game scores
+ * the following solution does not keep track of multiple same values:
+ * "Multiple players can have the same score! If 10 people got a score of 90, the number 90 should appear 10 times in our output array. "
+ */
+
+function sortGameScores2 (maxPoints, scores) {
+  let results = new Array(maxPoints);
+
+  // use the indices of results for game score values.
+  scores.forEach(e => results[e] = (results[e])? results[e] + 1 : 1);
+
+  console.log({results});
+
+
+  // let finalResults = results.filter((e,i) => {
+  //   // .filter() is only called on assigned elements of the array
+  //   return i; 
+  // });
+
+  //return finalResults.reverse();
+}
+
+console.log(sortGameScores2(100, [47, 32, 99, 89, 44, 22, 77, 89, 22, 32, 22]));
