@@ -291,7 +291,7 @@ console.log(sortScores3([47, 32, 99, 89, 44, 22, 77]));
 
 /**
  * sort game scores
- * the following solution does not keep track of multiple same values:
+ * the following solution does NOT keep track of multiple same values:
  * "Multiple players can have the same score! If 10 people got a score of 90, the number 90 should appear 10 times in our output array. "
  */
 
@@ -302,36 +302,40 @@ function sortGameScores (maxPoints, scores) {
   scores.forEach(e => results[e] = e);
 
   let finalResults = results.filter((e,i) => {
-    // .filter() is only called on assigned elements of the array
+    // .filter() is only called on assigned elements of the array so we don't have to worry about the empty elements.
     return i; 
   });
 
   return finalResults.reverse();
 }
 
+console.log(`\n ... first solution to the sorted game scores problem: ....`);
 console.log(sortGameScores(100, [47, 32, 99, 89, 44, 22, 77]));
 
 /**
  * sort game scores
- * the following solution does not keep track of multiple same values:
+ * the following solution DOES keep track of multiple same values:
  * "Multiple players can have the same score! If 10 people got a score of 90, the number 90 should appear 10 times in our output array. "
  */
 
 function sortGameScores2 (maxPoints, scores) {
+  // empty array which we will use as a "dictionary," indices being the keys
   let results = new Array(maxPoints);
 
-  // use the indices of results for game score values.
+  // use the indices of results for game score values, and set the value to be the count.
   scores.forEach(e => results[e] = (results[e])? results[e] + 1 : 1);
 
-  console.log({results});
-
-
-  let finalResults = results.map((e,i) => {
-    if (e !== undefined) 
-    return i; 
+  let finalResults = []; 
+  results.map((e,i) => {
+    let currVal = i;
+    let numberOfTimes = e;
+    for (let j = 0; j < numberOfTimes; j++) {
+      finalResults.push(currVal);
+    }
   });
 
-  //return finalResults.reverse();
+  return finalResults.reverse();
 }
 
-console.log(sortGameScores2(100, [47, 32, 99, 89, 44, 22, 77, 89, 22, 32, 22]));
+console.log(`\n ... 2nd solution to the sorted game scores problem (manages for duplicate scores): ....`);
+console.log(`expect [ 99, 89, 89, 77, 47, 44, 32, 32, 22, 22, 22 ] :`, sortGameScores2(100, [47, 32, 99, 89, 44, 22, 77, 89, 22, 32, 22]));
