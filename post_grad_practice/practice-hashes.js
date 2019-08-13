@@ -326,10 +326,10 @@ function sortGameScores2 (maxPoints, scores) {
   console.log({results});
 
 
-  // let finalResults = results.filter((e,i) => {
-  //   // .filter() is only called on assigned elements of the array
-  //   return i; 
-  // });
+  let finalResults = results.map((e,i) => {
+    if (e !== undefined) 
+    return i; 
+  });
 
   //return finalResults.reverse();
 }
