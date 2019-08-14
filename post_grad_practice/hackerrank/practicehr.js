@@ -482,3 +482,213 @@ staircase(6);
 
 staircase(7);
 
+/**
+ * here is a slightly more elegant solution from hackerrank:
+ * 
+ * function processData(input) {
+  var h = parseInt(input, 10);
+  var i;
+  var j;
+  var line;
+  
+  for (i = 0; i < h; i++) {
+    line = '';
+    for (j = 0; j < h - i - 1; j++) {
+      line += ' ';
+    }
+    for (;j < h; j++) {
+      line += '#';
+    }
+    console.log(line);
+  }
+} 
+ */
+
+/**
+ * Given five positive integers, find the minimum and maximum values that can be calculated by summing exactly four of the five integers. Then print the respective minimum and maximum values as a single line of two space-separated long integers.
+
+For example,
+. Our minimum sum is and our maximum sum is
+
+. We would print
+
+16 24
+
+Function Description
+
+Complete the miniMaxSum function in the editor below. It should print two space-separated integers on one line: the minimum sum and the maximum sum of
+of
+
+elements.
+
+miniMaxSum has the following parameter(s):
+
+    arr: an array of 
+
+    integers
+
+Input Format
+
+A single line of five space-separated integers.
+
+Constraints
+
+Output Format
+
+Print two space-separated long integers denoting the respective minimum and maximum values that can be calculated by summing exactly four of the five integers. (The output can be greater than a 32 bit integer.)
+
+Sample Input
+
+1 2 3 4 5
+
+Sample Output
+
+10 14
+
+Explanation
+
+Our initial numbers are
+, , , , and
+
+. We can calculate the following sums using four of the five integers:
+
+    If we sum everything except 
+
+, our sum is
+.
+If we sum everything except
+, our sum is
+.
+If we sum everything except
+, our sum is
+.
+If we sum everything except
+, our sum is
+.
+If we sum everything except
+, our sum is
+
+    .
+
+Hints: Beware of integer overflow! Use 64-bit Integer.
+ * 
+ *  
+ */ 
+
+console.log(`\n ... min max sum ... \n`);
+
+function minMaxSum (arr) {
+
+  // sort array so least is first
+  arr.sort((a,b) => Number(a - b) );
+  
+  let minSumArr = arr.slice(0,arr.length-1);
+  let maxSumArr = arr.slice(1);
+
+  let maxResult = maxSumArr.reduce((prev, curr) => {
+    return prev + curr;
+  },0);
+
+  let minResult = minSumArr.reduce((prev, curr) => {
+    return prev + curr;
+  },0);
+
+  return [minResult, maxResult];
+}
+
+let result = minMaxSum([1,2,4,7,-1]);
+console.log('expect 6, 14: ', result);
+
+result = minMaxSum([1,3,5,4,2]);
+console.log('expect 10, 14: ', result);
+
+/**
+ * here is a compact version of my general approach, from hackerrank js solutions:
+ * https://www.hackerrank.com/rest/contests/master/challenges/mini-max-sum/hackers/MiLeung/download_solution?primary=true
+ * 
+ *     let arr = input.split(' ').sort((a, b) => b < a).map(val => parseInt(val));
+    let min = arr.slice(0, 4).reduce((a, b) => a + b);
+    let max = arr.slice(arr.length - 4, arr.length).reduce((a, b) => a + b);
+    console.log(min + ' ' + max);
+    
+    Not sure why they treat the input as a string since it is already an array. Also, it looks like they handle 64 bit numbers via parseInt() ... will that work?
+
+ * and this one is easy to follow, plus I like how they refactor out the sort callback:
+ * https://www.hackerrank.com/rest/contests/master/challenges/mini-max-sum/hackers/tarik_courdy/download_solution?primary=true
+
+ function processData(input_str){
+    var int_arr = input_str.split(" ");
+
+    for(var i = 0; i < int_arr.length; i++){
+	int_arr[i] = parseInt(int_arr[i]);
+    }
+    
+    int_arr.sort(sortNumber);
+
+    var min = int_arr[0] + int_arr[1] + int_arr[2] + int_arr[3] ;
+    var max = int_arr[4] + int_arr[3] + int_arr[2] + int_arr[1];
+
+    console.log(min + " " + max);
+
+}
+
+function sortNumber(a,b) {
+    return a - b;
+}
+
+process.stdin.resume();
+process.stdin.setEncoding("ascii");
+_input = "";
+process.stdin.on("data", function (input) {
+    _input += input;
+});
+
+process.stdin.on("end", function () {
+   processData(_input);
+});
+
+ */
+
+console.log(`\n ... min max sum, more efficient version ... \n`);
+/**
+ * My solution here does not require sorting or splicing. 
+ * https://www.hackerrank.com/challenges/mini-max-sum/leaderboard?filter=javascript&filter_on=language&page=1
+ * 
+ * @param {*} arr 
+ */
+
+function minMaxSum2 (arr) {
+
+  let min = arr[0], max = arr[0];
+  let minIdx = 0, maxIdx = 0;
+  let minVal = 0, maxVal = 0;
+
+  arr.map((e,i) => {
+    if (e < min) {
+      min = e;
+      minIdx = i;
+    }
+    else if (e > max) {
+      max = e;
+      maxIdx = i;
+    }
+  });
+
+  for (let i = 0; i < arr.length; i++) {
+    if (i !== minIdx) {
+      maxVal += Number(arr[i]);
+    }
+    if (i !== maxIdx) {
+      minVal += Number(arr[i]);
+    }
+  }
+
+  // for hackerrank, they don't want return statement, instead console.log(minVal, maxVal)
+  return [minVal, maxVal];
+}
+
+result = minMaxSum2([1,2,4,7,-1]);
+console.log('expect 6, 14: ', result);
+
+result = minMaxSum2([1,3,5,4,2]);
+console.log('expect 10, 14: ', result);
