@@ -375,6 +375,7 @@ let plusMinus = arr => {
   negFrac = (negCount / arr.length).toFixed(6);
   zeroFrac = (zeroCount / arr.length).toFixed(6);
 
+  // hacker rank wanted console logs rather than a return statement
   return `${posFrac}\n${negFrac}\n${zeroFrac}`;
 };
 
@@ -385,3 +386,99 @@ console.log(`\n ...  \n`);
 
 arr = [1, 2, 3, -1, -2, -3, 0, 0];
 console.log(plusMinus(arr));
+
+/**
+ * Print a staircase
+ * https://www.hackerrank.com/challenges/staircase/problem?h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen
+ * Consider a staircase of size
+
+:
+
+   #
+  ##
+ ###
+####
+
+Observe that its base and height are both equal to
+
+, and the image is drawn using # symbols and spaces. The last line is not preceded by any spaces.
+
+Write a program that prints a staircase of size
+
+.
+
+Function Description
+
+Complete the staircase function in the editor below. It should print a staircase as described above.
+
+staircase has the following parameter(s):
+
+    n: an integer
+
+Input Format
+
+A single integer,
+
+, denoting the size of the staircase.
+
+Constraints
+
+.
+
+Output Format
+
+Print a staircase of size
+
+using # symbols and spaces.
+
+Note: The last line must have
+
+spaces in it.
+
+Sample Input
+
+6 
+
+Sample Output
+
+     #
+    ##
+   ###
+  ####
+ #####
+######
+
+Explanation
+
+The staircase is right-aligned, composed of # symbols and spaces, and has a height and width of n = 6
+ * 
+ */
+
+console.log(`\n ...  print a staircase ... \n`);
+
+function staircase(myInt) {
+
+  for (let i = 1; i <= myInt; i++) {
+    let currLineArr = [], currLine = '';
+    let spaceCounter = myInt - i;
+    let poundCounter = myInt - spaceCounter;
+    while (spaceCounter > 0) {
+      currLineArr.push(' ');
+      spaceCounter--;
+    }
+    while (poundCounter > 0) {
+      currLineArr.push('#');
+      poundCounter--;
+    }
+    
+    currLine = currLineArr.join('');
+    console.log( currLine );
+  }
+}
+
+staircase(4);
+
+staircase(6);
+
+staircase(7);
+
