@@ -223,8 +223,34 @@ Difference: |4 - 19| = 15
 Note: |x| is the absolute value of x
  */
 
-
+console.log(`\n ... diagonal difference ... \n`);
+/**
+ * OOPS This works but i need to be able to do any grid, not just 3 x 3
+ * @param  arr 
+ */
 function diagonalDifference(arr) {
-  // Write your code here
 
+  // TODO check that arr is lenght 3, is an array of arrays, each with three, and that each value is a number;
+
+  const primaryDiagonal = [arr[0][0], arr[1][1], arr[2][2]];
+  const secondaryDiagonal = [arr[0][2], arr[1][1], arr[2][0]];
+
+  const sumPrimaryDiag = primaryDiagonal.reduce((prev, curr) => {
+    return prev + curr;
+  }, 0);
+
+  const sumSecondaryDiag = secondaryDiagonal.reduce((prev, curr) => {
+    return prev + curr;
+  }, 0);
+
+  return Math.abs(sumPrimaryDiag - sumSecondaryDiag);
 }
+
+
+
+let arr = [[11, 2, 4], [4, 5, 6], [10, 8, -12]];
+
+console.log('expecting 15 (abs(4 - 19) :', diagonalDifference(arr));
+
+arr = [[1, 2, 3], [4, 5, 6], [9, 8, 9]];
+console.log('expecting 2 (abs(15 - 17) :', diagonalDifference(arr));
