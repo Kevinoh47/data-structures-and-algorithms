@@ -254,3 +254,134 @@ console.log('expecting 15 (abs(4 - 19) :', diagonalDifference(arr));
 
 arr = [[1, 2, 3], [4, 5, 6], [9, 8, 9]];
 console.log('expecting 2 (abs(15 - 17) :', diagonalDifference(arr));
+
+
+
+console.log(`\n ... diagonal difference 2 ... \n`);
+
+function diagonalDifference2(arr) {
+
+  // TODO check that arr length  = inner array length; that inner arrays all have same length; is an array of arrays, each with three, and that each value is a number;
+  const gridLen = arr.length;
+  const primaryDiagonal = [];
+  const secondaryDiagonal = [];
+
+  for (let i = 0; i < gridLen; i++) {
+    const currSecondary = gridLen - 1 - i;
+
+    primaryDiagonal.push(arr[i][i]);
+    secondaryDiagonal.push(arr[i][currSecondary]);
+  }
+
+  console.log({primaryDiagonal});
+  console.log({secondaryDiagonal});
+  
+  const sumPrimaryDiag = primaryDiagonal.reduce((prev, curr) => {
+    return prev + curr;
+  }, 0);
+
+  const sumSecondaryDiag = secondaryDiagonal.reduce((prev, curr) => {
+    return prev + curr;
+  }, 0);
+
+  return Math.abs(sumPrimaryDiag - sumSecondaryDiag);
+}
+
+// -1   1  -7  -8
+// -10 -8  -5  -2
+// 0    9   7  -1
+// 4    4  -2   1
+
+arr = [[-1,1,-7,-8], [-10,-8,-5,2], [0,9,7,-1], [4,4,-2,1]];
+
+console.log('expecting 1 :', diagonalDifference2(arr));
+
+/**
+ * Given an array of integers, calculate the fractions of its elements that are positive, negative, and are zeros. Print the decimal value of each fraction on a new line.
+
+Note: This challenge introduces precision problems. The test cases are scaled to six decimal places, though answers with absolute error of up to
+
+are acceptable.
+
+For example, given the array
+there are elements, two positive, two negative and one zero. Their ratios would be , and
+
+. It should be printed as
+
+0.400000
+0.400000
+0.200000
+
+Function Description
+
+Complete the plusMinus function in the editor below. It should print out the ratio of positive, negative and zero items in the array, each on a separate line rounded to six decimals.
+
+plusMinus has the following parameter(s):
+
+    arr: an array of integers
+
+Input Format
+
+The first line contains an integer,
+, denoting the size of the array.
+The second line contains space-separated integers describing an array of numbers
+
+.
+
+Constraints
+
+
+Output Format
+
+You must print the following
+
+lines:
+
+    A decimal representing of the fraction of positive numbers in the array compared to its size.
+    A decimal representing of the fraction of negative numbers in the array compared to its size.
+    A decimal representing of the fraction of zeros in the array compared to its size.
+
+Sample Input
+
+6
+-4 3 -9 0 4 1         
+
+Sample Output
+
+0.500000
+0.333333
+0.166667
+
+Explanation
+
+There are
+positive numbers, negative numbers, and zero in the array.
+The proportions of occurrence are positive: , negative: and zeros: . 
+ * 
+ */
+
+console.log(`\n ... fraction of pos, neg, or zero ... \n`);
+
+let plusMinus = arr => {
+  let posCount = 0, negCount = 0, zeroCount = 0, posFrac = 0, negFrac = 0, zeroFrac = 0;
+
+  arr.forEach( e => {
+    if (e > 0) { posCount++; }
+    else if (e < 0) { negCount++; }
+    else if (e === 0) { zeroCount++; }
+  });
+
+  posFrac = (posCount / arr.length).toFixed(6);
+  negFrac = (negCount / arr.length).toFixed(6);
+  zeroFrac = (zeroCount / arr.length).toFixed(6);
+
+  return `${posFrac}\n${negFrac}\n${zeroFrac}`;
+};
+
+arr = [-4, 3, -9, 0, 4, 1];
+console.log(plusMinus(arr));
+
+console.log(`\n ...  \n`);
+
+arr = [1, 2, 3, -1, -2, -3, 0, 0];
+console.log(plusMinus(arr));
