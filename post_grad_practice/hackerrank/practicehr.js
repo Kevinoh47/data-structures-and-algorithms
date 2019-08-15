@@ -692,3 +692,99 @@ console.log('expect 6, 14: ', result);
 
 result = minMaxSum2([1,3,5,4,2]);
 console.log('expect 10, 14: ', result);
+
+/**
+ * find the number of birthday candles that can be blown out.
+ * Basically, looking for a count of the highest num in an array.
+ * array is the height of each candle. Return the count of the highest.
+ * https://www.hackerrank.com/challenges/birthday-cake-candles/problem?h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen
+ * 
+ * 
+ */
+
+console.log(`\n ... how many birthday candles can be blown out? ...`);
+
+function birthdayCakeCandles(ar) {
+
+  let maxVal = ar[0];
+  let count = 1;
+
+  ar.forEach((val, idx) => {
+    if (idx > 0) {
+      if (val === maxVal) {
+        count++;
+      }
+      else if (val > maxVal) {
+        maxVal = val;
+        count = 1;
+      }
+    }
+  });
+
+  return count;
+}
+
+arr = [3, 2, 1, 3];
+
+console.log('expect 2: ', birthdayCakeCandles(arr));
+
+/**
+ * a hackerrank solution uses Math.max.apply to figure out the max value:
+ * https://www.hackerrank.com/rest/contests/master/challenges/birthday-cake-candles/hackers/FSAiota/download_solution?primary=true
+ *
+ */
+
+console.log('expect 3 to be max: ', Math.max.apply(null, arr));
+/*
+then they just iterate, upping the count when max is encountered:
+
+var max = Math.max.apply(null, candles);
+  var count = 0;
+  for (let i = 0; i < n; i += 1) {
+    if (candles[i] === max) { 
+      count += 1;
+    }
+  }
+  console.log(count);
+
+* My solution is actually more efficient I believe, since it only iterates once.
+*/
+
+
+/**
+ * Practice test question 2
+ * 
+ * Given 2 integers l and r, print all the odd numbers between l and r (l and r inclusive)
+ * 
+ */
+
+console.log('\n ... odd nums ... \n');
+
+function oddNums (l, r) {
+  if (l > r) {return null;}
+
+  const lIsOdd = (l % 2 !== 0);
+  const risOdd = (r % 2 !== 0);
+  let results = [];
+  if (!lIsOdd) { l = l+1; }
+  if (!risOdd) { r = r-1;}
+
+  console.log(lIsOdd, risOdd, l, r);
+
+  for (let i = l; i <= r; i += 2) {
+    console.log({i});
+    results.push(i);
+  }
+
+  console.log({results});
+  return results;
+}
+
+console.log(oddNums(2,15));
+
+/**
+ * question three: which is more efficient, bubble sort, selection sort, heap sort, insertion sort.
+ * 
+ * It looks like heap sort is 0(log(n)) ...
+ * https://www.geeksforgeeks.org/heap-sort/
+ */
