@@ -777,9 +777,9 @@ squareArrValsInPlace(myInts);
 console.log({myInts});
 
 /**
- * Merge two pre-sorted arrays
+ * Merge two sorted arrays / ordered arrays
  */
-console.log(`\n ... merge two sorted arrays ...\n`);
+console.log(`\n ... merge two sorted/ordered arrays ...\n`);
 let mergeSortedArrays = (sorted1, sorted2) => {
 
   let arr1Idx = 0, arr2Idx = 0;
@@ -894,8 +894,8 @@ servedOrders = [0,1,2,4,3,5,6,7,8,9,10];
 console.log(isFirstComeFirstServed(takeOut, dineIn, servedOrders));
 
 console.log(`\n ... a more performant version: O(n)...\n`);
-// a version that uses indices to get down to  O(n) ...
 
+// a version that uses indices to get down to  O(n) ...
 function isFirstComeFirstServed2(takeOut, dineIn, servedOrders, servedOrdersIndex, takeOutIndex, dineInIndex) {
   servedOrdersIndex = (typeof servedOrdersIndex !== 'undefined') ? servedOrdersIndex : 0;
   takeOutIndex = (typeof takeOutIndex !== 'undefined') ? takeOutIndex : 0;
@@ -928,11 +928,103 @@ function isFirstComeFirstServed2(takeOut, dineIn, servedOrders, servedOrdersInde
   return isFirstComeFirstServed2(takeOut, dineIn, servedOrders, servedOrdersIndex, takeOutIndex, dineInIndex);
 }
 
+// tests
 console.log(isFirstComeFirstServed2(takeOut, dineIn, servedOrders));
+
 servedOrders = [0,1,2,3,4,5,6,7,8,9,10];
 console.log(isFirstComeFirstServed2(takeOut, dineIn, servedOrders));
 
 // this should fail:
 servedOrders = [0,1,2,4,5,3,6,7,8,9,10];
 console.log(isFirstComeFirstServed2(takeOut, dineIn, servedOrders));
+
+
+/**
+ * Trying again!
+ * The problem seems to be to decompose the servedOrders list back to its original takeOut, dineIn sources, and make sure those orders are in order.
+ * I misunderstood the problem previously. I thought we needed to make sure all orders were served in order, regardless of source.
+ * 
+ * This solution seems to work, but it would be expensive due to all the slicing.
+ */
+
+let isFirstComeFirstServed3 = (takeOut, dineIn, servedOrders) => {
+
+  for (let i = 0; i < servedOrders.length; i++) {
+    // the current servedOrders should either equal the current takeOut start
+    if (servedOrders[i] === takeOut[0]) {
+      takeOut = takeOut.slice(1);
+    }
+    // or equal the current dineIn start
+    else if (servedOrders[i] === dineIn[0]) {
+      dineIn = dineIn.slice(1);
+    }
+    else {
+      return false;
+    }
+  }
+  return true;
+};
+
+console.log(`\n ... another try: ...\n`);
+
+takeOut = [1,3,5,9];
+dineIn = [0,2,4,6,7,8,10];
+servedOrders = [0,1,2,4,3,5,6,7,8,9,10];
+
+//true
+console.log('expect true: ', isFirstComeFirstServed3(takeOut, dineIn, servedOrders));
+
+//true
+servedOrders = [0,1,2,3,4,5,6,7,8,9,10];
+console.log('expect true: ', isFirstComeFirstServed3(takeOut, dineIn, servedOrders));
+
+// this should fail:
+servedOrders = [0,1,2,4,5,3,6,7,8,9,10];
+console.log('expect false: ', isFirstComeFirstServed3(takeOut, dineIn, servedOrders));
+
+/**
+ * Trying again!
+ * Basically trying the same as the above approach, but trying for more efficiency by avoiding slicing.
+ * Note that the Interview Cake solution is similar but defends against index overflow:
+ * https://www.interviewcake.com/question/javascript/cafe-order-checker?course=fc1&section=array-and-string-manipulation
+ * 
+ * I don't believe this is necessary in my solution, but I may be wrong about that.
+ */
+
+let isFirstComeFirstServed4 = (takeOut, dineIn, servedOrders) => {
+
+  let currTakeOutIdx = 0, currDineInIdx = 0;
+  for (let i = 0; i < servedOrders.length; i++) {
+    // the current servedOrders should either equal the current takeOut 
+    if (servedOrders[i] === takeOut[currTakeOutIdx]) {
+      currTakeOutIdx++;
+    }
+    // or equal the current dineIn 
+    else if (servedOrders[i] === dineIn[currDineInIdx]) {
+      currDineInIdx++;
+    }
+    else {
+      return false;
+    }
+  }
+  return true;
+};
+
+console.log(`\n ... Same approach but more efficient: ...\n`);
+
+takeOut = [1,3,5,9];
+dineIn = [0,2,4,6,7,8,10];
+servedOrders = [0,1,2,4,3,5,6,7,8,9,10];
+
+//true
+console.log('expect true: ', isFirstComeFirstServed4(takeOut, dineIn, servedOrders));
+
+//true
+servedOrders = [0,1,2,3,4,5,6,7,8,9,10];
+console.log('expect true: ', isFirstComeFirstServed4(takeOut, dineIn, servedOrders));
+
+// this should fail:
+servedOrders = [0,1,2,4,5,3,6,7,8,9,10];
+console.log('expect false: ', isFirstComeFirstServed4(takeOut, dineIn, servedOrders));
+
 
