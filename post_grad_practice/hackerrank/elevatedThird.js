@@ -1,3 +1,4 @@
+'use strict';
 /**
  * Hacker rank mid-level back-end developer test.
  * Took this test for Elevated Third on 8/15.
@@ -160,7 +161,7 @@ console.log('expecting 3 (4-1): ', maxDifference(arr));
 arr = [1,2,3,1,4,-47,0];
 console.log('expecting 47 (0-47): ', maxDifference(arr));
 
-arr = [1,2,3,1,47,-47,0];
+arr = [1,2,3,2,48,-47,0];
 console.log('expecting 47 (0-47): ', maxDifference(arr));
 
 // Question 4: Minimum unique Array Sum:
@@ -227,3 +228,5 @@ console.log('expects 15 (1+2+3+4+5): ', getMinimumUniqueSum2(arr));
 // this one fails because there is are three 2s...
 arr = [1,2,3,4,2,2];
 console.log('expects 21 (1+2+3+4+5+6): ', getMinimumUniqueSum2(arr));
+
+module.exports = {writeIn, maximumOccurringCharacter, maxDifference, getMinimumUniqueSum, getMinimumUniqueSum2};
