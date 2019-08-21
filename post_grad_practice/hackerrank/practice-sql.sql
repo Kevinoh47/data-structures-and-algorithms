@@ -87,5 +87,17 @@ select ROUND(AVG(population)) from CITY
 /*https://www.hackerrank.com/challenges/revising-aggregations-the-count-function/problem
 Query a count of the number of cities in CITY having a Population larger than . 
 */
-select count(*) as Count from city where population > 100000
+select count(*) as Count from city where population > 
 
+
+/**
+Samantha was tasked with calculating the average monthly salaries for all employees in the EMPLOYEES table, but did not realize her keyboard's
+
+key was broken until after completing the calculation. She wants your help finding the difference between her miscalculation (using salaries with any zeroes removed), and the actual average salary.
+
+Write a query calculating the amount of error (i.e.: actual - miscalculated
+average monthly salaries), and round it up to the next integer.
+**/
+
+/*for some reason, CEILING is accepted here, but ROUND is not -- in this case round rounds down, ceiling goes up*/
+select CEILING(avg(salary) - avg(replace(salary,0,'')))from employees
