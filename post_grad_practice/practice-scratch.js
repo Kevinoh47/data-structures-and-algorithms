@@ -1917,3 +1917,31 @@ banned = ["bob", "hit"];
 // expected: ball
 console.log(mostCommonWord(paragraph, banned));
 
+
+console.log('\n ... arbitrary inputs... \n');
+console.log('Math.max: ', Math.max(3, 4, 5, 0,-1));
+
+console.log('\n ... rest parameter and an ad-hoc sort of reduce function... \n');
+const sumAll = function(...args) {
+  let sum = 0;
+  for (let arg of args) { sum += arg;}
+  return sum;
+};
+
+
+console.log('expect 3: ', sumAll(1,2));
+console.log('expect 10: ', sumAll(1,2,3,4));
+console.log('expect 0: ', sumAll(1,2,3,4,-10));
+
+console.log('\n ... rest parameter and an actual reduce function... \n');
+const sumAllReducer = function(...args) {
+  
+  return args.reduce((prevVal, curr) => {return prevVal + curr;}, 0);
+};
+
+
+console.log('expect 3: ', sumAllReducer(1,2));
+console.log('expect 10: ', sumAllReducer(1,2,3,4));
+console.log('expect 0: ', sumAllReducer(1,2,3,4,-10));
+
+

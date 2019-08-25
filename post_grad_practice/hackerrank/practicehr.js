@@ -1,3 +1,5 @@
+'use strict';
+
 /***
  * https://www.hackerrank.com/challenges/simple-array-sum/problem
  */
@@ -788,3 +790,106 @@ console.log(oddNums(2,15));
  * It looks like heap sort is 0(log(n)) ...
  * https://www.geeksforgeeks.org/heap-sort/
  */
+
+
+
+/*
+ * My function passes their tests.
+  * https://www.hackerrank.com/challenges/time-conversion/problem?h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen
+  * 
+  * Given a time in
+
+-hour AM/PM format, convert it to military (24-hour) time.
+
+Note: Midnight is 12:00:00AM on a 12-hour clock, and 00:00:00 on a 24-hour clock. Noon is 12:00:00PM on a 12-hour clock, and 12:00:00 on a 24-hour clock.
+
+Function Description
+
+Complete the timeConversion function in the editor below. It should return a new string representing the input time in 24 hour format.
+
+timeConversion has the following parameter(s):
+
+    s: a string representing time in 
+
+    hour format
+
+Input Format
+
+A single string
+containing a time in -hour clock format (i.e.: or ), where and
+
+.
+
+Constraints
+
+    All input times are valid
+
+Output Format
+
+Convert and print the given time in
+-hour format, where
+
+.
+
+Sample Input 0
+
+07:05:45PM
+
+Sample Output 0
+
+19:05:45
+*/
+
+console.log(`\n ... time format converter - 12 hour to 24 hour format ... \n`);
+
+let timeConverter = timeStr => {
+  const amPm = timeStr.substring(timeStr.length - 2).toUpperCase();
+  const twelveHourTime = timeStr.substring(0, timeStr.length - 2);
+  const hour = twelveHourTime.substring(0,2);
+  const minSecs = twelveHourTime.substring(2);
+
+  if ( hour === '12' && amPm === 'AM') { 
+    return '00'.concat(minSecs);
+  }
+  else if ( hour !== '12' && amPm === 'AM' ) { 
+    return twelveHourTime; 
+  }
+  else if ( hour === '12' && amPm === 'PM' ) { 
+    return twelveHourTime;
+  }
+  
+  else if ( amPm === 'PM'){
+    return `${parseInt(hour) + 12}`.concat(minSecs);
+  }
+};
+
+let timeStr = '07:05:45PM';
+console.log(' expecting 19:05:45 ', timeConverter(timeStr));
+console.log('\n ... \n');
+timeStr = '12:00:00PM';
+timeConverter(timeStr);
+console.log(' expecting 12:00:00 ', timeConverter(timeStr));
+console.log('\n ... \n');
+timeStr = '12:00:00AM';
+timeConverter(timeStr);
+console.log(' expecting 00:00:00 ', timeConverter(timeStr));
+console.log('\n ... \n');
+timeStr = '12:05:45PM';
+timeConverter(timeStr);
+console.log(' expecting 12:05:45 ', timeConverter(timeStr));
+console.log('\n ... \n');
+timeStr = '12:05:45AM';
+timeConverter(timeStr);
+console.log(' expecting 00:05:45 ', timeConverter(timeStr));
+console.log('\n ... \n');
+timeStr = '11:05:45AM';
+timeConverter(timeStr);
+console.log(' expecting 11:05:45 ', timeConverter(timeStr));
+console.log('\n ... \n');
+timeStr = '11:05:45PM';
+timeConverter(timeStr);
+console.log(' expecting 23:05:45 ', timeConverter(timeStr));
+console.log('\n ... \n');
+timeStr = '01:05:45PM';
+timeConverter(timeStr);
+console.log(' expecting 23:05:45 ', timeConverter(timeStr));
