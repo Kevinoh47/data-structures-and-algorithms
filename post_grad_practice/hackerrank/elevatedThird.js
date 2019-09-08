@@ -210,6 +210,7 @@ function maxDifference(arr) {
   for (let i = 1; i < arr.length; i++) {
     const currVal = arr[i];
 
+    // start testing on index 1 rather than 0
     let counter = i-1;
     while (counter >= 0) {
       const testMe = arr[counter];
@@ -218,6 +219,9 @@ function maxDifference(arr) {
           maxDiff = Math.abs(currVal - testMe);
         }
       }
+      // console.log({idx: i, counter: counter});
+
+      // now test all the index values that precede the current index:
       counter--;
     }
   }
@@ -234,8 +238,9 @@ console.log('expecting 47 (0-47): ', maxDifference(arr));
 arr = [1,2,3,2,48,-47,0];
 console.log('expecting 47 (0-47): ', maxDifference(arr));
 
+
 // Question 4: Minimum unique Array Sum:
-// Given an array, increment any duplicate elements unil all elements are unique. Return the sum of all the elements.
+// Given an array, increment any duplicate elements until all elements are unique. Return the sum of all the elements.
 // 3 of 15 test cases
 // i am guessing the problem is that i am only handle duplicates, but they may be doing triplicates or more... so I need to handle more than 1 possible duplicate.
 console.log('\n ... getMinimumUniqueSum ...\n');
@@ -244,6 +249,7 @@ console.log('\n ... getMinimumUniqueSum ...\n');
 function getMinimumUniqueSum(arr) {
   for (let i = 0; i < arr.length; i++) {
     const currVal = arr[i];
+    // the problem: lastIndexOf test only works for fixing a single dup. If there are more dups in the middle, they won't be handled.
     if (arr.lastIndexOf(currVal) !== i) {
       let increment = currVal;
       while (arr.includes(increment)) {
@@ -268,23 +274,80 @@ console.log('expects 21 (1+2+3+4+5,6): ', getMinimumUniqueSum(arr));
 console.log('\n ... getMinimumUniqueSum2 handles multiple dups of the same.\n');
 
 // this one handles multiple dups, and only has to iterate once.
+// function getMinimumUniqueSum2(arr) {
+
+//   let dups = {};
+
+//   for (let i = 0; i < arr.length; i++) {
+//     const currVal = arr[i];
+
+//     dups[currVal] = (dups[currVal]) ? 2 : 1;
+
+//     if ( dups[currVal] === 2) {
+//       let increment = currVal;
+//       while (arr.includes(increment)) {
+//         increment++;
+//       }
+//       arr[i] = increment;
+//       // now that currentVal is unique again, decrease count back to one.
+//       dups[currVal] = 1;
+//     }
+//   }
+
+//   let result = arr.reduce((prev, curr) => { return prev + curr;},0);
+//   return result;
+// }
+
+// refactor getMinimumUniqueSum2 to be a bit cleaner:
 function getMinimumUniqueSum2(arr) {
+  const myArr = [...arr];
+  const dups = {};
 
-  let dups = {};
+  myArr.forEach ((currVal, currIdx) => {
 
+    dups[currVal] = (dups[currVal]) ? dups[currVal] + 1 : 1;
+
+    if ( dups[currVal] > 1) {
+      let increment = currVal;
+      while (myArr.includes(increment)) {
+        increment++;
+      }
+      myArr[currIdx] = increment;
+      // now that currentVal is unique again, set count back to one.
+      dups[currVal] = 1;
+    }
+  });
+
+  let result = myArr.reduce((prev, curr) => { return prev + curr;},0);
+  return result;
+}
+
+arr = [1,2,3,4,2];
+console.log('expects 15 (1+2+3+4+5): ', getMinimumUniqueSum2(arr));
+
+arr = [1,2,3,4,2,2];
+console.log('expects 21 (1+2+3+4+5+6): ', getMinimumUniqueSum2(arr));
+
+arr = [1,2,3,4,2,2,2];
+console.log('expects 28 (1+2+3+4+5+6+7): ', getMinimumUniqueSum2(arr));
+
+
+
+console.log(`\n ... a slight change to the first attempt fixes it ...`);
+// this one fixes the first attempt in a single line:
+function getMinimumUniqueSum3(arr) {
   for (let i = 0; i < arr.length; i++) {
     const currVal = arr[i];
-
-    dups[currVal] = (dups[currVal]) ? 2 : 1;
-
-    if ( dups[currVal] === 2) {
+    // the problem: lastIndexOf test only works for fixing a single dup. If there are more dups in the middle, they won't be handled, unless we repeat the test for this index (see new last line of loop).
+    if (arr.lastIndexOf(currVal) !== i) {
       let increment = currVal;
       while (arr.includes(increment)) {
         increment++;
       }
-      arr[i] = increment;
-      // decrease back to one.
-      dups[currVal] = 1;
+      let updateMe = arr.lastIndexOf(currVal);
+      arr[updateMe] = increment;
+      // set i back one so that the test is repeated until all dups are handled:
+      i--;
     }
   }
 
@@ -293,10 +356,15 @@ function getMinimumUniqueSum2(arr) {
 }
 
 arr = [1,2,3,4,2];
-console.log('expects 15 (1+2+3+4+5): ', getMinimumUniqueSum2(arr));
+console.log('expects 15 (1+2+3+4+5): ', getMinimumUniqueSum3(arr));
 
-// this one fails because there is are three 2s...
 arr = [1,2,3,4,2,2];
-console.log('expects 21 (1+2+3+4+5+6): ', getMinimumUniqueSum2(arr));
+console.log('expects 21 (1+2+3+4+5+6): ', getMinimumUniqueSum3(arr));
 
-module.exports = {writeIn, maximumOccurringCharacter, maxDifference, getMinimumUniqueSum, getMinimumUniqueSum2};
+arr.push(2);
+console.log('expects 28 (1+2+3+4+5+6+7): ', getMinimumUniqueSum3(arr));
+
+
+
+
+module.exports = {writeIn, maximumOccurringCharacter, maxDifference, getMinimumUniqueSum, getMinimumUniqueSum2, getMinimumUniqueSum3};

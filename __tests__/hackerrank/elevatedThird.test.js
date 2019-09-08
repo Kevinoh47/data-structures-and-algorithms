@@ -5,6 +5,7 @@ const ElevatedThird = require('../../post_grad_practice/hackerrank/elevatedThird
 const writeIn = ElevatedThird.writeIn;
 const maximumOccurringCharacter = ElevatedThird.maximumOccurringCharacter;
 const maxDifference = ElevatedThird.maxDifference;
+const getMinimumUniqueSum3 = ElevatedThird.getMinimumUniqueSum3;
 const getMinimumUniqueSum2 = ElevatedThird.getMinimumUniqueSum2;
 const getMinimumUniqueSum = ElevatedThird.getMinimumUniqueSum;
 
@@ -53,7 +54,7 @@ describe ('maximumOccurringCharacter', () => {
 
 describe ('maxDifference', () => {
 
-  it('can find the maximum difference between an array element, and lower indexed, smaller valules:', () => {
+  it('can find the maximum difference between an array element, and lower indexed, smaller values:', () => {
     const arr = [1,2,3,1,4,3];
     
     let result = maxDifference(arr);
@@ -62,7 +63,16 @@ describe ('maxDifference', () => {
     
   });
 
-  it('can find the maximum difference between an array element, and lower indexed, smaller valules:', () => {
+  it('can find the maximum difference between an array element, and lower indexed, smaller values, when the max difference occurs more than once:', () => {
+    const arr = [44,47,0,1,2,3];
+    
+    let result = maxDifference(arr);
+    // 'expecting 3 (47-44, 3-0): ', maxDifference(arr));
+    expect(result).toEqual(3);
+    
+  });
+
+  it('can find the maximum difference between an array element, and lower indexed, smaller values, when the lower value is a negative number:', () => {
     const arr = [1,2,3,1,4,-47,0];
     
     let result = maxDifference(arr);
@@ -74,7 +84,7 @@ describe ('maxDifference', () => {
 
 describe ('getMinimumUniqueSum', () => {
 
-  it('can make a single duplicate of any value unique by incrementing them, and then sum the results:', () => {
+  it('can make a SINGLE duplicate of any value unique by incrementing them, and then sum the results:', () => {
     let arr = [1,2,3,4,2];
     let result = getMinimumUniqueSum(arr);
 
@@ -85,11 +95,36 @@ describe ('getMinimumUniqueSum', () => {
 
 describe ('getMinimumUniqueSum2', () => {
 
-  it('can make multiple duplicates of any value unique by incrementng them, and then sum the results', () => {
+  it('can make MULTIPLE duplicates of any value unique by incrementng them, and then sum the results', () => {
     let arr = [1,2,3,4,2,2];
     let result = getMinimumUniqueSum2(arr);
 
     // expects 21 (1+2+3+4+5+6): 
     expect(result).toEqual(21);
+
+    arr.push(2);
+    result = getMinimumUniqueSum2(arr);
+
+    // expects 28 (1+2+3+4+5+6+7): 
+    expect(result).toEqual(28);
+
+  });
+});
+
+describe ('getMinimumUniqueSum3', () => {
+
+  it('can make MULTIPLE duplicates of any value unique by incrementng them, and then sum the results', () => {
+    let arr = [1,2,3,4,2,2];
+    let result = getMinimumUniqueSum3(arr);
+
+    // expects 21 (1+2+3+4+5+6): 
+    expect(result).toEqual(21);
+
+    arr.push(2);
+    result = getMinimumUniqueSum3(arr);
+
+    // expects 28 (1+2+3+4+5+6+7): 
+    expect(result).toEqual(28);
+
   });
 });
