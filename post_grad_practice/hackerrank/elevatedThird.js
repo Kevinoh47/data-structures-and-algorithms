@@ -5,17 +5,59 @@
  * 4 questions, 90 minutes.
  * In the first question I floundered with the HackerRank STDIN/STDOUT -- i thought they wanted me to convert a string from STDIN to an array, but they didn't. Not sure why HackerRank introduces that confusion.
  * I got something partially working for all 4 questions.
- * Unfortunately the unit tests only show anything when they pass, they are hidden when you fail, so they weren't any use for debugging. 
+ * Unfortunately the unit tests only show anything when they pass, they are hidden when you fail, so they weren't any use for debugging during the actual test. 
  * By keeping notes here, and photographing the screens, coming back to the tests I could see at least in a couple spots some things I misinterpreted. I put notes in below. Will come back and fix these later.
+ * Also I wrote my own unit tests in elevatedThird.test.js
  */
 
 /**
  * Question 1: Write-in ballots
- * given an array of names, count for each name. If one name has most votes, that name wins. If more than one name has the highest count, order those alphabetically ascending, and choose the last one.
+ * given an array of names, count for each name. If one name has most votes, that name wins. If more than one name has the highest count, order those alphabetically ascending, and choose the LAST one.
  * thus if [A, B, C] all have the highest count, return C.
  */
 
 console.log(`\n ... write in ballot ...`);
+/**
+ * my writeIn has a space and time efficiency of O(n) ... although for time, we go over the the input array twice. Refactored below.
+ * @param {*} ballot 
+ */
+// function writeIn(ballot) {
+//   let voteCount = {};
+//   let maxCount = 0;
+//   let maxCountVals = [];
+
+//   for (let i = 0; i < ballot.length;i++) {
+//     let currVote = ballot[i];
+//     voteCount[currVote]  = (voteCount[currVote])? voteCount[currVote] + 1 : 1;
+
+//     if (voteCount[currVote] > maxCount) {
+//       maxCount++;
+//     }
+//   }
+
+//   // traversing input twice... probably this can be refactored...
+//   for (let i = 0; i < ballot.length; i++) {
+//     let currVote = ballot[i];
+
+//     if (voteCount[currVote] === maxCount && maxCountVals.indexOf(currVote) === -1) {
+//       maxCountVals.push(ballot[i]);
+//     }
+//   }
+
+//   maxCountVals.sort();
+  
+//   return maxCountVals[maxCountVals.length-1];
+// }
+
+
+let ballot = ['Alex', 'Michael', 'Harry', 'Dave', 'Michael', 'Victor', 'Harry', 'Alex', 'Mary', 'Mary'];
+// console.log(writeIn(ballot));
+
+/**
+ *  an i rewrite the above to be more efficient? Yes: 
+ *  while this one is also O(n), it only traverses the input once.
+ * */ 
+
 function writeIn(ballot) {
   let voteCount = {};
   let maxCount = 0;
@@ -27,14 +69,9 @@ function writeIn(ballot) {
 
     if (voteCount[currVote] > maxCount) {
       maxCount++;
+      maxCountVals = []; // reset maxCountVals when we have a new maxCount
+      maxCountVals.push(ballot[i]); 
     }
-  }
-
-  // console.log({voteCount});
-
-  for (let i = 0; i < ballot.length; i++) {
-    let currVote = ballot[i];
-    // console.log('i:', 'currVote: ', currVote, 'maxCount: ', maxCount, 'vC: ', voteCount[ballot[i]]);
 
     if (voteCount[currVote] === maxCount && maxCountVals.indexOf(currVote) === -1) {
       maxCountVals.push(ballot[i]);
@@ -42,16 +79,11 @@ function writeIn(ballot) {
   }
 
   maxCountVals.sort();
-
-  // console.log({maxCountVals});
   
   return maxCountVals[maxCountVals.length-1];
-
-
 }
-let ballot = ['Alex', 'Michael', 'Harry', 'Dave', 'Michael', 'Victor', 'Harry', 'Alex', 'Mary', 'Mary'];
 
-
+console.log('\n ... write in ballot, version 2 .... \n');
 console.log(writeIn(ballot));
 
 /**
@@ -62,12 +94,36 @@ console.log(writeIn(ballot));
  */
 // passes 2 of 15 tests
 console.log(`\n ... maximum occuring character ...`);
-// fixed version
+
+// this version compares multiple max versions for alpha order and returns the first alpha order...
+// function maximumOccurringCharacter(text) {
+
+//   let strArr = text.split('');
+//   let maxCount = 0;
+//   let maxChar = strArr[0];
+//   let charCounter = {};
+
+//   for (let i = 0; i < strArr.length; i++) {
+//     let currChar = strArr[i];
+//     charCounter[currChar] = (charCounter[currChar]) ? charCounter[currChar] + 1 : 1;
+
+//     if (charCounter[currChar] >= maxCount) {
+//       let compare = [maxChar, currChar].sort();
+//       let winner = compare[0];
+//       maxChar = winner;
+//       maxCount = charCounter[currChar];
+//     }
+//   }
+  
+//   return maxChar;
+// }
+
+// fixed version manages ties by returning the char that occurs first in the string.
 function maximumOccurringCharacter(text) {
 
   let strArr = text.split('');
   let maxCount = 0;
-  let charWinnerIdx = strArr.length; // one beyond
+  let charWinnerIdx = strArr.length; // one beyond. Start at the back and test for lower index.
   let charCounter = {};
 
   for (let i = 0; i < strArr.length; i++) {
@@ -80,7 +136,7 @@ function maximumOccurringCharacter(text) {
   }
 
   Object.entries(charCounter).forEach((e) => {
-    // pick the first of all with max count
+    // pick the first instance with max count. e[0] is key, e[1] is count.
     if ( e[1] === maxCount && strArr.indexOf(e[0]) < charWinnerIdx) {
       charWinnerIdx = strArr.indexOf(e[0]);
     }
@@ -89,43 +145,57 @@ function maximumOccurringCharacter(text) {
   return strArr[charWinnerIdx];
 }
 
-// this version compares multipe max versions for alpha order and returns the first alpha order...
-// function maximumOccurringCharacter(text) {
+// refactored fixed version limits the second interation to any ties for maxCount
+function maximumOccurringCharacter2(text) {
 
-//   let strArr = text.split('');
-//   let maxCount = 0;
-//   let maxChar = strArr[0];
-//   let charCounter = {};
+  let strArr = text.split('');
+  let maxCount = 0;
+  let maxCountVals = [];
+  let charWinnerIdx = strArr.length; // one beyond. Start at the back and test for lower index.
+  let charCounter = {};
 
-//   for (let i = 0; i < strArr.length; i++) {
-//     let currChar = strArr[i];
-//     console.log({currChar});
-//     charCounter[currChar] = (charCounter[currChar]) ? charCounter[currChar] + 1 : 1;
+  strArr.forEach(currChar =>  {
+    charCounter[currChar] = (charCounter[currChar]) ? charCounter[currChar] + 1 : 1;
 
-//     if (charCounter[currChar] >= maxCount) {
-//       let compare = [maxChar, currChar].sort();
-//       let winner = compare[0];
-//       console.log({winner});
-//       maxChar = winner;
-//       maxCount = charCounter[currChar];
-//     }
-//   }
+    if (charCounter[currChar] > maxCount) {
+      maxCount = charCounter[currChar];
+      maxCountVals = []; // reset
+      maxCountVals.push(currChar);
+    }
+    if (charCounter[currChar] === maxCount && maxCountVals.indexOf(currChar) === -1) {
+      maxCountVals.push(currChar);
+    }
+  });
+
+  maxCountVals.forEach( val => {
+    if (strArr.indexOf(val) < charWinnerIdx) {
+      charWinnerIdx = strArr.indexOf(val);
+    }
+  });
   
-//   return maxChar;
-// }
+  return strArr[charWinnerIdx];
+}
 
 
 let text = 'abbbaacc';
 
 console.log('expects a (tied with b but first in string):', maximumOccurringCharacter(text));
+console.log('v2 expects a (tied with b but first in string):', maximumOccurringCharacter2(text));
 
 text = 'abbb11111aacc99999';
 
 console.log('expects 1: ', maximumOccurringCharacter(text));
+console.log('v2 expects 1: ', maximumOccurringCharacter2(text));
 
 text = 'abbb11111aacc99999AAAAA';
 
 console.log('expects 1: ', maximumOccurringCharacter(text));
+console.log('v2 expects 1: ', maximumOccurringCharacter2(text));
+
+text = 'aAbbb11111aacc99999AAAAA';
+
+console.log('expects A: ', maximumOccurringCharacter(text));
+console.log('v2 expects A: ', maximumOccurringCharacter2(text));
 
 
 // Question 3: Maximum Difference in an array
