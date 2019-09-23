@@ -207,10 +207,11 @@ function maxDifference(arr) {
 
   let maxDiff = arr[1]-arr[0];
 
+  // for each index place, test the previous index values. If smaller, test the differnce.
   for (let i = 1; i < arr.length; i++) {
     const currVal = arr[i];
 
-    // start testing on index 1 rather than 0
+    // start testing on index 1 rather than 0. Counter is the previous index, and then we iterate backwards to 0.
     let counter = i-1;
     while (counter >= 0) {
       const testMe = arr[counter];
