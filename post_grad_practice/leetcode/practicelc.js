@@ -195,8 +195,8 @@ Note:
  * 
  * Success
 Details
-Runtime: 60 ms, faster than 46.71% of JavaScript online submissions for Verifying an Alien Dictionary.
-Memory Usage: 36.4 MB, less than 50.00% of JavaScript online submissions for Verifying an Alien Dictionary.
+Runtime: 56 ms, faster than 68.74% of JavaScript online submissions for Verifying an Alien Dictionary.
+Memory Usage: 36.2 MB, less than 50.00% of JavaScript online submissions for Verifying an Alien Dictionary.
  */
 
 
@@ -217,10 +217,9 @@ let wordsAreInOrder = (words, order) => {
         if(orderArr.indexOf(aArr[i]) < orderArr.indexOf(bArr[i])){
           return true;
         }
-        else if (bArr[i] === undefined || bArr[i] >= bArr.length) { 
-          return false;}
         else if (orderArr.indexOf(bArr[i]) < orderArr.indexOf(aArr[i])) {
           return false;}
+        else if (i >= bArr.length) { return false;}
       }
     }
     // same words
