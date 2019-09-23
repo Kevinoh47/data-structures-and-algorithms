@@ -279,3 +279,88 @@ words = ['word','world','row'];
 order = 'worldabcefghijkmnpqstuvxyz';
 myResult = wordsAreInOrder(words, order);
 console.log('expect false: ', myResult);
+
+/**
+ * refactored version uses array.every() and is more efficient:
+ * Runtime: 48 ms, faster than 96.63% of JavaScript online submissions for Verifying an Alien Dictionary.
+Memory Usage: 34 MB, less than 50.00% of JavaScript online submissions for Verifying an Alien Dictionary.
+ */
+
+
+const wordsAreInOrder2 = (words, order) => {
+
+  const orderArr = order.split('');
+
+  const _compare2Words = (element, index, array) => { 
+    
+    if (index > 0) {
+      const a = array[index-1];
+      const b = element;
+      const aArr = a.split('');
+      const bArr = b.split('');
+      // iterateLen could just be aArr.length, but that tests slower! 
+      const iterateLen = Math.max(aArr.length, bArr.length);
+  
+      for (let i = 0; i < iterateLen; i++) {
+        if(i < aArr.length) {
+          //value of a at index for orderArr is lower than for same index of b:
+          if(orderArr.indexOf(aArr[i]) < orderArr.indexOf(bArr[i])){
+            return true;
+          }
+          // if bArr[i] does not exist, it returns -1 and fits this condition
+          else if (orderArr.indexOf(bArr[i]) < orderArr.indexOf(aArr[i])) {
+            return false;}
+        }
+      }
+      // same words or a matches the equivalent substring of b
+      return true;
+    }
+    // return true to iterate over index 0
+    return true;
+  };
+
+  return words.every(_compare2Words);
+};
+
+console.log(`\n ... refactored using array.every() ...\n`);
+words = ['ape', 'apple'];
+order = 'abcdefghijklmnopqrstuvwxyz';
+myResult = wordsAreInOrder2(words, order);
+console.log('expect true: ', myResult);
+
+console.log(`\n ... \n`);
+words = ['app', 'apple'];
+order = 'abcdefghijklmnopqrstuvwxyz';
+myResult = wordsAreInOrder2(words, order);
+console.log('expect true: ', myResult);
+
+console.log(`\n ... \n`);
+words = ['apple', 'app'];
+order = 'abcdefghijklmnopqrstuvwxyz';
+myResult = wordsAreInOrder2(words, order);
+console.log('expect false: ', myResult);
+
+
+console.log(`\n ... \n`);
+words = ['apple', 'ape'];
+order = 'abcdefghijklmnopqrstuvwxyz';
+myResult = wordsAreInOrder2(words, order);
+console.log('expect false: ', myResult);
+
+console.log(`\n ... \n`);
+words = ['apple', 'apple'];
+order = 'abcdefghijklmnopqrstuvwxyz';
+myResult = wordsAreInOrder2(words, order);
+console.log('expect true: ', myResult);
+
+console.log(`\n ... \n`);
+words = ['hello', 'leetcode'];
+order = 'hlabcdefgijkmnopqrstuvwxyz';
+myResult = wordsAreInOrder2(words, order);
+console.log('expect true: ', myResult);
+
+console.log(`\n ... \n`);
+words = ['word','world','row'];
+order = 'worldabcefghijkmnpqstuvxyz';
+myResult = wordsAreInOrder2(words, order);
+console.log('expect false: ', myResult);
