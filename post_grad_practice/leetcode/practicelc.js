@@ -284,6 +284,10 @@ console.log('expect false: ', myResult);
  * refactored version uses array.every() and is more efficient:
  * Runtime: 48 ms, faster than 96.63% of JavaScript online submissions for Verifying an Alien Dictionary.
 Memory Usage: 34 MB, less than 50.00% of JavaScript online submissions for Verifying an Alien Dictionary.
+
+posted my solution:
+https://leetcode.com/problems/verifying-an-alien-dictionary/discuss/388957/faster-than-96-of-javascript-solutions
+
  */
 
 
@@ -292,7 +296,6 @@ const wordsAreInOrder2 = (words, order) => {
   const orderArr = order.split('');
 
   const _compare2Words = (element, index, array) => { 
-    
     if (index > 0) {
       const a = array[index-1];
       const b = element;
@@ -302,6 +305,7 @@ const wordsAreInOrder2 = (words, order) => {
       const iterateLen = Math.max(aArr.length, bArr.length);
   
       for (let i = 0; i < iterateLen; i++) {
+        // you shouldn't need the following outer if statement if you set iterateLen to aArr.length, BUT on leetcode it tests MUCH faster to keep it. 
         if(i < aArr.length) {
           //value of a at index for orderArr is lower than for same index of b:
           if(orderArr.indexOf(aArr[i]) < orderArr.indexOf(bArr[i])){
@@ -309,7 +313,8 @@ const wordsAreInOrder2 = (words, order) => {
           }
           // if bArr[i] does not exist, it returns -1 and fits this condition
           else if (orderArr.indexOf(bArr[i]) < orderArr.indexOf(aArr[i])) {
-            return false;}
+            return false;
+          }
         }
       }
       // same words or a matches the equivalent substring of b
