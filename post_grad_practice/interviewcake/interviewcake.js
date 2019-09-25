@@ -66,6 +66,14 @@ thirdN.right = seventhN;
 /**
  * Write a function to check if is our Binary Tree is a true BST.
  * I have used an inOrder depth-first strategy here.
+ * 
+ * GOTCHA:    
+ * 
+ *            50
+ *      30
+ * 20       60
+ * 
+ * Note that checking against the immediate parent is correct, but that is insufficient.
  */
 
 const bSTChecker = keyNode => {
@@ -165,3 +173,161 @@ secondN.right = fifthN; // switched back
 
 console.log('switched back children on second node: ', secondN);
 console.log('expect ordered array: ', inOrder(firstN));
+
+/**
+ * This approach just outputs the array from an inOrder traversal, then checks that the output is indeed ordered
+ * 
+ * Note this works but it must iterate the entire array rather than exit on encountering false;
+ */
+// const BSTChecker2 = rootNode => {
+//   let output = inOrder(rootNode);
+//   console.log({output});
+
+//   let orderTest = output.reduce((summary, current) => {
+//     console.log(summary, current);
+
+//     if (!summary || summary > current) {
+//       summary = false; 
+//       return summary;
+//     }
+//     else if (summary) {
+//       summary = current;
+//       return summary;
+//     }
+//   }, output[0] - 1 );
+
+//   return (orderTest) ? true : false;
+// };
+
+// console.log(`\n ... test new BSTChecker that should manage for errors where grandparent order is incorrect  ... \n`);
+// console.log('expect true: ', BSTChecker2(firstN));
+
+// // immediate parents are correct, but ordering for grandparents is now incorrect
+// secondN.right = sixthN;
+// thirdN.left = fifthN;
+// console.log('expect false: ', BSTChecker2(firstN));
+
+
+/**
+ * This version works, and is more efficient than the previous, commented out version BSTChecker2. Furthermore, it is the easiest to understand. 
+ * 
+ * However, it is unlikely to be the most efficient, since I have to extract all then nodes, flatten them into an array, and then iterate until either we find disorder or the entire array is ordered as expected.
+ * 
+ * See final  isBinarySearchTree function below taken from interview cake solution. But note that IC also says:
+ * 
+ * "Checking if an in-order traversal of the tree is sorted is a great answer too, especially if you're able to implement it without storing a full list of nodes". 
+ * 
+ */
+// const BSTChecker2 = rootNode => {
+//   let output = inOrder(rootNode);
+//   console.log({output});
+
+//   const disordered = output.some((value, index) => {
+//     if (index > 0) {
+//       const a = output[index-1];
+//       const b = value;
+
+//       return a > b;
+//     }
+//   });
+
+//   console.log({disordered});
+//   return !disordered;
+// };
+
+/**
+ * one more time, this time using the inOrder traversal to test ordering in time, as suggested by IC solution, rather than having to fully traverse an incorrectly ordered Binary Tree:
+ */
+
+const BSTChecker2 = rootNode => {
+
+  let inOrderValues = [];
+
+  const _comparer = node => {
+    inOrderValues.push(node.value);
+    const len = inOrderValues.length;
+
+    if (len > 1) {
+      const [a, b] = [inOrderValues[len - 2], inOrderValues[len - 1]];
+
+      if (a > b) return false;
+    }
+    return true;
+  };
+
+  const _inOrderTraverser = node => {
+    
+    if(node.left) { _inOrderTraverser(node.left); }
+
+    if(!_comparer(node)) {return false;}
+
+    if(node.right) {  _inOrderTraverser(node.right); }
+
+    return true;
+  };
+
+  return _inOrderTraverser(rootNode);
+
+};
+
+console.log(`\n ... test new BSTChecker that should manage for errors where grandparent order is incorrect  ... \n`);
+console.log('expect true: ', BSTChecker2(firstN));
+
+// immediate parents are correct, but ordering for grandparents is now incorrect
+secondN.right = sixthN;
+thirdN.left = fifthN;
+
+console.log('expect false: ', BSTChecker2(firstN));
+
+/**
+ * Attempting to modify the first version using upper and lower bounds 
+ * 
+ * https://www.interviewcake.com/question/javascript/bst-checker?utm_source=weekly_email&utm_source=drip&utm_campaign=weekly_email&utm_campaign=Interview%20Cake%20Weekly%20Problem%20%23262:%20Binary%20Search%20Tree%20Checker&utm_medium=email&utm_medium=email
+ * 
+ */
+
+function isBinarySearchTree(treeRoot) {
+
+  // Start at the root, with an arbitrarily low lower bound
+  // and an arbitrarily high upper bound
+  const nodeAndBoundsStack = [];
+  nodeAndBoundsStack.push({
+    node: treeRoot,
+    lowerBound: Number.NEGATIVE_INFINITY,
+    upperBound: Number.POSITIVE_INFINITY,
+  });
+
+  // Depth-first traversal
+  while (nodeAndBoundsStack.length) {
+    const { node, lowerBound, upperBound } = nodeAndBoundsStack.pop();
+
+    // If this node is invalid, we return false right away
+    if (node.value <= lowerBound || node.value >= upperBound) {
+      return false;
+    }
+
+    if (node.left) {
+
+      // This node must be less than the current node
+      nodeAndBoundsStack.push({
+        node: node.left,
+        lowerBound,
+        upperBound: node.value,
+      });
+    }
+
+    if (node.right) {
+
+      // This node must be greater than the current node
+      nodeAndBoundsStack.push({
+        node: node.right,
+        lowerBound: node.value,
+        upperBound,
+      });
+    }
+  }
+
+  // If none of the nodes were invalid, return true
+  // (At this point we have checked all nodes)
+  return true;
+}
