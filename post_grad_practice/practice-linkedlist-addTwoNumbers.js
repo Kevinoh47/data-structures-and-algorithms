@@ -186,131 +186,123 @@ console.log(curr.val);
 
 //////////////////////////////////////////
 console.log(`\n ... a new approach ... \n`);
+/**
+ * 
+Success
+Details
 
-// const add2Nums = (rootN1, rootN2) => {
+currDigit = Number(currSum.toString().split('')[1]);
+Runtime: 112 ms, faster than 75.07% of JavaScript online submissions for Add Two Numbers.
+Memory Usage: 38.5 MB, less than 48.61% of JavaScript online submissions for Add Two Numbers.
 
-//   const _iterator = rootNode => {
+currDigit = currSum % 10; 
+Runtime: 104 ms, faster than 94.08% of JavaScript online submissions for Add Two Numbers.
+Memory Usage: 38.6 MB, less than 34.72% of JavaScript online submissions for Add Two Numbers.
+ */
+
+let add2Nums = (l1, l2) =>{
+  let sumHeadNode = new ListNode('0');
+  let currSumNode = sumHeadNode;
+  let prevNode;
+  let curr1 = l1, curr2 = l2;
+  let carry = 0;
+
+  while (curr1 != null || curr2 != null) {
     
-//     let output = [];
-//     let currNode = rootNode;
+    const x = (curr1 != null) ? curr1.val : 0;
+    const y = (curr2 != null) ? curr2.val : 0;
 
-//     while (currNode.next) {
+    const currSum = x + y + carry;
+    let currDigit;
 
-//       // console.log({currNode});
+    if (currSum > 9) {
+      carry = 1;
+      // currDigit = Number(currSum.toString().split('')[1]); // this is slower but uses less memory than the next line.
+      currDigit = currSum % 10; // this is faster but uses more memory than the previous line.
 
-//       output.push(currNode.val);
-//       currNode = currNode.next;
-//     }
-//     //tail:
-//     output.push(currNode.val);
-
-//     return output;
-//   };
-
-//   const l1output = _iterator(rootN1);
-//   console.log({l1output});
-
-//   const l2output = _iterator(rootN2);
-//   console.log({l2output});
-
-
-//   const maxLen = Math.max(l1output.length, l2output.length);
-//   console.log({maxLen});
-
-//   let carry = 0, ones = 0;
-//   const result = [];
-//   for (let i = 0; i < maxLen; i++) {
-//     const curr1 = (l1output[i]) ? l1output[i] : 0;
-//     const curr2 = (l2output[i]) ? l2output[i] : 0;
-    
-//     const currVal = curr1 + curr2 + carry;
-
-//     console.log({currVal});
-
-//     const currValArr = currVal.toString().split('').reverse();
-
-//     [carry, ones] = currValArr[0], (currValArr[1]) ? currValArr[1] : 0;
-
-//     result.push(ones);
-//   }
-//   console.log({result});
-//   return result.join('');
-// };
-
-const add2Nums = (rootN1, rootN2) => {
-  let [curr1, curr2, carry, currSum] = [rootN1, rootN2, 0, 0];
-  let currDigit;
-  let results = [];
-
-  let _currDigit = currSum => {
-    let carry = 0;
-    if(currSum > 9) {
-      let currSumArr = currSum.toString().split('').reverse();
-
-      carry = (currSumArr[1]) ? Number(currSumArr[1]) : 0;
-      currDigit = Number(currSumArr[0]);
-    } else { 
+    } else {
+      carry = 0;
       currDigit = currSum;
     }
-    return [currDigit, carry];
-  };
 
-  while (curr1.next && curr2.next) {
-    currSum = curr1.val + curr2.val + carry;
-    [currDigit, carry] = _currDigit(currSum);
-
-    results.push(currDigit);
-
-    curr1 = curr1.next;
-    curr2 = curr2.next;
+    prevNode = currSumNode;
+    currSumNode = new ListNode(currDigit);
+    prevNode.next = currSumNode;
+    curr1 = (curr1) ? curr1.next : null; 
+    curr2 = (curr2) ? curr2.next : null;
   }
 
-  while(curr1.next) {
-    console.log('while2');
-    currSum = curr1.val + carry;
-    [currDigit, carry] = _currDigit(currSum);
-
-    results.push(currDigit);
-    curr1 = curr1.next;
+  // last carry
+  if (carry > 0) {
+    prevNode = currSumNode;
+    currSumNode = new ListNode(carry);
+    prevNode.next = currSumNode;
   }
 
-  while(curr2.next) {
-    console.log('while3');
-    currSum = curr2.val + carry;
-    [currDigit, carry] = _currDigit(currSum);
+  // the solution head node is actually the second node because the first node is a dummy node.
+  return sumHeadNode.next;
 
-    results.push(currDigit);
-    curr2 = curr2.next;
-  }
-
-  // tail
-  if (curr1.next === null && curr2.next === null) {
-    console.log('tail...');
-    currSum = curr1.val + curr2.val + carry;
-    [currDigit, carry] = _currDigit(currSum);
-
-    results.push(currDigit);
-  }
-
-  results.reverse();
-  console.log({results});
-  let resultRootNode, currNode = null, prevNode;
-  for (let i = 0; i < results.length; i++) {
-    prevNode = currNode;
-    currNode = new ListNode(results[i]);
-
-    if (i === 0) {
-      resultRootNode = currNode;
-    } else {
-      prevNode.next = currNode; 
-    }
-  }
-
-  return resultRootNode;
 };
 
+
+
+console.log(`\n ... 342 + 465 = 807 ( output in reverse order: 7,0,8) ... \n`);
 myResults = add2Nums(a1, b1);
+//console.log(myResults);
 console.log(myResults.val, myResults.next.val, myResults.next.next.val);
+
+// let currRes = myResults;
+// while (currRes.next) {
+//   console.log(currRes.val);
+//   currRes = currRes.next;
+// }
+// console.log(currRes.val);
+
+let currRes = myResults;
+while (currRes != null) {
+  console.log(currRes.val);
+  currRes = (currRes) ? currRes.next : null;
+}
+
+console.log(`\n ... 342 + 9 = 351 ( output in reverse order: 1,5,3)... \n`);
+const c1 = new ListNode(9);
+myResults = add2Nums(a1, c1);
+//console.log(myResults);
+console.log(myResults.val, myResults.next.val, myResults.next.next.val);
+currRes = myResults;
+while (currRes != null) {
+  console.log(currRes.val);
+  currRes = (currRes) ? currRes.next : null;
+}
+
+console.log(`\n ... 342 + 465 = 807 (output in reverse order: 7,0,8 ... \n`);
+let d1 = new ListNode(5);
+let d2 = new ListNode(6);
+let d3 = new ListNode(4);
+d1.next = d2;
+d2.next = d3;
+
+myResults = add2Nums(a1, d1);
+//console.log(myResults);
+console.log(myResults.val, myResults.next.val, myResults.next.next.val);
+currRes = myResults;
+while (currRes != null) {
+  console.log(currRes.val);
+  currRes = (currRes) ? currRes.next : null;
+}
+
+console.log(`\n ... 5 + 5 = 10 (output in reverse order: 0,1 ... \n`);
+let e1 = new ListNode(5);
+let f1 = new ListNode(5);
+
+myResults = add2Nums(e1, f1);
+//console.log(myResults);
+console.log(myResults.val, myResults.next.val);
+currRes = myResults;
+while (currRes != null) {
+  console.log(currRes.val);
+  currRes = (currRes) ? currRes.next : null;
+}
 
  
 
