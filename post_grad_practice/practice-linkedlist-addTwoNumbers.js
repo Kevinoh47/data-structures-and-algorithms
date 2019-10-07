@@ -1,5 +1,6 @@
 /**
  * https://leetcode.com/problems/add-two-numbers/
+ * https://leetcode.com/articles/add-two-numbers/127833
  * 
  *  You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.
 
@@ -181,4 +182,138 @@ while(curr.next) {
   curr = curr.next;
 }
 console.log(curr.val);
+
+
+//////////////////////////////////////////
+console.log(`\n ... a new approach ... \n`);
+
+// const add2Nums = (rootN1, rootN2) => {
+
+//   const _iterator = rootNode => {
+    
+//     let output = [];
+//     let currNode = rootNode;
+
+//     while (currNode.next) {
+
+//       // console.log({currNode});
+
+//       output.push(currNode.val);
+//       currNode = currNode.next;
+//     }
+//     //tail:
+//     output.push(currNode.val);
+
+//     return output;
+//   };
+
+//   const l1output = _iterator(rootN1);
+//   console.log({l1output});
+
+//   const l2output = _iterator(rootN2);
+//   console.log({l2output});
+
+
+//   const maxLen = Math.max(l1output.length, l2output.length);
+//   console.log({maxLen});
+
+//   let carry = 0, ones = 0;
+//   const result = [];
+//   for (let i = 0; i < maxLen; i++) {
+//     const curr1 = (l1output[i]) ? l1output[i] : 0;
+//     const curr2 = (l2output[i]) ? l2output[i] : 0;
+    
+//     const currVal = curr1 + curr2 + carry;
+
+//     console.log({currVal});
+
+//     const currValArr = currVal.toString().split('').reverse();
+
+//     [carry, ones] = currValArr[0], (currValArr[1]) ? currValArr[1] : 0;
+
+//     result.push(ones);
+//   }
+//   console.log({result});
+//   return result.join('');
+// };
+
+const add2Nums = (rootN1, rootN2) => {
+  let [curr1, curr2, carry, currSum] = [rootN1, rootN2, 0, 0];
+  let currDigit;
+  let results = [];
+
+  let _currDigit = currSum => {
+    let carry = 0;
+    if(currSum > 9) {
+      let currSumArr = currSum.toString().split('').reverse();
+
+      carry = (currSumArr[1]) ? Number(currSumArr[1]) : 0;
+      currDigit = Number(currSumArr[0]);
+    } else { 
+      currDigit = currSum;
+    }
+    return [currDigit, carry];
+  };
+
+  while (curr1.next && curr2.next) {
+    currSum = curr1.val + curr2.val + carry;
+    [currDigit, carry] = _currDigit(currSum);
+
+    results.push(currDigit);
+
+    curr1 = curr1.next;
+    curr2 = curr2.next;
+  }
+
+  while(curr1.next) {
+    console.log('while2');
+    currSum = curr1.val + carry;
+    [currDigit, carry] = _currDigit(currSum);
+
+    results.push(currDigit);
+    curr1 = curr1.next;
+  }
+
+  while(curr2.next) {
+    console.log('while3');
+    currSum = curr2.val + carry;
+    [currDigit, carry] = _currDigit(currSum);
+
+    results.push(currDigit);
+    curr2 = curr2.next;
+  }
+
+  // tail
+  if (curr1.next === null && curr2.next === null) {
+    console.log('tail...');
+    currSum = curr1.val + curr2.val + carry;
+    [currDigit, carry] = _currDigit(currSum);
+
+    results.push(currDigit);
+  }
+
+  results.reverse();
+  console.log({results});
+  let resultRootNode, currNode = null, prevNode;
+  for (let i = 0; i < results.length; i++) {
+    prevNode = currNode;
+    currNode = new ListNode(results[i]);
+
+    if (i === 0) {
+      resultRootNode = currNode;
+    } else {
+      prevNode.next = currNode; 
+    }
+  }
+
+  return resultRootNode;
+};
+
+myResults = add2Nums(a1, b1);
+console.log(myResults.val, myResults.next.val, myResults.next.next.val);
+
+ 
+
+
+
 
