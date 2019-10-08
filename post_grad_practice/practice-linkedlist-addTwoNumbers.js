@@ -216,7 +216,7 @@ let add2Nums = (l1, l2) =>{
     let currDigit;
 
     if (currSum > 9) {
-      carry = 1;
+      carry = 1; 
       // currDigit = Number(currSum.toString().split('')[1]); // this is slower but uses less memory than the next line.
       currDigit = currSum % 10; // this is faster but uses more memory than the previous line.
 

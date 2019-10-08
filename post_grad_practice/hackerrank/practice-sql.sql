@@ -101,3 +101,44 @@ average monthly salaries), and round it up to the next integer.
 
 /*for some reason, CEILING is accepted here, but ROUND is not -- in this case round rounds down, ceiling goes up*/
 select CEILING(avg(salary) - avg(replace(salary,0,'')))from employees
+
+
+/**
+https://www.hackerrank.com/challenges/what-type-of-triangle/problem
+
+Write a query identifying the type of each record in the TRIANGLES table using its three side lengths. Output one of the following statements for each record in the table:
+
+    Equilateral: It's a triangle with 
+
+sides of equal length.
+Isosceles: It's a triangle with
+sides of equal length.
+Scalene: It's a triangle with
+sides of differing lengths.
+Not A Triangle: The given values of A, B, and C don't form a triangle.
+
+Sample Output
+
+Isosceles
+Equilateral
+Scalene
+Not A Triangle
+
+Explanation
+
+Values in the tuple
+form an Isosceles triangle, because .
+Values in the tuple form an Equilateral triangle, because . Values in the tuple form a Scalene triangle, because .
+Values in the tuple cannot form a triangle because the combined value of sides and is not larger than that of side .
+
+*/
+
+
+select (CASE 
+        WHEN ( a = b &&  b = c )  THEN 'Equilateral' 
+        WHEN ( ( a = b && a + b > c ) || 
+               ( b = c && b + c > a ) || 
+               ( a = c && a + c > b ) ) THEN 'Isosceles' 
+        WHEN ( (a != b && b != c)  && ( a + b > c )  ) THEN 'Scalene' 
+        ELSE 'Not A Triangle' END) as triangle_type 
+from TRIANGLES
