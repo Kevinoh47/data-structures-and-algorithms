@@ -1,5 +1,6 @@
 /**
  * https://leetcode.com/problems/add-two-numbers/
+ * https://leetcode.com/articles/add-two-numbers/127833
  * 
  *  You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.
 
@@ -181,4 +182,130 @@ while(curr.next) {
   curr = curr.next;
 }
 console.log(curr.val);
+
+
+//////////////////////////////////////////
+console.log(`\n ... a new approach ... \n`);
+/**
+ * 
+Success
+Details
+
+currDigit = Number(currSum.toString().split('')[1]);
+Runtime: 112 ms, faster than 75.07% of JavaScript online submissions for Add Two Numbers.
+Memory Usage: 38.5 MB, less than 48.61% of JavaScript online submissions for Add Two Numbers.
+
+currDigit = currSum % 10; 
+Runtime: 104 ms, faster than 94.08% of JavaScript online submissions for Add Two Numbers.
+Memory Usage: 38.6 MB, less than 34.72% of JavaScript online submissions for Add Two Numbers.
+ */
+
+let add2Nums = (l1, l2) =>{
+  let sumHeadNode = new ListNode('0');
+  let currSumNode = sumHeadNode;
+  let prevNode;
+  let curr1 = l1, curr2 = l2;
+  let carry = 0;
+
+  while (curr1 != null || curr2 != null) {
+    
+    const x = (curr1 != null) ? curr1.val : 0;
+    const y = (curr2 != null) ? curr2.val : 0;
+
+    const currSum = x + y + carry;
+    let currDigit;
+
+    if (currSum > 9) {
+      carry = 1; 
+      // currDigit = Number(currSum.toString().split('')[1]); // this is slower but uses less memory than the next line.
+      currDigit = currSum % 10; // this is faster but uses more memory than the previous line.
+
+    } else {
+      carry = 0;
+      currDigit = currSum;
+    }
+
+    prevNode = currSumNode;
+    currSumNode = new ListNode(currDigit);
+    prevNode.next = currSumNode;
+    curr1 = (curr1) ? curr1.next : null; 
+    curr2 = (curr2) ? curr2.next : null;
+  }
+
+  // last carry
+  if (carry > 0) {
+    prevNode = currSumNode;
+    currSumNode = new ListNode(carry);
+    prevNode.next = currSumNode;
+  }
+
+  // the solution head node is actually the second node because the first node is a dummy node.
+  return sumHeadNode.next;
+
+};
+
+
+
+console.log(`\n ... 342 + 465 = 807 ( output in reverse order: 7,0,8) ... \n`);
+myResults = add2Nums(a1, b1);
+//console.log(myResults);
+console.log(myResults.val, myResults.next.val, myResults.next.next.val);
+
+// let currRes = myResults;
+// while (currRes.next) {
+//   console.log(currRes.val);
+//   currRes = currRes.next;
+// }
+// console.log(currRes.val);
+
+let currRes = myResults;
+while (currRes != null) {
+  console.log(currRes.val);
+  currRes = (currRes) ? currRes.next : null;
+}
+
+console.log(`\n ... 342 + 9 = 351 ( output in reverse order: 1,5,3)... \n`);
+const c1 = new ListNode(9);
+myResults = add2Nums(a1, c1);
+//console.log(myResults);
+console.log(myResults.val, myResults.next.val, myResults.next.next.val);
+currRes = myResults;
+while (currRes != null) {
+  console.log(currRes.val);
+  currRes = (currRes) ? currRes.next : null;
+}
+
+console.log(`\n ... 342 + 465 = 807 (output in reverse order: 7,0,8 ... \n`);
+let d1 = new ListNode(5);
+let d2 = new ListNode(6);
+let d3 = new ListNode(4);
+d1.next = d2;
+d2.next = d3;
+
+myResults = add2Nums(a1, d1);
+//console.log(myResults);
+console.log(myResults.val, myResults.next.val, myResults.next.next.val);
+currRes = myResults;
+while (currRes != null) {
+  console.log(currRes.val);
+  currRes = (currRes) ? currRes.next : null;
+}
+
+console.log(`\n ... 5 + 5 = 10 (output in reverse order: 0,1 ... \n`);
+let e1 = new ListNode(5);
+let f1 = new ListNode(5);
+
+myResults = add2Nums(e1, f1);
+//console.log(myResults);
+console.log(myResults.val, myResults.next.val);
+currRes = myResults;
+while (currRes != null) {
+  console.log(currRes.val);
+  currRes = (currRes) ? currRes.next : null;
+}
+
+ 
+
+
+
 
