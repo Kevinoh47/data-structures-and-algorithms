@@ -599,7 +599,7 @@ function largestNonAdjacentSum6 (nums) {
       let temp = currMax;
       currMax = Math.max(prevMax + nums[i], currMax);
 
-      console.log(temp, currMax);
+      console.log('previousMax: ', prevMax, 'currMax before update: ', temp, 'updated currMax: ', currMax);
       prevMax = temp;
     }
     return currMax;
