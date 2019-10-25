@@ -489,3 +489,88 @@ console.log(`\n ...  \n`);
 str = 'the rain in spain stays {mainly(} in ) the [p]lain'; 
 console.log('expect false (counts are good but mismatched): ', isValid(str));
 console.log(`\n ...  \n`);
+
+console.log(`\n ... My Bracket Validator, refactored a bit ... \n`);
+/**
+ * bracket validator
+ * https://www.interviewcake.com/question/javascript/bracket-validator?utm_source=weekly_email&utm_source=drip&utm_campaign=weekly_email&utm_campaign=Interview%20Cake%20Weekly%20Problem%20%23252:%202nd%20Largest%20Item%20in%20a%20Binary%20Search%20Tree&utm_medium=email&utm_medium=email
+ */
+
+function bracketValidator2 (str) {
+  const regEx = /[[\]{}()]/;
+  const myStack = [];
+
+  let curlyOpenCt = 0, curlyCloseCt = 0, bracketOpenCt = 0, bracketCloseCt = 0, braceOpenCt = 0, braceCloseCt = 0;
+
+  for (let i=0; i<str.length; i++) {
+    const curr=str.charAt(i);
+    
+    if (curr.match(regEx)) {
+      const lastStackItem = myStack[myStack.length-1];
+      switch(curr) {
+      case '{':
+        curlyOpenCt++;
+        myStack.push('{');
+        break;
+      case '}':
+        if (lastStackItem === '{') {
+          myStack.pop();
+          curlyOpenCt--;
+        }
+        else {
+          curlyCloseCt++;
+          myStack.push('}');
+        }
+        break;
+      case '[':
+        bracketOpenCt++;
+        myStack.push('[');
+        break;
+      case ']':
+        if (lastStackItem === '[') {
+          myStack.pop();
+          bracketOpenCt--;
+        }
+        else {
+          bracketCloseCt++;
+          myStack.push(']');
+        }
+        break;
+      case '(':
+        braceOpenCt++;
+        myStack.push('(');
+        break;
+      case ')':
+        if (lastStackItem === '(') {
+          myStack.pop();
+          braceOpenCt--;
+        }
+        else {
+          braceCloseCt++;
+          myStack.push(')');
+        }
+        break;
+      } 
+
+      if ( curlyCloseCt > curlyOpenCt || bracketCloseCt > bracketOpenCt || braceCloseCt > braceOpenCt ) {  return false;  }
+    }
+  }
+  // Stack should be empty
+  return myStack.length === 0;
+}
+
+str = 'the rain in spain stays {mainly} in (the) [p]lain'; 
+console.log('expect true: ', bracketValidator2(str));
+console.log(`\n ...  \n`);
+
+str = 'the rain in spain stays {mainly} in (the [p]lain'; 
+console.log('expect false (count mismatch): ', bracketValidator2(str));
+console.log(`\n ...  \n`);
+
+str = 'the rain in spain stays {mainly} in ) the [p]lain'; 
+console.log('expect false (leading closer): ', bracketValidator2(str));
+console.log(`\n ...  \n`);
+
+str = 'the rain in spain stays {mainly(} in ) the [p]lain'; 
+console.log('expect false (counts are good but mismatched): ', bracketValidator2(str));
+console.log(`\n ...  \n`);
