@@ -425,7 +425,7 @@ function largestNonAdjacentSum2 (arr) {
 
 console.log('expect 4:', largestNonAdjacentSum2([1,2,3,1]));
 console.log('expect 12:', largestNonAdjacentSum2([2,7,9,3,1]));
-console.log('expect 4:', largestNonAdjacentSum2([2,1,1,2])); 
+console.log('expected 4 oops returns 3:', largestNonAdjacentSum2([2,1,1,2])); 
 console.log('expect 10:', largestNonAdjacentSum2([2,1,3,4,3,1,2])); 
 console.log('ooops expected 2 returned 1:', largestNonAdjacentSum2([1,2])); 
 
@@ -455,7 +455,7 @@ function largestNonAdjacentSum3 (arr) {
 
 console.log('expect 4: ', largestNonAdjacentSum3([1,2,3,1]));
 console.log('expect 12: ', largestNonAdjacentSum3([2,7,9,3,1]));
-console.log('expect 4: ', largestNonAdjacentSum3([2,1,1,2])); 
+console.log('expected 4 oops returns 3: ', largestNonAdjacentSum3([2,1,1,2])); 
 console.log('expect 10: ', largestNonAdjacentSum3([2,1,3,4,3,1,2])); 
 console.log('expect 2: ', largestNonAdjacentSum3([1,2])); 
 
@@ -492,7 +492,7 @@ console.log('expect 4:', largestNonAdjacentSum4 ([1,2,3,1]));
 console.log('expect 12:', largestNonAdjacentSum4 ([2,7,9,3,1]));
 console.log('ooops expect 4 returns 3:', largestNonAdjacentSum4 ([2,1,1,2])); 
 console.log('expect 10:', largestNonAdjacentSum4 ([2,1,3,4,3,1,2])); 
-console.log('expected 2:', largestNonAdjacentSum4 ([1,2])); 
+console.log('expect 2:', largestNonAdjacentSum4 ([1,2])); 
 
 console.log(`\n ... House Robber version 5 ... \n`);
 /**
@@ -582,7 +582,9 @@ console.log('expected 14 -- oops: ', largestNonAdjacentSum5 ([4,1,2,7,5,3,1]));
  * Runtime: 48 ms, faster than 90.43% of JavaScript online submissions for House Robber.
 Memory Usage: 33.7 MB, less than 85.71% of JavaScript online submissions for House Robber.
  *  
- Unfortunately, I don't quite understand how this guarrantees that we don't rob adjacent houses. 
+ Unfortunately, I don't quite understand how this guarrantees that we don't rob adjacent houses. Somehow previousMax does that work, but I don't quite grokk it. 
+
+ This one is labled as "easy ... " in my opinion, this is incorrect!
  * */ 
 
 
