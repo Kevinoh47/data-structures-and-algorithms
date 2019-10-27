@@ -106,6 +106,7 @@ const bSTChecker = keyNode => {
   return _checker(keyNode);
 };
 
+console.log(`\n ... Binary Search Tree Checker ... \n`);
 console.log(`\n ... testing for true ... \n`);
 console.log('expect true: ', bSTChecker(firstN));
 
@@ -439,6 +440,8 @@ console.log(`\n ...  \n`);
  * My approach is very similar, but not as clean (or clever), as the provided solution:
  */
 
+console.log(`\n ... The Interview Cake Solution ... \n`);
+
 function isValid(code) {
 
   const openersToClosers = {
@@ -466,6 +469,8 @@ function isValid(code) {
 
       // If this closer doesn't correspond to the most recently
       // seen unclosed opener, short-circuit, returning false
+
+      // Aha! from the first time we see a closer, it has to match the previous openner! And from there on all closers have to match openners.
       if (openersToClosers[lastUnclosedOpener] !== char) {
         return false;
       }
@@ -491,10 +496,6 @@ console.log('expect false (counts are good but mismatched): ', isValid(str));
 console.log(`\n ...  \n`);
 
 console.log(`\n ... My Bracket Validator, refactored a bit ... \n`);
-/**
- * bracket validator
- * https://www.interviewcake.com/question/javascript/bracket-validator?utm_source=weekly_email&utm_source=drip&utm_campaign=weekly_email&utm_campaign=Interview%20Cake%20Weekly%20Problem%20%23252:%202nd%20Largest%20Item%20in%20a%20Binary%20Search%20Tree&utm_medium=email&utm_medium=email
- */
 
 function bracketValidator2 (str) {
   const regEx = /[[\]{}()]/;
@@ -574,3 +575,195 @@ console.log(`\n ...  \n`);
 str = 'the rain in spain stays {mainly(} in ) the [p]lain'; 
 console.log('expect false (counts are good but mismatched): ', bracketValidator2(str));
 console.log(`\n ...  \n`);
+
+console.log(`\n ... My Bracket Validator, refactored again ... \n`);
+
+function bracketValidator3 (str) {
+  const regEx = /[[\]{}()]/;
+  const myStack = [];
+
+  for (let i=0; i<str.length; i++) {
+    const curr=str.charAt(i);
+    
+    if (curr.match(regEx)) {
+      const lastStackItem = myStack[myStack.length-1];
+      switch(curr) {
+      case '{':
+        myStack.push('{');
+        break;
+
+      case '}':
+        if (lastStackItem === '{') {
+          myStack.pop();
+        } else { return false; }
+        break;
+
+      case '[':
+        myStack.push('[');
+        break;
+
+      case ']':
+        if (lastStackItem === '[') {
+          myStack.pop();
+        } else { return false; }
+        break;
+
+      case '(':
+        myStack.push('(');
+        break;
+
+      case ')':
+        if (lastStackItem === '(') {
+          myStack.pop();
+        } else { return false; }
+        break;
+      } 
+    }
+  }
+  return myStack.length === 0;
+}
+
+str = 'the rain in spain stays {mainly} in (the) [p]lain'; 
+console.log('expect true: ', bracketValidator3(str));
+console.log(`\n ...  \n`);
+
+str = 'the rain in spain stays {mainly} in (the [p]lain'; 
+console.log('expect false (count mismatch): ', bracketValidator3(str));
+console.log(`\n ...  \n`);
+
+str = 'the rain in spain stays {mainly} in ) the [p]lain'; 
+console.log('expect false (leading closer): ', bracketValidator3(str));
+console.log(`\n ...  \n`);
+
+str = 'the rain in spain stays {mainly(} in ) the [p]lain'; 
+console.log('expect false (counts are good but mismatched): ', bracketValidator3(str));
+console.log(`\n ...  \n`);
+
+
+console.log(`\n ...  Sort unsorted scores with a max score provided ... \n`);
+/**
+ * https://www.interviewcake.com/question/javascript/top-scores?course=fc1&section=hashing-and-hash-tables
+ * 
+ * write a function that takes an unordered list of numbers and a top score, and returns an ordered list of numbers -- in better than O(nlog(n)) time.
+ * 
+ * 
+Gotchas
+
+Multiple players can have the same score! If 10 people got a score of 90, the number 90 should appear 10 times in our output array.
+
+We can do this in O(n)O(n)O(n) time and space.
+Breakdown
+
+O(nlg⁡n)O(n\lg{n})O(nlgn) is the time to beat. Even if our array of scores were already sorted we'd have to do a full walk through the array to confirm that it was in fact fully sorted. So we have to spend at least O(n)O(n)O(n) time on our sorting function. If we're going to do better than O(nlg⁡n)O(n\lg{n})O(nlgn), we're probably going to do exactly O(n)O(n)O(n).
+
+What are some common ways to get O(n)O(n)O(n) runtime?
+
+ * 
+ * My Approach: create an empty array with slots for each possible score (0-100).
+ * Iterate the array, populating the array pushing values into corresponding indexes.
+ * 
+ * To handle duplicate scores, test for count and push a value for each instance to the results.
+ */
+
+const orderScores = ( arr, num ) => {
+  let newOrder = new Array(num+1);
+
+  arr.forEach(e => { 
+    if(!isNaN(e)) {
+      if (newOrder[e] === undefined) {
+        newOrder[e] = 1;
+      } else { 
+        let currCount = newOrder[e];
+        newOrder[e] = currCount + 1; }
+    }
+  });
+  
+  let filtered = [];
+  for (const [idx, e] of newOrder.entries()) {
+    if (!isNaN(e)) {
+      if(e === 1) {
+        filtered.push(idx);
+      }
+      else if(e > 1) {
+        let count = e;
+        while (count > 0 ) {
+          filtered.push(idx);
+          count--;
+        }
+      }
+    }
+  }
+  
+  return filtered.reverse();
+};
+
+
+let unsortedScores = [37, 89, 41, 65, 91, 53];
+
+console.log(orderScores(unsortedScores, 100));
+
+unsortedScores = [37, 89, 41, 65, 91, 41, 89, 53, 89];
+
+console.log(orderScores(unsortedScores, 100));
+
+unsortedScores = [37, 89, 41, 0, 65, 91, 41, 89, 53, 0, 89];
+
+console.log(orderScores(unsortedScores, 100));
+
+/**
+ * the Interview Cake solution:
+ * As usual, it is more elegant than mine... although my strategy is the same.
+ * 
+ * 
+Complexity
+
+O(n) time and O(n) space, where n is the number of scores.
+
+Wait, aren't we nesting two loops towards the bottom? So shouldn't it be O(n2) time? Notice what those loops iterate over. The outer loop runs once for each unique number in the array. The inner loop runs once for each time that number occurred.
+
+So in essence we're just looping through the nnn numbers from our input array, except we're splitting it into two steps: (1) each unique number, and (2) each time that number appeared.
+
+Here's another way to think about it: in each iteration of our two nested loops, we append one item to sortedScores. How many numbers end up in sortedScores in the end? Exactly how many were in our input array! n.
+
+If we didn't treat highestPossibleScore as a constant, we could call it k and say we have O(n+k) time and O(n+k) space.
+
+ */
+console.log(`\n ...  Inteview Cake Sorted Scores Solution ... \n`);
+function sortScores(unorderedScores, highestPossibleScore) {
+
+  // Array of 0s at indices 0..highestPossibleScore
+  const scoreCounts = new Array(highestPossibleScore + 1).fill(0);
+
+  // Populate scoreCounts
+  unorderedScores.forEach(score => {
+    scoreCounts[score]++;
+  });
+
+  // Populate the final sorted array
+  const sortedScores = [];
+
+  // For each item in scoreCounts
+  for (let score = highestPossibleScore; score >= 0; score--) {
+    const count = scoreCounts[score];
+
+    // For the number of times the item occurs
+    for (let time = 0; time < count; time++) {
+      sortedScores.push(score);
+    }
+  }
+
+  return sortedScores;
+}
+
+
+unsortedScores = [37, 89, 41, 65, 91, 53];
+
+console.log(sortScores(unsortedScores, 100));
+
+unsortedScores = [37, 89, 41, 65, 91, 41, 89, 53, 89];
+
+console.log(sortScores(unsortedScores, 100));
+
+unsortedScores = [37, 89, 41, 0, 65, 91, 41, 89, 53, 0, 89];
+
+console.log(sortScores(unsortedScores, 100));
