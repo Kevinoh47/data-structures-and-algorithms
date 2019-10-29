@@ -801,58 +801,9 @@ Validating that a greedy strategy always gets the best answer is tricky. Either 
 console.log(`\n ...  Change Maker -- Greedy Algorithm problem ... \n`);
 /**
  * 
- * Note: my first try was a recursive method... but it sometimes runs over. Have not yet solved the bug.
+ * Note: my first try was a recursive method... but it sometimes ran over. Was unable to solve the bug.
  */
 
-// console.log(`\n ...  Change Maker -- via recursion  ... \n`);
-
-// function changeMakerRecurse(makeChangeForThisAmount) {
-//   const denominations = [100.00, 50.00, 20.00, 10.00, 5.00, 1.00, 0.50, 0.25, 0.10, 0.05, 0.01];
-//   let change = [];
-//   let currTotal = makeChangeForThisAmount;
-//   currTotal.toFixed(2);
-
-//   let _biggestFittingCoin = currTotal => {
-//     const thisIteration = currTotal;
-//     thisIteration.toFixed(2);
- 
-//     if (thisIteration <= 0) { return; }
-//     else if (thisIteration > 0) {
-//       for (let i = 0; i < denominations.length; i++) {
-//         const curr = denominations[i];
-//         curr.toFixed(2);
-//         // console.log(i, curr);
-//         if (thisIteration >= curr) {
-//           change.push(curr);
-//           const diff  = thisIteration - curr;
-//           diff.toFixed(2);
-//           // console.log('currTotal: ', currTotal, 'change array: ', change);
-//           _biggestFittingCoin(diff);
-//         } 
-//         else {
-//           // console.log('do nothing ');
-//         }
-//       }
-      
-//     }
-//   };
-
-//   console.log('about to call recursion for: ', currTotal);
-//   _biggestFittingCoin(currTotal);
-  
-//   return change;
-// }
-
-// console.log(changeMakerRecurse(1.25));
-// console.log(`\n ... \n`);
-// console.log(changeMakerRecurse(1.27));
-// console.log(`\n ... \n`);
-// console.log(changeMakerRecurse(.25));
-// console.log(`\n ... \n`);
-// console.log(changeMakerRecurse(.27));
-// console.log(`\n ... \n`);
-// console.log(changeMakerRecurse(16.87));
-// console.log(`\n ... \n`);
 
 console.log(`\n ...  Change Maker -- via array.map  ... \n`);
 function changeMaker(makeChangeForThisAmount) {
@@ -881,4 +832,209 @@ console.log(`\n ... \n`);
 console.log('make change for $0.29: ', changeMaker(.29));
 console.log(`\n ... \n`);
 console.log('make change for $16.87: ', changeMaker(16.87));
+console.log(`\n ... \n`);
+
+
+/**
+ * Best profits
+ * https://www.interviewcake.com/question/javascript/stock-price?course=fc1&section=greedy
+ * 
+ * NOTE: A version of this question was the white boarding question for my Zonar Systems interview. I solved it in an inefficient way, by iterating, and checking deltas for all previous values. Worked, and was slightly more efficent than full on inner and outer loops (because the inner loop would only run for previous indices of the outer) but still not efficient. This time, I recalled something that the dev manager Tim suggested as an improvement: track the lows and highs.
+ * 
+ * Here is how IC frames the problem:
+ * 
+ *  First, I wanna know how much money I could have made yesterday if I'd been trading Apple stocks all day.
+
+So I grabbed Apple's stock prices from yesterday and put them in an array called stockPrices, where:
+
+    The indices are the time (in minutes) past trade opening time, which was 9:30am local time.
+    The values are the price (in US dollars) of one share of Apple stock at that time.
+
+So if the stock cost $500 at 10:30am, that means stockPrices[60] = 500.
+
+Write an efficient function that takes stockPrices and returns the best profit I could have made from one purchase and one sale of one share of Apple stock yesterday.
+
+For example:
+
+  const stockPrices = [10, 7, 5, 8, 11, 9];
+
+getMaxProfit(stockPrices);
+// Returns 6 (buying for $5 and selling for $11)
+
+No "shorting"—you need to buy before you can sell. Also, you can't buy and sell in the same time step—at least 1 minute has to pass. 
+
+Note that i arrived at my solution before looking at gotchas (although it took a while):
+
+Gotchas
+
+You can't just take the difference between the highest price and the lowest price, because the highest price might come before the lowest price. And you have to buy before you can sell.
+
+What if the price goes down all day? In that case, the best profit will be negative.
+
+You can do this in O(n)O(n)O(n) time and O(1)O(1)O(1) space! ↴ 
+ */
+
+console.log(`\n ...  Max Profit on buying and selling ... \n`);
+let getMaxProfit = arr => {
+
+  let currLow = {val: arr[0], idx: 0};
+  let currHigh = {val: arr[0], idx: 0};
+  let minLossDelta = -Number.MAX_VALUE;
+  let maxGainDelta = -Number.MAX_VALUE;
+
+  for (let i = 1; i < arr.length; i++) {
+
+    if (arr[i] < currLow.val) { 
+      currLow.val = arr[i]; currLow.idx=i; 
+
+      if ((arr[i] - currLow.val) > minLossDelta) {
+        minLossDelta = arr[i] - currLow.val;
+      }
+    }
+
+    else if (arr[i] >= currHigh.val) { 
+      currHigh.val = arr[i]; currHigh.idx=i; 
+      
+      if ((currHigh.val - currLow.val) > maxGainDelta && currLow.idx < i) {
+        maxGainDelta = currHigh.val - currLow.val;
+      }
+
+    }
+  }
+
+  return Math.max(minLossDelta, maxGainDelta);
+};
+
+console.log('expect 6 (11 - 5): ', getMaxProfit([10, 7, 5, 8, 11, 9]));
+console.log(`\n ... \n`);
+console.log('expect 0 (no variation): ', getMaxProfit([9, 9, 9, 9, 9, 9]));
+console.log(`\n ... \n`);
+console.log('expect -1 (least loss): ', getMaxProfit([10, 9, 7, 6, 3, 0]));
+console.log(`\n ... \n`);
+console.log('expect 0 (least loss): ', getMaxProfit([10, 9, 7, 7, 3, 0]));
+console.log(`\n ... \n`);
+console.log('expect 0 (least loss): ', getMaxProfit([9, 9, 9, 9, 9, 8]));
+console.log(`\n ... \n`);
+console.log('expect 2 (6-4): ', getMaxProfit([5, 4, 6, 3, 4]));
+console.log(`\n ... \n`);
+console.log('expect 3 (6-3): ', getMaxProfit([5, 3, 5, 4, 6]));
+console.log(`\n ... \n`);
+console.log('expect 2 (5-3): ', getMaxProfit([5, 3, 5, 2, 3]));
+console.log(`\n ... \n`);
+console.log('expect 3 (5-2): ', getMaxProfit([5, 3, 5, 2, 5]));
+console.log(`\n ... \n`);
+
+/**
+ * As usual my solution was way more complex and less elegant than Interview Cake's:
+
+ How can we adjust our function to return a negative profit if we can only lose money? Initializing maxProfit to 0 won’t work...
+
+Well, we started our minPrice at the first price, so let’s start our maxProfit at the first profit we could get—if we buy at the first time and sell at the second time. 
+
+ Ok, does that work?
+
+No! maxProfit is still always 0. What’s happening?
+
+If the price always goes down, minPrice is always set to the currentPrice. So currentPrice - minPrice comes out to 0, which of course will always be greater than a negative profit.
+
+When we’re calculating the maxProfit, we need to make sure we never have a case where we try both buying and selling stocks at the currentPrice.
+
+To make sure we’re always buying at an earlier price, never the currentPrice, let’s switch the order around so we calculate maxProfit before we update minPrice.
+
+We'll also need to pay special attention to time 0. Make sure we don't try to buy and sell at time 0. 
+
+Solution
+
+We’ll greedily ↴ walk through the array to track the max profit and lowest price so far.
+
+For every price, we check if:
+
+    we can get a better profit by buying at minPrice and selling at the currentPrice
+    we have a new minPrice
+
+To start, we initialize:
+
+    minPrice as the first price of the day
+    maxProfit as the first profit we could get
+
+We decided to return a negative profit if the price decreases all day and we can't make any money. We could have thrown an exception instead, but returning the negative profit is cleaner, makes our function less opinionated, and ensures we don't lose information. 
+
+
+Complexity
+
+O(n) time and O(1) space. ↴ We only loop through the array once.
+What We Learned
+
+This one's a good example of the greedy ↴ approach in action. Greedy approaches are great because they're fast (usually just one pass through the input). But they don't work for every problem.
+
+How do you know if a problem will lend itself to a greedy approach? Best bet is to try it out and see if it works. Trying out a greedy approach should be one of the first ways you try to break down a new question.
+
+To try it on a new problem, start by asking yourself:
+
+"Suppose we could come up with the answer in one pass through the input, by simply updating the 'best answer so far' as we went. What additional values would we need to keep updated as we looked at each item in our input, in order to be able to update the 'best answer so far' in constant time?"
+
+In this case:
+
+The "best answer so far" is, of course, the max profit that we can get based on the prices we've seen so far.
+
+The "additional value" is the minimum price we've seen so far. If we keep that updated, we can use it to calculate the new max profit so far in constant time. The max profit is the larger of:
+
+    The previous max profit
+    The max profit we can get by selling now (the current price minus the minimum price seen so far)
+
+
+*/
+
+console.log(`\n ...  Max Profit - IC solution ... \n`);
+function getMaxProfit2(stockPrices) {
+  if (stockPrices.length < 2) {
+    throw new Error('Getting a profit requires at least 2 prices');
+  }
+
+  // We'll greedily update minPrice and maxProfit, so we initialize
+  // them to the first price and the first possible profit
+  let minPrice = stockPrices[0];
+  let maxProfit = stockPrices[1] - stockPrices[0];
+
+  // Start at the second (index 1) time
+  // We can't sell at the first time, since we must buy first,
+  // and we can't buy and sell at the same time!
+  // If we started at index 0, we'd try to buy *and* sell at time 0.
+  // this would give a profit of 0, which is a problem if our
+  // maxProfit is supposed to be *negative*--we'd return 0.
+  for (let i = 1; i < stockPrices.length; i++) {
+    const currentPrice = stockPrices[i];
+
+    // See what our profit would be if we bought at the
+    // min price and sold at the current price
+    const potentialProfit = currentPrice - minPrice;
+
+    // Update maxProfit if we can do better
+    maxProfit = Math.max(maxProfit, potentialProfit);
+
+    // Update minPrice so it's always
+    // the lowest price we've seen so far
+    minPrice = Math.min(minPrice, currentPrice);
+  }
+
+  return maxProfit;
+}
+
+console.log('expect 6 (11 - 5): ', getMaxProfit2([10, 7, 5, 8, 11, 9]));
+console.log(`\n ... \n`);
+console.log('expect 0 (no variation): ', getMaxProfit2([9, 9, 9, 9, 9, 9]));
+console.log(`\n ... \n`);
+console.log('expect -1 (least loss): ', getMaxProfit2([10, 9, 7, 6, 3, 0]));
+console.log(`\n ... \n`);
+console.log('expect 0 (least loss): ', getMaxProfit2([10, 9, 7, 7, 3, 0]));
+console.log(`\n ... \n`);
+console.log('expect 0 (least loss): ', getMaxProfit2([9, 9, 9, 9, 9, 8]));
+console.log(`\n ... \n`);
+console.log('expect 2 (6-4): ', getMaxProfit2([5, 4, 6, 3, 4]));
+console.log(`\n ... \n`);
+console.log('expect 3 (6-3): ', getMaxProfit2([5, 3, 5, 4, 6]));
+console.log(`\n ... \n`);
+console.log('expect 2 (5-3): ', getMaxProfit2([5, 3, 5, 2, 3]));
+console.log(`\n ... \n`);
+console.log('expect 3 (5-2): ', getMaxProfit2([5, 3, 5, 2, 5]));
 console.log(`\n ... \n`);
