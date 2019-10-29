@@ -397,7 +397,7 @@ function bracketValidator (str) {
       } 
 
       if ( curlyCloseCt > curlyOpenCt || bracketCloseCt > bracketOpenCt || braceCloseCt > braceOpenCt ) { 
-        console.log('oops we have a closer in front of any openner: ', curr, curlyCloseCt, curlyOpenCt, bracketCloseCt, bracketOpenCt, braceCloseCt, braceOpenCt);
+        console.log('fail! we have a closer in front of any openner: ', curr, curlyCloseCt, curlyOpenCt, bracketCloseCt, bracketOpenCt, braceCloseCt, braceOpenCt);
         return false; 
       
       }
@@ -405,7 +405,7 @@ function bracketValidator (str) {
       // this test is not necessary as the final test catches it.
       // if (i === myStr.length - 1 ) {
       //   if ( curlyCloseCt !== curlyOpenCt || bracketCloseCt !== bracketOpenCt || braceCloseCt !== braceOpenCt ) { 
-      //     console.log('oops counts arent matching at the end: ', curlyCloseCt, curlyOpenCt, bracketCloseCt, bracketOpenCt, braceCloseCt, braceOpenCt);
+      //     console.log('fail! counts arent matching at the end: ', curlyCloseCt, curlyOpenCt, bracketCloseCt, bracketOpenCt, braceCloseCt, braceOpenCt);
       //     return false; 
       //   }
       // }
@@ -413,7 +413,7 @@ function bracketValidator (str) {
     }
   }
 
-  console.log('oops we are at the end and we have a mess: ', myStack, curlyCloseCt, curlyOpenCt, bracketCloseCt, bracketOpenCt, braceCloseCt, braceOpenCt);
+  console.log('fail! we are at the end and we have a mess: ', myStack, curlyCloseCt, curlyOpenCt, bracketCloseCt, bracketOpenCt, braceCloseCt, braceOpenCt);
 
   // Stack should be empty
   return myStack.length === 0;
@@ -577,6 +577,10 @@ console.log('expect false (counts are good but mismatched): ', bracketValidator2
 console.log(`\n ...  \n`);
 
 console.log(`\n ... My Bracket Validator, refactored again ... \n`);
+/**
+ * 
+ * Note: we finally realized that in all case, eventually there has to be an imbedded paren that matches, such as {}. Once you find the most embedded one (or possibly there are several separate instances of embedded ones), you can start peeling them back, until they are all matching or not. Thus, we always push starts onto the stack. For closers, we check if the previous one was a matching opener. If so, we pop it. If not, something is out of order and we can return ALWAYS false. 
+ */
 
 function bracketValidator3 (str) {
   const regEx = /[[\]{}()]/;
@@ -767,3 +771,114 @@ console.log(sortScores(unsortedScores, 100));
 unsortedScores = [37, 89, 41, 0, 65, 91, 41, 89, 53, 0, 89];
 
 console.log(sortScores(unsortedScores, 100));
+
+/**
+ * Greedy Algorithm problem: 
+ * https://www.interviewcake.com/concept/javascript/greedy?course=fc1&section=greedy
+ * 
+ *  A greedy algorithm builds up a solution by choosing the option that looks the best at every step.
+
+Say you're a cashier and need to give someone 67 cents (US) using as few coins as possible. How would you do it?
+
+Whenever picking which coin to use, you'd take the highest-value coin you could. A quarter, another quarter, then a dime, a nickel, and finally two pennies. That's a greedy algorithm, because you're always greedily choosing the coin that covers the biggest portion of the remaining amount.
+
+Some other places where a greedy algorithm gets you the best solution:
+
+    Trying to fit as many overlapping meetings as possible in a conference room? At each step, schedule the meeting that ends earliest.
+    Looking for a minimum spanning tree in a graph? At each step, greedily pick the cheapest edge that reaches a new vertex.
+
+Careful: sometimes a greedy algorithm doesn't give you an optimal solution:
+
+    When filling a duffel bag with cakes of different weights and values, choosing the cake with the highest value per pound doesn't always produce the best haul.
+    To find the cheapest route visiting a set of cities, choosing to visit the cheapest city you haven't been to yet doesn't produce the cheapest overall itinerary.
+
+Validating that a greedy strategy always gets the best answer is tricky. Either prove that the answer produced by the greedy algorithm is as good as an optimal answer, or run through a rigorous set of test cases to convince your interviewer (and yourself) that its correct. 
+ * 
+ * Problem: At a dollar store, return change the most efficiently.
+ * available coins: $1, $.50, $.25, $.10, $.05, $.01 
+ */
+
+console.log(`\n ...  Change Maker -- Greedy Algorithm problem ... \n`);
+/**
+ * 
+ * Note: my first try was a recursive method... but it sometimes runs over. Have not yet solved the bug.
+ */
+
+// console.log(`\n ...  Change Maker -- via recursion  ... \n`);
+
+// function changeMakerRecurse(makeChangeForThisAmount) {
+//   const denominations = [100.00, 50.00, 20.00, 10.00, 5.00, 1.00, 0.50, 0.25, 0.10, 0.05, 0.01];
+//   let change = [];
+//   let currTotal = makeChangeForThisAmount;
+//   currTotal.toFixed(2);
+
+//   let _biggestFittingCoin = currTotal => {
+//     const thisIteration = currTotal;
+//     thisIteration.toFixed(2);
+ 
+//     if (thisIteration <= 0) { return; }
+//     else if (thisIteration > 0) {
+//       for (let i = 0; i < denominations.length; i++) {
+//         const curr = denominations[i];
+//         curr.toFixed(2);
+//         // console.log(i, curr);
+//         if (thisIteration >= curr) {
+//           change.push(curr);
+//           const diff  = thisIteration - curr;
+//           diff.toFixed(2);
+//           // console.log('currTotal: ', currTotal, 'change array: ', change);
+//           _biggestFittingCoin(diff);
+//         } 
+//         else {
+//           // console.log('do nothing ');
+//         }
+//       }
+      
+//     }
+//   };
+
+//   console.log('about to call recursion for: ', currTotal);
+//   _biggestFittingCoin(currTotal);
+  
+//   return change;
+// }
+
+// console.log(changeMakerRecurse(1.25));
+// console.log(`\n ... \n`);
+// console.log(changeMakerRecurse(1.27));
+// console.log(`\n ... \n`);
+// console.log(changeMakerRecurse(.25));
+// console.log(`\n ... \n`);
+// console.log(changeMakerRecurse(.27));
+// console.log(`\n ... \n`);
+// console.log(changeMakerRecurse(16.87));
+// console.log(`\n ... \n`);
+
+console.log(`\n ...  Change Maker -- via array.map  ... \n`);
+function changeMaker(makeChangeForThisAmount) {
+  const denominations = [100.00, 50.00, 20.00, 10.00, 5.00, 1.00, 0.50, 0.25, 0.10, 0.05, 0.01];
+  let change = [];
+  let currentValue = makeChangeForThisAmount;
+
+  denominations.map((e) => {
+    while(e <= currentValue) {
+      const diff = (currentValue - e).toFixed(2);
+      change.push(e);
+      currentValue = diff;
+    }
+  });
+
+  
+  return change;
+}
+
+console.log('make change for $1.25: ', changeMaker(1.25));
+console.log(`\n ... \n`);
+console.log('make change for $1.27: ', changeMaker(1.27));
+console.log(`\n ... \n`);
+console.log('make change for $0.25: ', changeMaker(.25));
+console.log(`\n ... \n`);
+console.log('make change for $0.29: ', changeMaker(.29));
+console.log(`\n ... \n`);
+console.log('make change for $16.87: ', changeMaker(16.87));
+console.log(`\n ... \n`);
