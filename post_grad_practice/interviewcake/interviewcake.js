@@ -1038,3 +1038,239 @@ console.log('expect 2 (5-3): ', getMaxProfit2([5, 3, 5, 2, 3]));
 console.log(`\n ... \n`);
 console.log('expect 3 (5-2): ', getMaxProfit2([5, 3, 5, 2, 5]));
 console.log(`\n ... \n`);
+
+
+/**
+ * product of three highest integers in an array of ints
+ */
+
+console.log(`\n ...  Product of three highest numbers in an array of ints ... \n`);
+function productOf3HighestValues(intsArr) { 
+  let first = -Number.MAX_VALUE, second = -Number.MAX_VALUE, third = -Number.MAX_VALUE;
+
+  // console.log('setup: ', first, second , third);
+
+  intsArr.forEach((val,idx) => {
+
+    console.log({val});
+
+    if (val >= first) {
+      third = second;
+      second = first;
+      first = val;
+    }
+    else if (val >= second) {
+      third = second;
+      second = val;
+    }
+    else if (val >= third) {
+      third = val;
+    }
+
+    console.log('iterating: ', first, second , third);
+    
+  });
+  console.log(first, second,third);
+  return first * second * third;
+}
+
+console.log('expect 60 (3 * 4 * 5): ', productOf3HighestValues([3,2,1,0,4,5]));
+console.log(`\n ... \n`);
+console.log('expect 27 (3 * 3 * 3): ', productOf3HighestValues([3,2,1,1,3,3]));
+console.log(`\n ... \n`);
+console.log('expect 0 (2 * 1 * 0): ', productOf3HighestValues([2,1,0,-3,-2]));
+console.log(`\n ... \n`);
+console.log('expect -6 (-1 * -2 * -3): ', productOf3HighestValues([-1,-4,-3,-2]));
+console.log(`\n ... \n`);
+
+/**
+ * ooops! my function above answers the wrong question. 
+ * The question IS NOT: return the product of the 3 highest integers.
+ * The question IS: return the highest product available out of any 3 of the integers.
+ * 
+ * Thus:
+ * Does your function work with negative numbers? If arrayOfInts is [−10,−10,1,3,2] we should return 300 (which we get by taking −10∗−10∗3). 
+ * 
+ * Try again!
+ * 
+ * 
+ * Breakdown
+
+To brute force ↴ an answer we could iterate through arrayOfInts and multiply each integer by each other integer, and then multiply that product by each other other integer. This would probably involve nesting 3 loops. But that would be an O(n3) runtime! We can definitely do better than that.
+
+Because any integer in the array could potentially be part of the greatest product of three integers, we must at least look at each integer. So we're doomed to spend at least O(n) time.
+
+Sorting the array would let us grab the highest numbers quickly, so it might be a good first step. Sorting takes O(n\lg{n}) time. That's better than the O(n3) time our brute force approach required, but we can still do better.
+
+Since we know we must spend at least O(n) time, let's see if we can solve it in exactly O(n) time.
+
+A great way to get O(n) runtime is to use a greedy ↴ approach. How can we keep track of the highestProductOf3 "so far" as we do one walk through the array?
+
+Put differently, for each new current number during our iteration, how do we know if it gives us a new highestProductOf3? [NOTE: I solved it at this hint. Although, I am afraid my solution is NOT O(n), since we have to retest all the possibilities that come before. I think it is better than O(n3), but I think my solution is O(n2), which is not great.]
+
+We have a new highestProductOf3 if the current number times two other numbers gives a product that's higher than our current highestProductOf3. What must we keep track of at each step so that we know if the current number times two other numbers gives us a new highestProductOf3?
+
+ Our first guess might be:
+
+    our current highestProductOf3
+    the threeNumbersWhichGiveHighestProduct
+
+
+ But consider this example:
+
+  const arrayOfInts = [1, 10, -5, 1, -100];
+
+Right before we hit −100-100−100 (so, in our second-to-last iteration), our highestProductOf3 was 101010, and the threeNumbersWhichGiveHighestProduct were [10,1,1]. But once we hit −100, suddenly we can take −100∗−5∗10 to get 5000. So we should have "held on to" that −5, even though it wasn't one of the threeNumbersWhichGiveHighestProduct.
+
+We need something a little smarter than threeNumbersWhichGiveHighestProduct. What should we keep track of to make sure we can handle a case like this? 
+
+
+There are at least two great answers:
+
+  1  Keep track of the highest2 and lowest2 (most negative) numbers. If the current number times some combination of those is higher than the current highestProductOf3, we have a new highestProductOf3!
+
+  2  Keep track of the highestProductOf2 and lowestProductOf2 (could be a low negative number). If the current number times one of those is higher than the current highestProductOf3, we have a new highestProductOf3!
+
+We'll go with (2). It ends up being slightly cleaner than (1), though they both work just fine.
+
+How do we keep track of the highestProductOf2 and lowestProductOf2 at each iteration? (Hint: we may need to also keep track of something else.)
+
+We also keep track of the lowest number and highest number. If the current number times the current highest—or the current lowest, if current is negative—is greater than the current highestProductOf2, we have a new highestProductOf2. Same for lowestProductOf2.
+
+So at each iteration we're keeping track of and updating:
+
+    highestProductOf3
+    highestProductOf2
+    highest
+    lowestProductOf2
+    lowest
+
+Can you implement this in code? Careful—make sure you update each of these variables in the right order, otherwise you might end up e.g. multiplying the current number by itself to get a new highestProductOf2. 
+
+Solution
+
+We use a greedy ↴ approach to solve the problem in one pass. At each iteration we keep track of:
+
+    highestProductOf3
+    highestProductOf2
+    highest
+    lowestProductOf2
+    lowest
+
+When we reach the end, the highestProductOf3 is our answer. We maintain the others because they're necessary for keeping the highestProductOf3 up to date as we walk through the array. At each iteration, the highestProductOf3 is the highest of:
+
+    the current highestProductOf3
+    current * highestProductOf2
+    current * lowestProductOf2 (if current and lowestProductOf2 are both low negative numbers, this product is a high positive number).
+
+ * 
+ */
+console.log(`\n ...  highest possible product of any 3 ints in array (which is a different question) ... \n`);
+/**
+ * NOTE: my first solution here is better than O(n3), but at O(n2) is not great.
+ *
+ */
+function highestAvailableProductOfAnyThreeInts(intsArr) {
+  let currentHighestProduct = intsArr[0] * intsArr[1] * intsArr[2];
+
+  intsArr.forEach((val, idx) => {
+
+    if (idx > 2) {
+      let prev = idx-1; 
+      let twoPrev = prev-1;
+
+      while (prev >= 1 && twoPrev >= 0) {
+
+        const testProduct = val * intsArr[prev] * intsArr[twoPrev];
+
+        currentHighestProduct = Math.max(currentHighestProduct, testProduct);
+
+        prev--;
+        twoPrev--;
+      }
+    }
+    
+  });
+  return currentHighestProduct;
+}
+
+
+let testArr = [-10,-10,1,3,2];
+console.log('expect 300 (-10 *  -10 * 3): ', highestAvailableProductOfAnyThreeInts(testArr));
+console.log(`\n ... \n`);
+
+testArr = [-10,-10,-10,1,3,2];
+console.log('expect 300 (-10 *  -10 * 3) from array with 3 -10s: ', highestAvailableProductOfAnyThreeInts(testArr));
+console.log(`\n ... \n`);
+
+
+testArr = [1, 10, -5, 1, -100];
+console.log('expect 5000 (10 *  -5 * -100) from array with 3 -10s: ', highestAvailableProductOfAnyThreeInts(testArr));
+console.log(`\n ... \n`);
+
+// test long one for time
+testArr = [1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2, 1, 10, -5, 1, -100];
+let start = new Date();
+console.log('expect 5000 (10 *  -5 * -100) from array with 3 -10s: ', highestAvailableProductOfAnyThreeInts(testArr));
+let end  = new Date();
+console.log('time :', end.getTime() - start.getTime());
+console.log(`\n ... \n`);
+
+console.log(`\n ...  highest possible product of any 3 ints in array, version 2 ... \n`);
+
+/**
+ * NOTE: my second solution here after reading the IC hints.
+ * Notice how much faster it is than the previous solution. For my timed tests, the previous returns in 11 ms, whereas this one returns in 1 ms!
+ * 
+ * My solution here is essentially the same as the IC solution.
+ *
+ */
+function highestAvailableProductOfAnyThreeInts2(intsArr) {
+
+  if (intsArr.length < 3) {
+    throw new Error('Less than 3 items!');
+  }
+
+  let highestProductOf3 = intsArr[0] * intsArr[1] * intsArr[2];
+  let highestProductOf2 = intsArr[0] * intsArr[1];
+  let lowestProductOf2 = intsArr[0] * intsArr[1];
+  let highest = intsArr[0];
+  let lowest = intsArr[0];
+
+  intsArr.forEach((val) => {
+
+    // ordering is important.
+    highestProductOf3 = Math.max(highestProductOf3, highestProductOf2 * val, lowestProductOf2 * val);
+
+    highestProductOf2 = Math.max(highestProductOf2, highest * val, lowest * val);
+    lowestProductOf2 = Math.min(lowestProductOf2, highest * val, lowest * val);
+
+    lowest = Math.min(lowest, val);
+    highest = Math.max(highest, val);
+    
+  });
+  return highestProductOf3;
+}
+
+
+testArr = [-10,-10,1,3,2];
+console.log('expect 300 (-10 *  -10 * 3): ', highestAvailableProductOfAnyThreeInts2(testArr));
+console.log(`\n ... \n`);
+
+testArr = [-10,-10,-10,1,3,2];
+console.log('expect 300 (-10 *  -10 * 3) from array with 3 -10s: ', highestAvailableProductOfAnyThreeInts2(testArr));
+console.log(`\n ... \n`);
+
+testArr = [1, 10, -5, 1, -100];
+console.log('expect 5000 (10 *  -5 * -100) from array with 3 -10s: ', highestAvailableProductOfAnyThreeInts2(testArr));
+end  = new Date().getTime();
+console.log(`\n ... \n`);
+
+// test long one for time
+testArr = [1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2, 1, 10, -5, 1, -100];
+let start2 = new Date();
+console.log('expect 5000 (10 *  -5 * -100) from array with 3 -10s: ', highestAvailableProductOfAnyThreeInts2(testArr));
+let end2  = new Date();
+console.log('time :', end2.getTime() - start2.getTime());
+console.log(`\n ... \n`);
+
