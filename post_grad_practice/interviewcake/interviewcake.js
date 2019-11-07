@@ -1340,6 +1340,12 @@ So in the last highlighted multiplication, for example, we wouldn’t have to mu
 
 Can we break our problem down into subproblems so we can use a greedy approach?
 
+Solution
+
+To find the products of all the integers except the integer at each index, we'll go through our array greedily twice. First we get the products of all the integers before each index, and then we go backwards to get the products of all the integers after each index.
+
+When we multiply all the products before and after each index, we get our answer—the products of all the integers except the integer at each index! 
+
  */
 
 console.log(`\n ...  return array of all products of all but current i ... \n`);
@@ -1477,8 +1483,6 @@ let getProductsOfAllIntsExceptAtIndex4 = intArr => {
     productsSoFar *= intArr[i];
   }
 
-  // console.log(productsOfAllBeforeIndex);
-  // console.log(results);
   return results;
 };
 
@@ -1492,3 +1496,101 @@ console.log(`\n ... \n`);
 console.log(getProductsOfAllIntsExceptAtIndex4([1, 2, 0, 5, 9]));
 console.log(`\n ... \n`);
 console.log(getProductsOfAllIntsExceptAtIndex4([0, 2, 6, 5, 9]));
+
+console.log(`\n ...  return array of products of all but current i, version 5 (refactored further to use array.reduce)... \n`);
+let getProductsOfAllIntsExceptAtIndex5 = intArr => {
+
+  const results = new Array(intArr.length);
+
+  intArr.reduce((prev, curr, i)=> {
+    results[i] = prev;
+    return prev *= curr;
+  }, 1);
+
+  let productsSoFar = 1;
+  
+  for (let i = intArr.length - 1; i >= 0; i--) {
+    results[i] = productsSoFar * results[i];
+    productsSoFar *= intArr[i];
+  }
+
+  return results;
+};
+
+inputArr = [3, 1, 2, 5, 6, 4];
+console.log(getProductsOfAllIntsExceptAtIndex5(inputArr));
+console.log(`\n ... \n`);
+console.log(getProductsOfAllIntsExceptAtIndex5([1, 2, 6, 5, 9]));
+console.log(`\n ... \n`);
+console.log(getProductsOfAllIntsExceptAtIndex5([1, 2, 6, 5, 0]));
+console.log(`\n ... \n`);
+console.log(getProductsOfAllIntsExceptAtIndex5([1, 2, 0, 5, 9]));
+console.log(`\n ... \n`);
+console.log(getProductsOfAllIntsExceptAtIndex5([0, 2, 6, 5, 9]));
+
+
+/**
+ * https://www.interviewcake.com/question/javascript/cafe-order-checker?course=fc1&section=array-and-string-manipulation
+ * 
+ * Also see earlier work on this problem in practice-scratch-02.js 
+ * Note the solution there is similar, but instead of checking that the indexes are in order, it checks whether servedOrders[i]  === either takeOut[currentTakeOutIdx] or dineIn[currentDineInIdx] if it finds one or the equal, it increments the specific currentTakeOutIdx or currentDineInIdx. and iterates again. Any case of not equalling one of the two above, returns a false.
+ * 
+ *
+ */
+
+console.log(`\n ...  first come, first served, inside and outside, but not merged... \n`);
+
+function firstComeFirstServed(takeOut, dineIn, servedOrders) {
+
+  // the problem seems to be to make sure that to check origin of any given order in servedOrders. All previous orders from the same origin, must already be accounted for in servedOrders.arrow
+
+  let testedTakeOutIdx = 0, testedDineInIdx = 0;
+
+  for (let i = 0; i < servedOrders.length; i++) {
+    const currVal = servedOrders[i];
+
+    // takeOut
+    if (takeOut.indexOf(currVal) >= 0) {
+      // console.log('takeOut - val: ', currVal, 'idx: ', takeOut.indexOf(currVal), 'testedTakeOutIdx: ', testedTakeOutIdx);
+      if (takeOut.indexOf(currVal) < testedTakeOutIdx) {
+        return false;
+      }
+      testedTakeOutIdx++;
+    }
+    // dineIn
+    else if (dineIn.indexOf(currVal)) {
+      if (dineIn.indexOf(currVal) < testedDineInIdx) {
+        return false;
+      }
+      testedDineInIdx++;
+    }
+  }
+
+  return true;
+
+}
+
+let takeOut = [1,3,5];
+let dineIn = [2,4,6];
+let servedOrders = [1, 2, 3, 5, 4, 6];
+
+console.log('expect true: ', firstComeFirstServed(takeOut, dineIn, servedOrders));
+
+servedOrders = [1, 2, 4, 6, 5, 3];
+console.log('expect false: ', firstComeFirstServed(takeOut, dineIn, servedOrders));
+
+takeOut = [1,3,5,9];
+dineIn = [0,2,4,6,7,8,10];
+servedOrders = [0,1,2,4,3,5,6,7,8,9,10];
+
+//true
+console.log('expect true: ', firstComeFirstServed(takeOut, dineIn, servedOrders));
+
+//true
+servedOrders = [0,1,2,3,4,5,6,7,8,9,10];
+console.log('expect true: ', firstComeFirstServed(takeOut, dineIn, servedOrders));
+
+// this should fail:
+servedOrders = [0,1,2,4,5,3,6,7,8,9,10];
+console.log('expect false: ', firstComeFirstServed(takeOut, dineIn, servedOrders));
+

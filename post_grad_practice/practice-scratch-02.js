@@ -835,6 +835,7 @@ const mergedArrs2 = mergeSortedArrays(myArray2, alicesArray2);
 console.log({mergedArrs2});
 
 console.log(`\n ... write function that tests for correct ordering ...\n`);
+
 /**
  * https://www.interviewcake.com/question/javascript/cafe-order-checker?course=fc1&section=array-and-string-manipulation
  * 
