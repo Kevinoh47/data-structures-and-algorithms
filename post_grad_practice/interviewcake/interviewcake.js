@@ -1050,7 +1050,7 @@ function productOf3HighestValues(intsArr) {
 
   // console.log('setup: ', first, second , third);
 
-  intsArr.forEach((val,idx) => {
+  intsArr.forEach((val) => {
 
     console.log({val});
 
@@ -1163,6 +1163,21 @@ When we reach the end, the highestProductOf3 is our answer. We maintain the othe
     current * highestProductOf2
     current * lowestProductOf2 (if current and lowestProductOf2 are both low negative numbers, this product is a high positive number).
 
+...
+
+  For this one, we built up our greedy algorithm exactly the same way we did for the Apple stocks question. By asking ourselves:
+
+"Suppose we could come up with the answer in one pass through the input, by simply updating the 'best answer so far' as we went. What additional values would we need to keep updated as we looked at each item in our set, in order to be able to update the 'best answer so far' in constant time?"
+
+For the Apple stocks question, the only "additional value" we needed was the min price so far.
+
+For this one, we needed four things in order to calculate the new highestProductOf3 at each step:
+
+    highestProductOf2
+    highest
+    lowestProductOf2
+    lowest
+
  * 
  */
 console.log(`\n ...  highest possible product of any 3 ints in array (which is a different question) ... \n`);
@@ -1213,7 +1228,7 @@ testArr = [1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1
 let start = new Date();
 console.log('expect 5000 (10 *  -5 * -100) from array with 3 -10s: ', highestAvailableProductOfAnyThreeInts(testArr));
 let end  = new Date();
-console.log('time :', end.getTime() - start.getTime());
+console.log('time (SLOW...):', end.getTime() - start.getTime());
 console.log(`\n ... \n`);
 
 console.log(`\n ...  highest possible product of any 3 ints in array, version 2 ... \n`);
@@ -1271,6 +1286,209 @@ testArr = [1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1
 let start2 = new Date();
 console.log('expect 5000 (10 *  -5 * -100) from array with 3 -10s: ', highestAvailableProductOfAnyThreeInts2(testArr));
 let end2  = new Date();
-console.log('time :', end2.getTime() - start2.getTime());
+console.log('time -- this one is MUCH faster: ', end2.getTime() - start2.getTime());
 console.log(`\n ... \n`);
 
+/**
+ * 
+ * https://www.interviewcake.com/question/javascript/product-of-other-numbers?course=fc1&section=greedy
+ * 
+ *  You have an array of integers, and for each index you want to find the product of every integer except the integer at that index.
+
+Write a function getProductsOfAllIntsExceptAtIndex() that takes an array of integers and returns an array of the products.
+
+For example, given:
+
+  [1, 7, 3, 4]
+
+your function would return:
+
+  [84, 12, 28, 21]
+
+by calculating:
+
+  [7 * 3 * 4,  1 * 3 * 4,  1 * 7 * 4,  1 * 7 * 3]
+
+Here's the catch: You can't use division in your solution! 
+
+Breakdown
+
+A brute force approach would use two loops to multiply the integer at every index by the integer at every nestedIndex, unless index === nestedIndex.
+
+This would give us a runtime of O(n2). Can we do better?
+
+Well, we’re wasting a lot of time doing the same calculations.  As an example, let's take: 
+
+// input array
+[1, 2, 6, 5, 9]
+
+// array of the products of all integers
+// except the integer at each index:
+[540, 270, 90, 108, 60]  // [2 * 6 * 5 * 9,  1 * 6 * 5 * 9,  1 * 2 * 5 * 9,  1 * 2 * 6 * 9,  1 * 2 * 6 * 5]
+
+We're doing some of the same multiplications two or three times! 
+
+ We're doing some of the same multiplications two or three times!
+When we calculate [2*6*5*9, 1*6*5*9, 1*2*5*9, 1*2*6*9, 1*2*6*5], we're calculating 5*9 three times: at indices 0, 1, and 2.
+
+Or look at this pattern:
+When we calculate [2*6*5*9, 1*6*5*9, 1*2*5*9, 1*2*6*9, 1*2*6*5], we have 1 in index 1, and we calculate 1*2 at index 2, 1*2*6 at index 3, and 1*2*6*5 at index 4.
+
+We’re redoing multiplications when instead we could be storing the results! This would be a great time to use a greedy ↴ approach. We could store the results of each multiplication highlighted in blue, then just multiply by one new integer each time.
+
+So in the last highlighted multiplication, for example, we wouldn’t have to multiply 1∗2∗6 again. If we stored that value (12) from the previous multiplication, we could just multiply 12∗5.
+
+Can we break our problem down into subproblems so we can use a greedy approach?
+
+ */
+
+console.log(`\n ...  return array of all products of all but current i ... \n`);
+let productOfAllButCurrent = arrayOfInts => {
+  
+  let _getProductsBefore = arrayOfInts => {
+    const productsBefore = [1];
+    for (let i = 0; i < arrayOfInts.length-1; i++) {
+      const currentTotalOfBefore = productsBefore[i] * arrayOfInts[i];
+      productsBefore.push(currentTotalOfBefore);
+    }
+    return productsBefore;
+  };
+
+  let productsBefore = _getProductsBefore(arrayOfInts);
+  let productsAfter = _getProductsBefore(arrayOfInts.reverse()).reverse(); // boo ... we cost ourselves a lot here.
+
+  // console.log({productsBefore});
+  // console.log({productsAfter});
+
+  const output = productsBefore.map((val, idx) => {
+    return val * productsAfter[idx];
+  });
+
+  // console.log({output});
+  return output;
+};
+
+let inputArr = [3, 1, 2, 5, 6, 4];
+console.log(productOfAllButCurrent(inputArr));
+console.log(`\n ... \n`);
+console.log(productOfAllButCurrent([1, 2, 6, 5, 9]));
+console.log(`\n ... \n`);
+console.log(productOfAllButCurrent([1, 2, 6, 5, 0]));
+console.log(`\n ... \n`);
+console.log(productOfAllButCurrent([1, 2, 0, 5, 9]));
+console.log(`\n ... \n`);
+console.log(productOfAllButCurrent([0, 2, 6, 5, 9]));
+
+
+
+console.log(`\n ...  return array of products of all but current i, version 2 ... \n`);
+let getProductsOfAllIntsExceptAtIndex = intArr => {
+
+  const productsOfAllBeforeIndex = [];
+  let productsSoFar = 1;
+
+
+  for (let i = 0; i < intArr.length; i++) {
+    productsOfAllBeforeIndex.push(productsSoFar);
+    productsSoFar *= intArr[i];
+  }
+  
+  // console.log(productsOfAllBeforeIndex);
+
+  const productsOfAllAfterIndex = [];
+
+  productsSoFar = 1;
+
+  const results = new Array(intArr.length);
+  for (let i = intArr.length - 1; i >= 0; i--) {
+    productsOfAllAfterIndex[i] = productsSoFar;
+    productsSoFar *= intArr[i];
+
+    results[i] = productsOfAllAfterIndex[i] * productsOfAllBeforeIndex[i];
+  }
+
+  // console.log(productsOfAllAfterIndex);
+  // console.log(results);
+  return results;
+};
+
+inputArr = [3, 1, 2, 5, 6, 4];
+console.log(getProductsOfAllIntsExceptAtIndex(inputArr));
+console.log(`\n ... \n`);
+console.log(getProductsOfAllIntsExceptAtIndex([1, 2, 6, 5, 9]));
+console.log(`\n ... \n`);
+console.log(getProductsOfAllIntsExceptAtIndex([1, 2, 6, 5, 0]));
+console.log(`\n ... \n`);
+console.log(getProductsOfAllIntsExceptAtIndex([1, 2, 0, 5, 9]));
+console.log(`\n ... \n`);
+console.log(getProductsOfAllIntsExceptAtIndex([0, 2, 6, 5, 9]));
+
+console.log(`\n ...  return array of products of all but current i, version 3 (refactored to save space)... \n`);
+let getProductsOfAllIntsExceptAtIndex3 = intArr => {
+
+  const productsOfAllBeforeIndex = [];
+  let productsSoFar = 1;
+
+  for (let i = 0; i < intArr.length; i++) {
+    productsOfAllBeforeIndex.push(productsSoFar);
+    productsSoFar *= intArr[i];
+  }
+
+  productsSoFar = 1;
+
+  const results = new Array(intArr.length);
+  for (let i = intArr.length - 1; i >= 0; i--) {
+    results[i] = productsSoFar * productsOfAllBeforeIndex[i];
+    productsSoFar *= intArr[i];
+  }
+
+  // console.log(productsOfAllBeforeIndex);
+  // console.log(results);
+  return results;
+};
+
+inputArr = [3, 1, 2, 5, 6, 4];
+console.log(getProductsOfAllIntsExceptAtIndex3(inputArr));
+console.log(`\n ... \n`);
+console.log(getProductsOfAllIntsExceptAtIndex3([1, 2, 6, 5, 9]));
+console.log(`\n ... \n`);
+console.log(getProductsOfAllIntsExceptAtIndex3([1, 2, 6, 5, 0]));
+console.log(`\n ... \n`);
+console.log(getProductsOfAllIntsExceptAtIndex3([1, 2, 0, 5, 9]));
+console.log(`\n ... \n`);
+console.log(getProductsOfAllIntsExceptAtIndex3([0, 2, 6, 5, 9]));
+
+
+console.log(`\n ...  return array of products of all but current i, version 4 (refactored further to save MORE space)... \n`);
+let getProductsOfAllIntsExceptAtIndex4 = intArr => {
+
+  const results = new Array(intArr.length);
+  let productsSoFar = 1;
+
+  for (let i = 0; i < intArr.length; i++) {
+    results[i] = productsSoFar;
+    productsSoFar *= intArr[i];
+  }
+
+  productsSoFar = 1;
+  
+  for (let i = intArr.length - 1; i >= 0; i--) {
+    results[i] = productsSoFar * results[i];
+    productsSoFar *= intArr[i];
+  }
+
+  // console.log(productsOfAllBeforeIndex);
+  // console.log(results);
+  return results;
+};
+
+inputArr = [3, 1, 2, 5, 6, 4];
+console.log(getProductsOfAllIntsExceptAtIndex4(inputArr));
+console.log(`\n ... \n`);
+console.log(getProductsOfAllIntsExceptAtIndex4([1, 2, 6, 5, 9]));
+console.log(`\n ... \n`);
+console.log(getProductsOfAllIntsExceptAtIndex4([1, 2, 6, 5, 0]));
+console.log(`\n ... \n`);
+console.log(getProductsOfAllIntsExceptAtIndex4([1, 2, 0, 5, 9]));
+console.log(`\n ... \n`);
+console.log(getProductsOfAllIntsExceptAtIndex4([0, 2, 6, 5, 9]));
