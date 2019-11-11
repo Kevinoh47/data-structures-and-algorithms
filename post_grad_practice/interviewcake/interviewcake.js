@@ -1533,16 +1533,22 @@ console.log(getProductsOfAllIntsExceptAtIndex5([0, 2, 6, 5, 9]));
  * https://www.interviewcake.com/question/javascript/cafe-order-checker?course=fc1&section=array-and-string-manipulation
  * 
  * Also see earlier work on this problem in practice-scratch-02.js 
- * Note the solution there is similar, but instead of checking that the indexes are in order, it checks whether servedOrders[i]  === either takeOut[currentTakeOutIdx] or dineIn[currentDineInIdx] if it finds one or the equal, it increments the specific currentTakeOutIdx or currentDineInIdx. and iterates again. Any case of not equalling one of the two above, returns a false.
  * 
- *
- */
+ * Note the solution there is similar, but instead of checking that the indexes are in order (as i do here), it checks whether servedOrders[i]  === either takeOut[currentTakeOutIdx] or dineIn[currentDineInIdx] if it finds one or the equal, it increments the specific currentTakeOutIdx or currentDineInIdx. and iterates again. Any case of not equalling one of the two above, returns a false.
+ * 
+ * Gotchas
+
+Watch out for bugs because your index is outside an array! Will your function ever try to grab the 0th item from an empty array, or the nth item from an array with n elements (where the last index would be n−1)?
+
+We can do this in O(n) time and O(1) additional space.
+
+*/
 
 console.log(`\n ...  first come, first served, inside and outside, but not merged... \n`);
 
 function firstComeFirstServed(takeOut, dineIn, servedOrders) {
 
-  // the problem seems to be to make sure that to check origin of any given order in servedOrders. All previous orders from the same origin, must already be accounted for in servedOrders.arrow
+  // the problem seems to be to make sure that to check origin of any given order in servedOrders. All previous orders from the same origin, must already be accounted for in servedOrders.
 
   let testedTakeOutIdx = 0, testedDineInIdx = 0;
 
@@ -1593,4 +1599,207 @@ console.log('expect true: ', firstComeFirstServed(takeOut, dineIn, servedOrders)
 // this should fail:
 servedOrders = [0,1,2,4,5,3,6,7,8,9,10];
 console.log('expect false: ', firstComeFirstServed(takeOut, dineIn, servedOrders));
+
+/**
+ * IC Solution:
+ *  We walk through servedOrders, seeing if each customer order so far matches a customer order from one of the two registers. To check this, we:
+
+    Keep pointers to the current index in takeOutOrders, dineInOrders, and servedOrders.
+    Walk through servedOrders from beginning to end.
+    If the current order in servedOrders is the same as the current customer order in takeOutOrders, increment takeOutOrdersIndex and keep going. This can be thought of as "checking off" the current customer order in takeOutOrders and servedOrders, reducing the problem to the remaining customer orders in the arrays.
+    Same as above with dineInOrders.
+    If the current order isn't the same as the customer order at the front of takeOutOrders or dineInOrders, we know something's gone wrong and we're not serving food first-come, first-served.
+    If we make it all the way to the end of servedOrders, we'll check that we've reached the end of takeOutOrders and dineInOrders. If every customer order checks out, that means we're serving food first-come, first-served.
+
+ * 
+ */
+console.log(`\n ...  first come, first served, IC Solution... \n`);
+
+function isFirstComeFirstServed(takeOutOrders, dineInOrders, servedOrders) {
+  var takeOutOrdersIndex = 0;
+  var dineInOrdersIndex = 0;
+  var takeOutOrdersMaxIndex = takeOutOrders.length - 1;
+  var dineInOrdersMaxIndex = dineInOrders.length - 1;
+
+  for (var i = 0; i < servedOrders.length; i++) {
+    var order = servedOrders[i];
+
+    // if we still have orders in takeOutOrders and the current order in takeOutOrders is the same
+    // as the current order in servedOrders
+    if (takeOutOrdersIndex <= takeOutOrdersMaxIndex && order === takeOutOrders[takeOutOrdersIndex]) {
+      takeOutOrdersIndex++;
+
+      // if we still have orders in dineInOrders and the current order in dineInOrders is the same
+      // as the current order in servedOrders
+    } else if (dineInOrdersIndex <= dineInOrdersMaxIndex && order === dineInOrders[dineInOrdersIndex]) {
+      dineInOrdersIndex++;
+
+      // if the current order in servedOrders doesn't match the current order in takeOutOrders or dineInOrders, 
+      // then we're not serving first-come, first-served
+    } else {
+      return false;
+    }
+  }
+
+  // check for any extra orders at the end of takeOutOrders or dineInOrders
+  if (dineInOrdersIndex != dineInOrders.length || takeOutOrdersIndex != takeOutOrders.length) {
+    return false;
+  }
+
+  // all orders in servedOrders have been "accounted for" so we're serving first-come, first-served!
+  return true;
+}
+
+takeOut = [1,3,5];
+dineIn = [2,4,6];
+servedOrders = [1, 2, 3, 5, 4, 6];
+
+console.log('expect true: ', isFirstComeFirstServed(takeOut, dineIn, servedOrders));
+
+servedOrders = [1, 2, 4, 6, 5, 3];
+console.log('expect false: ', isFirstComeFirstServed(takeOut, dineIn, servedOrders));
+
+takeOut = [1,3,5,9];
+dineIn = [0,2,4,6,7,8,10];
+servedOrders = [0,1,2,4,3,5,6,7,8,9,10];
+
+//true
+console.log('expect true: ', isFirstComeFirstServed(takeOut, dineIn, servedOrders));
+
+//true
+servedOrders = [0,1,2,3,4,5,6,7,8,9,10];
+console.log('expect true: ', isFirstComeFirstServed(takeOut, dineIn, servedOrders));
+
+// this should fail:
+servedOrders = [0,1,2,4,5,3,6,7,8,9,10];
+console.log('expect false: ', isFirstComeFirstServed(takeOut, dineIn, servedOrders));
+
+
+console.log(`\n ...  shuffle an array... \n`);
+/**
+ * Shuffle an array
+ *  Fisher-Yates shuffle algorithm / Knuth shuffle
+ * https://www.interviewcake.com/question/javascript/shuffle?course=fc1&section=greedy
+ * 
+ */
+
+function getRandom(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+console.log(`\n ...  first, just some examples of random ints generated by the isRandom functin... \n`);
+console.log(getRandom(0,1));
+console.log(getRandom(1,1));
+console.log(getRandom(2,2));
+console.log(getRandom(2,3));
+console.log(getRandom(1,5));
+console.log(getRandom(1,9));
+console.log(getRandom(1,9));
+console.log(getRandom(1,1000));
+
+/**
+ * 
+ * My solution appears to be correct, with the only difference being the IC solution does not permit an item to be swapped with itself, whereas mine does. (Which, to my mind, seems more correct -- since if you shuffle a deck of cards, it is at least possible for any given card to end up in the same place it started...)
+ * 
+ * However, I can't say that I fully follow the discussion on IC about this problem. But I did intuit this:
+ * 
+ * "Crucially, once an item is placed at an index it can't be moved. So for the first index, we choose from nnn items, for the second index we choose from n−1n-1n−1 items, etc."
+ * 
+ * If we let them be moved multiple times, there would not be an equal change per item to be shuffled.
+ */
+const arrayShuffleInPlace = arr => {
+
+  if (arr.length <= 1) return;
+
+  for (let i = 0; i < arr.length; i++) {
+    const tradeIdx = getRandom(i, arr.length-1);
+    const currValue = arr[i];
+    const currTradeValue = arr[tradeIdx];
+    arr[i] = currTradeValue;
+    arr[tradeIdx] = currValue;
+  }
+};
+
+console.log(`\n ...  next, testing my array shuffler... \n`);
+
+let myArr = [1,2,3];
+arrayShuffleInPlace(myArr);
+console.log(myArr);
+
+myArr = [1,2,3];
+arrayShuffleInPlace(myArr);
+console.log(myArr);
+
+myArr = [1,2,3];
+arrayShuffleInPlace(myArr);
+console.log(myArr);
+
+myArr = [1,2,3];
+arrayShuffleInPlace(myArr);
+console.log(myArr);
+
+myArr = [1,2,3];
+arrayShuffleInPlace(myArr);
+console.log(myArr);
+
+myArr = [1,2,3];
+arrayShuffleInPlace(myArr);
+console.log(myArr);
+
+
+console.log(`\n ...  shuffle an array, IC solution... \n`);
+/**
+ * IC solution
+ */
+
+function shuffle(array) {
+
+  // If it's 1 or 0 items, just return
+  if (array.length <= 1) return;
+
+  // Walk through from beginning to end
+  for (let indexWeAreChoosingFor = 0;
+    indexWeAreChoosingFor < array.length - 1; indexWeAreChoosingFor++) {
+
+    // Choose a random not-yet-placed item to place there
+    // (could also be the item currently in that spot)
+    // must be an item AFTER the current item, because the stuff
+    // before has all already been placed
+    const randomChoiceIndex = getRandom(indexWeAreChoosingFor, array.length - 1);
+
+    // Place our random choice in the spot by swapping
+    if (randomChoiceIndex !== indexWeAreChoosingFor) {
+      const valueAtIndexWeChoseFor = array[indexWeAreChoosingFor];
+      array[indexWeAreChoosingFor] = array[randomChoiceIndex];
+      array[randomChoiceIndex] = valueAtIndexWeChoseFor;
+    }
+  }
+}
+
+
+myArr = [1,2,3];
+shuffle(myArr);
+console.log(myArr);
+
+myArr = [1,2,3];
+shuffle(myArr);
+console.log(myArr);
+
+myArr = [1,2,3];
+shuffle(myArr);
+console.log(myArr);
+
+myArr = [1,2,3];
+shuffle(myArr);
+console.log(myArr);
+
+myArr = [1,2,3];
+shuffle(myArr);
+console.log(myArr);
+
+myArr = [1,2,3];
+shuffle(myArr);
+console.log(myArr);
+
+
 
