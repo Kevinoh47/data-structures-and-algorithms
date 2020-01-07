@@ -169,3 +169,35 @@ SELECT CONCAT('There are a total of ', COUNT(*), ' ', LOWER(Occupation),'s.')
 FROM Occupations
 GROUP BY Occupation
 ORDER BY COUNT(*), occupation;
+
+/*
+https://www.hackerrank.com/challenges/earnings-of-employees/problem
+
+We define an employee's total earnings to be their monthly salary * months worked, and the maximum total earnings to be the maximum total earnings for any employee in the Employee table. Write a query to find the maximum total earnings for all employees as well as the total number of employees who have maximum total earnings. Then print these values as space-separated integers.
+
+Employee table:
+employee_id,
+name,
+months,
+salary
+
+*/
+
+-- MS SQL Server
+select a.salary * a.months, count(*)
+from employee a 
+where a.salary * a.months = (select max(salary * months) from employee)
+group by a.salary * a.months;
+
+/*
+https://www.hackerrank.com/challenges/the-company/problem
+
+A conglomerate of companies where each has founder -> Lead Manager -> Senior Manager -> Manager -> Employee. 
+
+Given the table schemas below, write a query to print the company_code, founder name, total number of lead managers, total number of senior managers, total number of managers, and total number of employees. Order your output by ascending company_code.
+
+Tables
+Company: company_code, founder
+Lead_Manager: lead_manager_code, company_code
+Senior_Manager: senior_manager_code, lead_manager_code, company_code
+*/
