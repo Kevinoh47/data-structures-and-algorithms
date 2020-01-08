@@ -229,3 +229,103 @@ LEFT JOIN Employee e ON a.company_code = e.company_code
     AND d.manager_code = e.manager_code
 GROUP BY a.company_code, a.founder
 ORDER BY a.company_code;
+
+/*
+https://www.hackerrank.com/challenges/occupations/problem?isFullScreen=true
+
+Pivot the Occupation column in OCCUPATIONS so that each Name is sorted alphabetically and displayed underneath its corresponding Occupation. The output column headers should be Doctor, Professor, Singer, and Actor, respectively.
+
+Note: Print NULL when there are no more names corresponding to an occupation.
+
+Occupations Table:
+
+Name   Occupation
+J       Doctor
+K       Professor
+L       Professor
+M       Singer
+N       Actor
+O       Actor
+
+Sample Output
+
+Jenny    Ashley     Meera  Jane
+Samantha Christeen  Priya  Julia
+NULL     Ketty      NULL   Maria
+
+Explanation
+
+The first column is an alphabetically ordered list of Doctor names.
+The second column is an alphabetically ordered list of Professor names.
+The third column is an alphabetically ordered list of Singer names.
+The fourth column is an alphabetically ordered list of Actor names.
+The empty cell data for columns with less than the maximum number of names per occupation (in this case, the Professor and Actor columns) are filled with NULL values.
+
+
+this one is listed as medium difficulty but it is difficult.
+I was not able to come up with the solution on my own. Found it deep in discussion, by sumtun:
+
+
+*/
+-- MS SQL
+
+select min(Doctor), min(Professor), min(Singer), min(Actor)
+from(
+select ROW_NUMBER() OVER(PARTITION By Doctor,Actor,Singer,Professor order by name asc) AS Rownum, 
+case when Doctor=1 then name else Null end as Doctor,
+case when Actor=1 then name else Null end as Actor,
+case when Singer=1 then name else Null end as Singer,
+case when Professor=1 then name else Null end as Professor
+from occupations
+pivot
+( count(occupation)
+for occupation in(Doctor, Actor, Singer, Professor)) as p
+
+) temp
+
+group by Rownum;
+
+/*
+https://www.hackerrank.com/challenges/weather-observation-station-2/problem?isFullScreen=true
+
+Query the following two values from the STATION table:
+
+    The sum of all values in LAT_N rounded to a scale of 
+
+decimal places.
+The sum of all values in LONG_W rounded to a scale of
+decimal places.
+
+*/
+-- MS SQL
+
+
+SELECT  CAST(ROUND(SUM(LAT_N),2) as numeric(36,2)) as Lat, 
+        CAST(ROUND(SUM(LONG_W),2) as numeric(36,2)) as Lon
+FROM STATION;
+
+
+/*
+https://www.hackerrank.com/challenges/weather-observation-station-13/problem?isFullScreen=true&h_r=next-challenge&h_v=zen
+*/
+
+SELECT  CAST(ROUND(SUM(LAT_N),4) as numeric(36,4)) as Lat
+FROM STATION
+WHERE LAT_N > 38.7880 AND LAT_N < 137.2345;
+
+/*
+https://www.hackerrank.com/challenges/weather-observation-station-14/problem?isFullScreen=true&h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen
+
+Query the greatest value of the Northern Latitudes (LAT_N) from STATION that is less than . Truncate your answer to decimal places.
+*/
+
+SELECT  CAST(ROUND(SUM(LAT_N),4) as numeric(36,4)) as Lat
+FROM STATION
+WHERE LAT_N = (SELECT MAX(LAT_N) FROM STATION WHERE LAT_N < 137.2345 );
+
+/*
+https://www.hackerrank.com/challenges/weather-observation-station-15/problem?h_r%5B%5D=next-challenge&h_r%5B%5D=next-challenge&h_v%5B%5D=zen&h_v%5B%5D=zen&isFullScreen=false
+*/
+SELECT  CAST(ROUND(SUM(LONG_W),4) as numeric(36,4)) as Lat
+FROM STATION
+WHERE LAT_N = (SELECT MAX(LAT_N) FROM STATION WHERE LAT_N < 137.2345 );
