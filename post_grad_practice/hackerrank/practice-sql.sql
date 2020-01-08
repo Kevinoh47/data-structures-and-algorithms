@@ -329,3 +329,13 @@ https://www.hackerrank.com/challenges/weather-observation-station-15/problem?h_r
 SELECT  CAST(ROUND(SUM(LONG_W),4) as numeric(36,4)) as Lat
 FROM STATION
 WHERE LAT_N = (SELECT MAX(LAT_N) FROM STATION WHERE LAT_N < 137.2345 );
+
+/*
+https://www.hackerrank.com/challenges/weather-observation-station-16/problem?h_r=next-challenge&h_r%5B%5D%5B%5D=next-challenge&h_r%5B%5D%5B%5D=next-challenge&h_v=zen&h_v%5B%5D%5B%5D=zen&h_v%5B%5D%5B%5D=zen&isFullScreen=true
+
+Query the smallest Northern Latitude (LAT_N) from STATION that is greater than 38.7780. Round your answer to 4 decimal places.
+*/
+
+SELECT  CAST(ROUND(SUM(LAT_N),4) as numeric(36,4)) as Lat
+FROM STATION
+WHERE LAT_N = (SELECT MIN(LAT_N) FROM STATION WHERE LAT_N > 38.7780 );
