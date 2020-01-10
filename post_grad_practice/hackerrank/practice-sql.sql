@@ -345,3 +345,29 @@ WHERE LAT_N = (SELECT MIN(LAT_N) FROM STATION WHERE LAT_N > 38.7780 );
 SELECT  CAST(ROUND(SUM(LONG_W),4) as numeric(36,4)) as Long_W
 FROM STATION
 WHERE LAT_N = (SELECT MIN(LAT_N) FROM STATION WHERE LAT_N > 38.7780 );
+
+-- https://www.hackerrank.com/challenges/asian-population/problem?isFullScreen=true
+SELECT SUM(a.POPULATION)
+FROM CITY a
+JOIN COUNTRY b ON a.COUNTRYCODE = b.CODE
+WHERE b.CONTINENT = 'Asia'
+
+-- https://www.hackerrank.com/challenges/african-cities/problem?isFullScreen=true&h_r=next-challenge&h_v=zen
+
+SELECT a.Name
+FROM CITY a
+JOIN COUNTRY b ON a.COUNTRYCODE = b.CODE
+WHERE b.CONTINENT = 'Africa'
+
+-- https://www.hackerrank.com/challenges/average-population-of-each-continent/problem?isFullScreen=true&h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen
+
+/*
+Given the CITY and COUNTRY tables, query the names of all the continents (COUNTRY.Continent) and their respective average city populations (CITY.Population) rounded down to the nearest integer.
+
+Note: CITY.CountryCode and COUNTRY.Code are matching key columns.
+*/
+
+SELECT b.CONTINENT, ROUND(AVG(a.POPULATION),0)
+FROM CITY a
+JOIN COUNTRY b ON a.COUNTRYCODE = b.CODE
+GROUP BY b.CONTINENT;
