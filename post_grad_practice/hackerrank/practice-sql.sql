@@ -371,3 +371,28 @@ SELECT b.CONTINENT, ROUND(AVG(a.POPULATION),0)
 FROM CITY a
 JOIN COUNTRY b ON a.COUNTRYCODE = b.CODE
 GROUP BY b.CONTINENT;
+
+
+
+-- https://www.hackerrank.com/challenges/full-score/problem?isFullScreen=true
+/*
+Julia just finished conducting a coding contest, and she needs your help assembling the leaderboard! Write a query to print the respective hacker_id and name of hackers who achieved full scores for more than one challenge. 
+
+Order your output in descending order by the total number of challenges in which the hacker earned a full score. If more than one hacker received full scores in same number of challenges, then sort them by ascending hacker_id.
+
+This one was listed as medium difficulty. I would classify it as difficult. Once the solution is reached, it doesn't seem so hard, but getting there I took several wrong turns -- tried a regular subquery and a correlated subquery using EXISTS, which didn't quite work.
+*/
+
+select x.hacker_id, y.name 
+from Hackers as y 
+join (
+    select a.hacker_id, count(*) as MyCount
+    from submissions a 
+    join challenges c on a.challenge_id = c.challenge_id
+    join difficulty d on c.difficulty_level = d.difficulty_level
+    and a.score = d.score
+    group by a.hacker_id
+    having count(*) > 1
+    ) as x 
+ON y.hacker_id = x.hacker_id
+ORDER BY x.MyCount DESC, x.hacker_id ASC;
