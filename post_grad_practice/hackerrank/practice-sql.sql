@@ -396,3 +396,24 @@ join (
     ) as x 
 ON y.hacker_id = x.hacker_id
 ORDER BY x.MyCount DESC, x.hacker_id ASC;
+
+
+-- https://www.hackerrank.com/challenges/draw-the-triangle-1/problem
+
+DECLARE @counter INT = 40;
+DECLARE @Str NVARCHAR(50)= '* * * * * * * * * * * * * * * * * * * * ';
+WHILE @counter > 0
+BEGIN 
+    DECLARE @currentStr NVARCHAR(50) = SUBSTRING(@Str, 1, @counter)
+    PRINT @currentStr;
+    
+    SET @counter = @counter -2;
+END;
+
+-- refactor:
+DECLARE @cnt INT = 20; 
+WHILE @cnt > 0 
+BEGIN 
+    SELECT REPLICATE("* ", @cnt); 
+    SET @cnt = @cnt - 1; 
+END;
